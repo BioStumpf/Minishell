@@ -11,10 +11,11 @@
 /* ************************************************************************** */
 
 #include "ft_printf.h"
+#include "libft.h"
 
 static bool	is_newline_flag(char *str)
 {
-	if (*str == '\0')
+	if (*str == '\0' || !ft_strncmp(str, "-", 2))
 		return (false);
 	if (*str && *str != '-')
 		return (false);

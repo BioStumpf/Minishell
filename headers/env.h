@@ -6,7 +6,7 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/23 08:18:08 by knajmech          #+#    #+#             */
-/*   Updated: 2026/08/04 08:27:55 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/08/05 08:19:39 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int				set_pwdenv(t_data *data);
 void			print_expolist(t_node *env_list);
 void			delete_envnode(t_env *env);
 int				process_env(t_data *data, char **env);
-void			unset_variable(t_list *map_env, char *key);
+void			unset_variable(t_env_tracker *env, t_list *map_env, char *key);
 t_env			*make_kv_node(char *key, char *val);
 t_env			*ft_newnode(void *value);
 t_env			*hash_search(t_list *hash_arr, char *key);

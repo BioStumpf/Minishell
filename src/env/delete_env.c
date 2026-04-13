@@ -6,7 +6,7 @@
 /*   By: knajmech <knajmech@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/10 09:46:59 by knajmech          #+#    #+#             */
-/*   Updated: 2026/07/30 10:22:06 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/08/05 08:18:36 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ t_node	*delete_node(t_node *node)
 	return (next);
 }
 
-void	unset_variable(t_list *map_env, char *key)
+void	unset_variable(t_env_tracker *env_tracker, t_list *map_env, char *key)
 {
 	t_node			*node;
 	t_node			*prev_node;
@@ -50,6 +50,7 @@ void	unset_variable(t_list *map_env, char *key)
 		env = node->content;
 		if (!ft_strncmp(env->key, key, ft_strlen(key) + 1))
 		{
+			env_tracker->elem_num--;
 			delete_envnode(env);
 			ft_lstmid_rm(&map_env[hash_key], node, prev_node, free);
 			return ;
@@ -59,17 +60,3 @@ void	unset_variable(t_list *map_env, char *key)
 	}
 	return ;
 }
-
-/*
-bool	check_if_found(t_list *map_env, t_env *env, t_node *prev_node, char *key)
-{
-	t_node	*node;
-
-	node = prev_node->next;
-	if (!ft_strncmp(env->key, key, ft_strlen(key) + 1))
-	{
-		delete_envnode(env);
-		ft_lstmid_rm(map_env, node, prev_node, free);
-		return ;
-	}
-}*/

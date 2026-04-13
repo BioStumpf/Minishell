@@ -3,30 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   error_print.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
+/*   By: david <dstumpf@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/08/04 11:12:07 by knajmech          #+#    #+#             */
-/*   Updated: 2026/08/04 11:47:02 by knajmech         ###   ########.fr       */
+/*   Created: 2026/08/12 14:18:47 by david             #+#    #+#             */
+/*   Updated: 2026/08/12 14:18:47 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "structs.h"
-#include "err.h"
-#include <errno.h>
 #include "ft_printf.h"
+#include <stdio.h>
 
-void	error_print(t_data *data, char *command, char *arg)
+void	perror_messaging(char *command, char *arg)
 {
-	if (errno == EACCES)
-		ft_printf(2, "minishell: %s: %s: Permission denied\n", command, arg);
-	else if (errno == ENOTDIR)
-		ft_printf(2, "minishell: %s %s: Not a directory\n", command, arg);
-	else if (errno == EFAULT)
-		ft_printf(2, "minishell: %s %s: Not a directory\n", command, arg);
-	else if (errno == ENOTDIR)
-		ft_printf(2, "minishell: %s %s: Not a directory\n", command, arg);
-	else if (errno == ENOTDIR)
-		ft_printf(2, "minishell: %s %s: Not a directory\n", command, arg);
-	else if (errno == ENOTDIR)
-		ft_printf(2, "minishell: %s %s: Not a directory\n", command, arg);
+	if (arg && command)
+		ft_printf(2, "Minishell: %s: %s: ", command, arg);
+	else if (!arg && command)
+		ft_printf(2, "Minishell: %s: ", command);
+	else if (arg && !command)
+		ft_printf(2, "%s: ", arg);
+	perror(NULL);
 }

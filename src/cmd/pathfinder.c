@@ -6,7 +6,7 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/01 11:52:36 by knajmech          #+#    #+#             */
-/*   Updated: 2026/08/07 10:22:29 by david            ###   ########.fr       */
+/*   Updated: 2026/08/12 13:43:45 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ char	**free_out(char **out, size_t len)
 	while (len)
 		free(out[--len]);
 	free(out);
+	out = NULL;
 	return (NULL);
 }
 
@@ -69,7 +70,7 @@ char	**split_the_path(char *entire_path)
 		else
 			i++;
 	}
-	if (entire_path[i - 1] == ':')
+	if (i > 0 && entire_path[i - 1] == ':')
 		count_paths++;
 	return (malloc((count_paths + 1) * sizeof(char *)));
 }

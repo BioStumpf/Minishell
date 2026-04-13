@@ -31,7 +31,7 @@ void	echo_print(char **echo_string);
 void	change_dir(t_data *data);
 void	pworkdir(void);
 void	export_var(t_data *data, char **argv);
-void	unset_var(t_list *map_env, char *key);
+void	unset_var(t_env_tracker *env, t_list *map_env, char *key);
 void	env_var(t_data *data);
 void	exit_minishell(t_data *data, char **av);
 void	execute_builtin(t_ast *node, bool in_pipeline, t_data *data);

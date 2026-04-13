@@ -23,24 +23,19 @@ void	env_oldpwd_swap(t_data *data, char *new_oldpwd)
 	char	*k_v[2];
 
 	key_and_val = hash_search(data->env_mp->env_ptr, "OLDPWD");
+	errno = 0;
 	if (!key_and_val)
 	{
 		k_v[0] = "OLDPWD";
 		k_v[1] = new_oldpwd;
 		if (!insert_new(data->env_mp->env_ptr, data->env_mp, k_v))
-		{
-			set_error(data, ERR_SYS, NULL);
-			free(k_v[1]);
-		}
+			return (set_error(data, ERR_SYS, NULL), free(k_v[1]));
 		return ;
 	}
 	free(key_and_val->value);
 	key_and_val->value = ft_strdup(new_oldpwd);
 	if (!key_and_val->value)
-	{
-		set_error(data, ERR_SYS, NULL);
-		return ;
-	}
+		return (set_error(data, ERR_SYS, NULL));
 }
 
 int	env_pwd_swap(t_data *data)
@@ -49,6 +44,7 @@ int	env_pwd_swap(t_data *data)
 	char	*k_v[2];
 
 	key_and_val = hash_search(data->env_mp->env_ptr, "PWD");
+	errno = 0;
 	if (!key_and_val)
 	{
 		k_v[0] = "PWD";
@@ -79,17 +75,10 @@ static void	change_dir_swap(t_data *data)
 		if (set_pwdenv(data) == 0)
 			return (set_error(data, ERR_SYS, NULL));
 	oldpwd_var = get_env_val(data, "OLDPWD");
+	errno = 0;
 	if (chdir(oldpwd_var) == -1)
 	{
 		perror("cd");
-		if (errno == EACCES)
-			ft_printf(2, "Minishell: cd: %s: Permission denied\n",
-				data->newdir);
-		else if (errno == ENOTDIR)
-			ft_printf(2, "Minishell: cd: %s: Not a directory\n", data->newdir);
-		else
-			ft_printf(2, "Minishell: cd: %s: No such file or directory\n",
-				data->newdir);
 		g_ret = 1;
 		return ;
 	}
@@ -124,42 +113,19 @@ void	change_dir(t_data *data)
 		return ;
 	if (!ft_strncmp(data->newdir, "-", 2))
 		return (change_dir_swap(data));
-	current_pwd = ft_strdup("dummy");
+	errno = 0;
+	current_pwd = getcwd(NULL, 0);
+	if (!current_pwd && errno == ENOMEM)
+		return (set_error(data, ERR_SYS, NULL));
+	if (errno)
+		return (perror_messaging("cd", data->newdir));
+	errno = 0;
 	if (chdir(data->newdir) == -1)
 	{
-		perror("cd");
+		perror_messaging("cd", data->newdir);
 		return (g_ret = 1, free(current_pwd));
 	}
+	env_oldpwd_swap(data, current_pwd);
+	env_pwd_swap(data);
 	free(current_pwd);
 }
-//this is the old one, just wanted clean norm
-// void	change_dir(t_data *data)
-// {
-// 	char	*current_pwd;
-//
-// 	if (!change_to_home(data))
-// 		return ;
-// 	if (!ft_strncmp(data->newdir, "-", 2))
-// 		return (change_dir_swap(data));
-// 	current_pwd = ft_strdup("dummy");
-// 	//current_pwd = getcwd(NULL, 0);
-// 	//if (!current_pwd)
-// 	//	return (set_error(data, ERR_MALLOC), 1);
-// 	if (chdir(data->newdir) == -1)
-// 	{
-// 		perror("cd");
-// 		/*if (errno == EACCES)
-// 			ft_printf(2, "Minishell: cd: %s: Permission denied\n",
-//					data->newdir);
-// 		else if (errno == ENOTDIR)
-// 			ft_printf(2, "Minishell: cd: %s: Not a directory\n",
-//					data->newdir);
-// 		else
-// 			ft_printf(2, "Minishell: cd: %s: No such file or directory\n",
-//					data->newdir);*/
-// 		return (g_ret = 1, free(current_pwd));
-// 	}
-// 	//env_oldpwd_swap(data, current_pwd);
-// 	free(current_pwd);
-// 	//env_pwd_swap(data);
-// }

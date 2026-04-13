@@ -6,7 +6,7 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/12 12:11:39 by knajmech          #+#    #+#             */
-/*   Updated: 2026/08/10 13:19:13 by david            ###   ########.fr       */
+/*   Updated: 2026/08/12 13:41:06 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include "parsing.h"
 #include "env.h"
 #include "err.h"
-#include "structs.h"
+#include <errno.h>
 
 void	extern_helper(t_pipe_manager *pipe_info, char ***env,
 		char ***path_parts)
@@ -24,15 +24,15 @@ void	extern_helper(t_pipe_manager *pipe_info, char ***env,
 			pipe_info->data->env_mp->env_ptr, *env);
 	if (!*env && fatal_error(pipe_info->data))
 	{
-		free_out(*path_parts, ft_count_2d(*path_parts));
-		free_out(*env, pipe_info->data->env_mp->elem_num);
+		*path_parts = free_out(*path_parts, ft_count_2d(*path_parts));
+		*env = free_out(*env, pipe_info->data->env_mp->elem_num);
 		cleanup_child(pipe_info->data, pipe_info);
 	}
 	pathfinder(pipe_info, *path_parts);
 	if (fatal_error(pipe_info->data))
 	{
-		free_out(*env, pipe_info->data->env_mp->elem_num);
-		free_out(*path_parts, ft_count_2d(*path_parts) - 1);
+		*env = free_out(*env, pipe_info->data->env_mp->elem_num);
+		*path_parts = free_out(*path_parts, ft_count_2d(*path_parts) - 1);
 		cleanup_child(pipe_info->data, pipe_info);
 	}
 	else if (!pipe_info->pathwcmd)
@@ -41,9 +41,23 @@ void	extern_helper(t_pipe_manager *pipe_info, char ***env,
 			set_error(pipe_info->data, PERM, get_av(pipe_info->cmd_node)[0]);
 		else
 			set_error(pipe_info->data, NT_FND, get_av(pipe_info->cmd_node)[0]);
-		free_out(*env, pipe_info->data->env_mp->elem_num);
+		*env = free_out(*env, pipe_info->data->env_mp->elem_num);
 	}
-	free_out(*path_parts, ft_count_2d(*path_parts));
+	*path_parts = free_out(*path_parts, ft_count_2d(*path_parts));
+}
+
+char	**fill_curr_dir(t_data *data)
+{
+	char **path_parts;
+
+	path_parts = ft_calloc(2, sizeof(char *));
+	if (!path_parts)
+		return (set_error(data, ERR_SYS, NULL), NULL);
+	path_parts[0] = ft_strdup("./");
+	path_parts[1] = "\0";
+	if (!path_parts[0])
+		return (set_error(data, ERR_SYS, NULL), free(path_parts), NULL);
+	return (path_parts);
 }
 
 void	extern_child_wrapper(t_ast *node, t_pipe_manager *pipe_info)
@@ -57,18 +71,26 @@ void	extern_child_wrapper(t_ast *node, t_pipe_manager *pipe_info)
 		set_error(pipe_info->data, ERR_SYS, NULL);
 		cleanup_child(pipe_info->data, pipe_info);
 	}
-	path_parts = split_path_env(pipe_info->data);
-	if (!path_parts)
-	{
-		set_error(pipe_info->data, ERR_SYS, NULL);
-		free(env);
-	}
+	if (hash_search(pipe_info->data->env_mp->env_ptr, "PATH") == NULL)
+		 path_parts = fill_curr_dir(pipe_info->data);
+	else
+		path_parts = split_path_env(pipe_info->data);
+	if (fatal_error(pipe_info->data))
+		return (free(env), env = NULL, cleanup_child(pipe_info->data, pipe_info));
 	extern_helper(pipe_info, &env, &path_parts);
+	errno = 0;
 	if (pipe_info->pathwcmd)
 		execve(pipe_info->pathwcmd, get_av(node), env);
 	else
 		cleanup_child(pipe_info->data, pipe_info);
-	set_error(pipe_info->data, ERR_SYS, NULL);
+	env = free_out(env, ft_count_2d(env));
+	path_parts = free_out(path_parts, ft_count_2d(path_parts));
+	perror_messaging(NULL, pipe_info->pathwcmd);
+	if (pipe_info->cmd_found)
+		g_ret = 126;
+	else
+		g_ret = 127;
+	pipe_info->data->err = ERR_SYS;
 	cleanup_child(pipe_info->data, pipe_info);
 }
 

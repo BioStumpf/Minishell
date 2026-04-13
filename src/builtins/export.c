@@ -6,7 +6,7 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/12 09:27:50 by knajmech          #+#    #+#             */
-/*   Updated: 2026/08/07 09:49:41 by david            ###   ########.fr       */
+/*   Updated: 2026/08/07 10:45:10 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,12 +38,19 @@ bool	valid_check(char *argv)
 	if (string == NULL)
 		return (true);
 	i = 0;
-	if (ft_iswhitespace(string[i]) || (string[i] == '='))
+	if (ft_iswhitespace(string[i]) || string[i] == '=' || ft_isdigit(string[i]))
+		return (g_ret = 1, ft_printf(2, "export: `%s': not a valid identifier\n", string), false);
+	while (argv[i] && argv[i] != '=')
 	{
-		g_ret = 1;
-		ft_printf(2, "minishell: export: '%s': not a valid identifier\n",
-			string);
-		return (false);
+		if (!ft_isalnum(argv[i]) && argv[i] != '_')
+		{
+			g_ret = 1;
+			ft_printf(2, "export: `%s': not a valid identifier\n",
+				string);
+			return (false);
+		}
+		else
+			i++;
 	}
 	return (true);
 }
@@ -90,6 +97,11 @@ void	export_var(t_data *data, char *argv)
 		list = get_vars(data, argv);
 		if (!list)
 			return ;
+		if (ft_is_numeric(list[0]))
+		{
+			ft_printf(2, "export: `%s': not a valid identifier\n", list[0]);
+			return (free(list[0]), free(list[1]));
+		}
 		if (ft_count_2d(list) <= 2 && ft_count_2d(list) >= 1)
 			if (insert_new(env_arr, data->env_mp, list) == 0)
 				set_error(data, ERR_SYS, NULL);
@@ -101,14 +113,32 @@ void	export_var(t_data *data, char *argv)
 
 void	export_var_start(t_data *data, char **argv)
 {
-	int	i;
+	int		i;
+	int		j;
+	char	*string;
+	char	delimitter;
 
 	i = 1;
 	if (!argv[i])
 		print_var(data->env_mp->env_ptr, data->env_mp->capacity);
 	while (argv[i])
 	{
-		export_var(data, argv[i]);
+		j = 0;
+		delimitter = 0;
+		while (argv[i][j] && (argv[i][j] == '\'' || argv[i][j] == '\"' || argv[i][j] == '`'))
+			j++;
+		if (j)
+			delimitter = argv[i][j - 1];
+		if (j == '`')
+			delimitter = '\'';
+		if (delimitter)
+			string = ft_strndup(&argv[i][j], delimitter);
+		else
+			string = ft_strdup(&argv[i][j]);
+		if (!string)
+			return (set_error(data, ERR_SYS, NULL));
+		export_var(data, string);
+		free(string);
 		i++;
 	}
 }

@@ -6,11 +6,12 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/11 08:47:22 by knajmech          #+#    #+#             */
-/*   Updated: 2026/08/04 15:21:45 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/08/05 08:31:20 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "err.h"
+#include "ft_printf.h"
 #include <stdio.h> 
 #include <error.h> 
 /*
@@ -37,6 +38,6 @@ void	pworkdir(void)
 		perror(NULL);
 		g_ret = 1;
 	}
-	printf("%s\n", currdir);
+	ft_printf(1, "%s\n", currdir);
 	free(currdir);
 }

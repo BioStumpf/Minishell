@@ -6,7 +6,7 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/27 09:07:15 by knajmech          #+#    #+#             */
-/*   Updated: 2026/08/03 11:54:54 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/08/05 12:50:41 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@
 # include <fcntl.h>
 # include <unistd.h>
 # include "structs.h"
-// # include "builtins.h"
 
 void	exec_pipe(t_ast *node, t_pipe_manager *pipe_info);
 void	exec_and(t_ast *node, t_pipe_manager *pipe_info);
