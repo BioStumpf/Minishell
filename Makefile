@@ -37,14 +37,8 @@ FORCE:
 	@echo "$(GREEN)======================================$(RESET)"
 
 test:
-	@$(MAKE) -s all
 	@cc tests/base_test.c -Ilibft -Llibft -lft -lcriterion -o test
-	@echo "$(GREEN)======================================$(RESET)"
-	@echo "$(BOLD)$(BLUE)       Tester run          $(RESET)"
-	@echo "$(GREEN)======================================$(RESET)"
-	./test
-	@$(MAKE) -s fclean
-	@rm -rf test
+	@./test
 	
 
 $(OBJ_DIR)%.o: %.c | $(OBJ_DIR) $(DEP_DIR)
