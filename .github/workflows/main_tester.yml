@@ -1,4 +1,4 @@
-name: main tester
+name: main_tester
 
 on:
   push:
