@@ -11,7 +11,10 @@ DEP_DIR := dep/
 OBJ_DIR := obj/
 LIBFT_DIR := libft/
 
-SRCS = main.c
+SRCS_main := main.c
+SRCS_david := parsing.c
+SRCS_kian := 
+SRCS := $(SRCS_main) $(SRCS_kian) $(SRCS_david)
 OBJS := $(patsubst %.c, $(OBJ_DIR)%.o, $(SRCS))
 DEPS := $(patsubst %.c, $(DEP_DIR)%.d, $(SRCS)) 
 LIBFT := $(addprefix $(LIBFT_DIR), libft.a)
