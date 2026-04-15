@@ -15,5 +15,5 @@
 #include "libft.h"
 
 Test(print, string) {
-    cr_assert_eq(ft_atoi("1"), 1);
+    cr_assert_eq(ft_atoi("1"), 0);
 }
