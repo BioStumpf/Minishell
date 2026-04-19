@@ -19,8 +19,10 @@ OBJS := $(patsubst %.c, $(OBJ_DIR)%.o, $(SRCS))
 DEPS := $(patsubst %.c, $(DEP_DIR)%.d, $(SRCS)) 
 LIBFT := $(addprefix $(LIBFT_DIR), libft.a)
 
+LIB_LINKS := $(LIBFT) -lreadline
+
 CFLAGS_OBJS = -Wall -Wextra -Werror -g -c $< -o $@ -I$(LIBFT_DIR)
-CFLAGS_NAME = -Wall -Wextra -Werror -g -o $@ $(OBJS) $(LIBFT)
+CFLAGS_NAME = -Wall -Wextra -Werror -g -o $@ $(OBJS) $(LIB_LINKS) 
 DEP_FLAGS = -MMD -MP -MT $@ -MF $(DEP_DIR)$*.d
 
 all: $(NAME)
