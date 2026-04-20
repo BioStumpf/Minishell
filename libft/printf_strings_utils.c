@@ -1,21 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstdelone.c                                     :+:      :+:    :+:   */
+/*   strings_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dstumpf <dstumpf@student.42vienna.com      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/10 11:15:56 by dstumpf           #+#    #+#             */
-/*   Updated: 2025/10/10 11:48:04 by dstumpf          ###   ########.fr       */
+/*   Created: 2025/11/02 21:22:31 by dstumpf           #+#    #+#             */
+/*   Updated: 2025/11/03 16:45:47 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "ft_printf.h"
 
-void	ft_lstdelone(t_list *lst, void (*del)(void *))
+int	ft_putchar(const char c)
 {
-	if (!lst || !del)
-		return ;
-	del(lst->content);
-	free(lst);
+	return (write(1, &c, 1));
+}
+
+int	ft_putstr(const char *str)
+{
+	int	i;
+
+	if (!str)
+		return (write(1, "(null)", 6));
+	i = 0;
+	while (str[i])
+		i++;
+	return (write(1, str, i));
 }
