@@ -10,18 +10,21 @@ CC := cc
 DEP_DIR := dep/
 OBJ_DIR := obj/
 LIBFT_DIR := libft/
+SRCS_DIR := src/
+HEADER_DIR := headers/
 
 SRCS_main := main.c
-SRCS_david := parsing.c
+SRCS_david := parsing.c tokenize.c
 SRCS_kian := 
 SRCS := $(SRCS_main) $(SRCS_kian) $(SRCS_david)
-OBJS := $(patsubst %.c, $(OBJ_DIR)%.o, $(SRCS))
-DEPS := $(patsubst %.c, $(DEP_DIR)%.d, $(SRCS)) 
+SRCS := $(addprefix $(SRCS_DIR), $(SRCS))
+OBJS := $(patsubst $(SRCS_DIR)%.c, $(OBJ_DIR)%.o, $(SRCS))
+DEPS := $(patsubst $(SRCS_DIR)%.c, $(DEP_DIR)%.d, $(SRCS)) 
 LIBFT := $(addprefix $(LIBFT_DIR), libft.a)
 
 LIB_LINKS := $(LIBFT) -lreadline
 
-CFLAGS_OBJS = -Wall -Wextra -Werror -g -c $< -o $@ -I$(LIBFT_DIR)
+CFLAGS_OBJS = -Wall -Wextra -Werror -g -c $< -o $@ -I$(LIBFT_DIR) -I$(HEADER_DIR)
 CFLAGS_NAME = -Wall -Wextra -Werror -g -o $@ $(OBJS) $(LIB_LINKS) 
 DEP_FLAGS = -MMD -MP -MT $@ -MF $(DEP_DIR)$*.d
 
@@ -44,9 +47,10 @@ FORCE:
 test:
 	@cc tests/base_test.c -Ilibft -Llibft -lft -lcriterion -o test
 	@./test
+	rm -rf test
 	
 
-$(OBJ_DIR)%.o: %.c | $(OBJ_DIR) $(DEP_DIR)
+$(OBJ_DIR)%.o: $(SRCS_DIR)%.c | $(OBJ_DIR) $(DEP_DIR)
 	$(CC) $(CFLAGS_OBJS) $(DEP_FLAGS)
 
 $(DEP_DIR):
