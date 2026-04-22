@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 12:23:19 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/04/20 16:13:32 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/04/22 14:39:32 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ typedef struct s_token
 {
 	enum e_token	type;
 	t_word			*word;
-	struct s_token	*next;
 }					t_token;
 
 //functions
