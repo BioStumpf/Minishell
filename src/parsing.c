@@ -6,23 +6,24 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 14:14:19 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/04/22 13:53:45 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/04/23 16:19:28 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 #include <stdio.h>
+#include "libft.h"
 
 void	parse_input(t_data *dat)
 {
-	t_token *tokens;
+	t_list	*tokens;
 	//t_compound_tokens *compound_tokens;
 	//t_compound_commands *compound_commands;
-	//t_ast *ast;
 
 	tokens = tokenize(dat);
-	print_tokens(tokens);
+	ft_lstprint(tokens, print_token);
+	ft_lstclear(tokens, free_token);
 	//compound_tokens = compound_group(tokens);
 	//expand(dat, compound_tokens);
-	//make_parsetree = parse(dat, compound_tokens);
+	//dat->ast = parse_tokens(dat, compound_tokens);
 }

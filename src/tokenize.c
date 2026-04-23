@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 15:15:50 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/04/22 21:24:14 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/04/23 16:38:38 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static t_token	*token_new(enum e_token type, t_word *word)
 	return (token);
 }
 
-static void	free_token(void *token)
+void	free_token(void *token)
 {
 	free(((t_token *)token)->word);
 	free(token);
@@ -72,18 +72,27 @@ t_node	*new_token_node(enum e_token type, enum e_quote quote, char *lexeme)
 	return (node);
 }
 
-t_token	*tokenize(t_data *dat)
+t_list	*tokenize(t_data *dat)
 {
-	t_token *tokens = malloc(sizeof(t_token));
+	(void)dat;
+	t_list *lst = ft_lstnew();
+	if (!lst)
+		exit(1);
 
-	tokens->word = malloc(sizeof(t_word));
-	tokens->word->lexeme = malloc(sizeof(char) * 2);
-	tokens->word->lexeme[0] = dat->input[0];
-	tokens->word->lexeme[1] = 0;
-	tokens->next = NULL;
-	return (tokens);
+	t_node *tok = new_token_node(WORD, NONE, "hello"); 
+	if (!tok)
+		cleanup(lst);
+	ft_lstadd_back(lst, tok);
+
+	tok = new_token_node(PIPE, NONE, "you"); 
+	if (!tok)
+		cleanup(lst);
+	ft_lstadd_back(lst, tok);
+
+	return (lst);
 }
 
+//remove this funciton since its not relevant just for debugging
 #include "stdio.h"
 void	print_token(void *content)
 {
@@ -100,27 +109,8 @@ void	print_token(void *content)
 	"RIGHT_PARAN"
 	};
 	t_token *tok = (t_token *)content;
-	printf("%s\n", token_map[tok->type]);
+	printf("Type: %s  ", token_map[tok->type]);
 	if (tok->type == WORD)
-		printf("%s\n", tok->word->lexeme);
+		printf("Word: %s", tok->word->lexeme);
+	printf("\n");
 }
-
-//int main(void)
-//{
-//	t_list *lst = ft_lstnew();
-//	if (!lst)
-//		return (1);
-//
-//	t_node *tok = new_token_node(WORD, NONE, "hello"); 
-//	if (!tok)
-//		cleanup(lst);
-//	ft_lstadd_back(lst, tok);
-//
-//	tok = new_token_node(PIPE, NONE, "you"); 
-//	if (!tok)
-//		cleanup(lst);
-//	ft_lstadd_back(lst, tok);
-//
-//	ft_lstprint(lst, print_token);
-//	ft_lstclear(lst, free_token);
-//}
