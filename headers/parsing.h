@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 12:23:19 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/04/22 14:39:32 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/04/23 16:24:49 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define PARSING_H
 
 #include "main.h"
+#include "libft.h"
 
 ///////////////////////////////////////////
 //tokenizer structs and enums
@@ -55,9 +56,9 @@ typedef struct s_token
 
 //functions
 void	parse_input(t_data *dat);
-t_token	*tokenize(t_data *data);
-void	print_tokens(t_token *token);
-
+t_list	*tokenize(t_data *data);
+void	print_token(void *content); //this need to be removed
+void	free_token(void *token);
 
 
 ///////////////////////////////////////////
