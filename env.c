@@ -6,7 +6,7 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 09:36:17 by knajmech          #+#    #+#             */
-/*   Updated: 2026/04/22 10:54:42 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/04/22 12:09:51 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,25 +24,34 @@ int		ft_strlen_char(char *str, char delimitter)
 	return (i);
 }
 
-void	fill_env(t_env_map *map_env, t_env_tracker *tracker, char **env)
+int	
+
+int	fill_env(t_env_map **map_env, t_env_tracker *tracker, char **env)
 {
-	int				bucket_index;
-	int				i;
+	int				index_arr;
+	int				i_str;
 	int				var_len;
 	unsigned int	hash;
 	char			*str;
 
-	i = 0;
-	bucket_index = 0;
-	hash = 5381;
-	while ()
+	index_arr = 0;
+	while (env[index_arr])
 	{
-		var_len = 
-		hash = hash * 31 + str[
+		i_str = 0;
+		hash = 5381;
+		str = env[index_arr];
+		var_len = ft_strlen_char(str, '=');
+		while(i_str < var_len && var_len > 0)//remove var_len and just check up until hardcoded '='
+		{
+			hash = hash * 31 + str[i_str];
+			i_str++;
+		}
+		hash_function(map_env, tracker, hash, var_len);
+		index_arr++;
 	}
 }
 
-void	intialise_env(t_env_map *map_env, t_env_tracker *tracker)
+void	intialise_env(t_env_map **map_env, t_env_tracker *tracker)
 {
 	tracker->elem_num = 0;
 	tracker->capacity = 67;
