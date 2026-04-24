@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 12:23:19 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/04/23 16:24:49 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/04/24 17:45:59 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,18 +28,31 @@ enum e_quote
 	DOUBLE
 };
 
+//enum e_token
+//{
+//	WORD,
+//	PIPE,
+//	AND,
+//	OR,
+//	REDIR_INFILE,
+//	REDIR_OUTFILE,
+//	REDIR_HEREDOC,
+//	REDIR_APPEND,
+//	LEFT_PARA,
+//	RIGHT_PARA
+//};
 enum e_token
 {
 	WORD,
-	PIPE,
-	AND,
-	OR,
-	REDIR_INFILE,
-	REDIR_OUTFILE,
-	REDIR_HEREDOC,
-	REDIR_APPEND,
-	LEFT_PARA,
-	RIGHT_PARAN
+	PIPE = '|',
+	AND	= '&' * 2 + 1,
+	OR = '|' * 2 + 1,
+	REDIR_INFILE = '<',
+	REDIR_OUTFILE = '>',
+	REDIR_HEREDOC = '<' * 2 + 1,
+	REDIR_APPEND = '>' * 2 + 1,
+	LEFT_PARA = '(',
+	RIGHT_PARA = ')'
 };
 
 typedef struct s_word
