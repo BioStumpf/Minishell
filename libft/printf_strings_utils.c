@@ -1,25 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstnew.c                                        :+:      :+:    :+:   */
+/*   strings_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dstumpf <dstumpf@student.42vienna.com      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/10 10:04:02 by dstumpf           #+#    #+#             */
-/*   Updated: 2025/10/12 13:04:53 by dstumpf          ###   ########.fr       */
+/*   Created: 2025/11/02 21:22:31 by dstumpf           #+#    #+#             */
+/*   Updated: 2025/11/03 16:45:47 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "ft_printf.h"
 
-t_list	*ft_lstnew(void *content)
+int	ft_putchar(const char c)
 {
-	t_list	*new;
+	return (write(1, &c, 1));
+}
 
-	new = malloc(sizeof(t_list));
-	if (!new)
-		return (NULL);
-	new->content = content;
-	new->next = NULL;
-	return (new);
+int	ft_putstr(const char *str)
+{
+	int	i;
+
+	if (!str)
+		return (write(1, "(null)", 6));
+	i = 0;
+	while (str[i])
+		i++;
+	return (write(1, str, i));
 }

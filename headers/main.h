@@ -1,24 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstiter.c                                       :+:      :+:    :+:   */
+/*   main.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dstumpf <dstumpf@student.42vienna.com      +#+  +:+       +#+        */
+/*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/10 11:54:49 by dstumpf           #+#    #+#             */
-/*   Updated: 2025/10/10 12:03:44 by dstumpf          ###   ########.fr       */
+/*   Created: 2026/04/20 14:52:11 by dstumpf           #+#    #+#             */
+/*   Updated: 2026/04/20 15:24:27 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#ifndef MAIN_H
+# define MAIN_H
 
-void	ft_lstiter(t_list *lst, void (*f)(void *))
+typedef struct s_data
 {
-	if (!f)
-		return ;
-	while (lst)
-	{
-		f(lst->content);
-		lst = lst->next;
-	}
-}
+//	t_ast	*ast;
+//	t_envp	*envp;
+	char	*input;
+}			t_data;
+
+#endif

@@ -1,28 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstadd_back.c                                   :+:      :+:    :+:   */
+/*   ft_lstnode_new.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dstumpf <dstumpf@student.42vienna.com      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/10 10:45:32 by dstumpf           #+#    #+#             */
-/*   Updated: 2025/10/10 17:15:37 by dstumpf          ###   ########.fr       */
+/*   Created: 2025/10/10 10:04:02 by dstumpf           #+#    #+#             */
+/*   Updated: 2026/04/22 17:05:17 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_lstadd_back(t_list **lst, t_list *new)
+t_node	*ft_nodenew(void *content)
 {
-	t_list	*last_node;
+	t_node	*new;
 
-	if (!lst || !new)
-		return ;
-	last_node = ft_lstlast(*lst);
-	if (!last_node)
-	{
-		*lst = new;
-		return ;
-	}
-	last_node->next = new;
+	if (!content)
+		return (NULL);
+	new = malloc(sizeof(t_node));
+	if (!new)
+		return (NULL);
+	new->content = content;
+	new->next = NULL;
+	return (new);
 }
