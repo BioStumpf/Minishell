@@ -6,7 +6,7 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 09:36:17 by knajmech          #+#    #+#             */
-/*   Updated: 2026/04/28 11:44:05 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/04/28 12:07:52 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,20 +35,13 @@ void	hash_function(t_env_map **map_env, t_env_tracker *tracker,
 	key_index = hash % tracker->capacity;
 	value = ft_strchr(env_var, '=') + 1;
 	assert(key_index <= (unsigned int) tracker->capacity);
-	if (map_env[key_index] == NULL)
-		map_env[key_index] = ft_newnode(value);
-	else if (map_env[key_index])
+	if (map_env[key_index])
 		while (map_env[key_index]->next != NULL)
 			map_env[key_index] = map_env[key_index]->next;
+	map_env[key_index] = ft_newnode(value);
 	//assert(map_env[key_index]->value == NULL);
 	//if (map_env[key_index]->value == NULL)
 	//	map_env[key_index]->value = value;
-	if (map_env[key_index]->next == NULL)
-	{
-		map_env[key_index]->next = ft_newnode(value);
-		map_env[key_index]->next->next = NULL;
-		map_env[key_index]->next->value = NULL;
-	}
 	tracker->elem_num++;
 }
 
