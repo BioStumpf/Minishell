@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 14:04:55 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/04/22 14:28:25 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/05/04 09:26:31 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ typedef struct s_node
 {
 	void			*content;
 	struct s_node	*next;
-}					t_node;
+}				t_node;
 
 typedef struct s_list
 {
