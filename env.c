@@ -6,7 +6,7 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 09:36:17 by knajmech          #+#    #+#             */
-/*   Updated: 2026/04/28 12:07:52 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/05/04 09:58:05 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,32 +20,57 @@ int		ft_strlen_char(char *str, char delimitter)
 	i = 0;
 	while (str[i] != delimitter && str[i])
 		i++;
-	if (!str[i])
-		return (-1);
+	/*if (!str[i])
+		return (-1);*/
 	return (i);
 }
 
-void	hash_function(t_env_map **map_env, t_env_tracker *tracker,
+t_env	*make_kv_node(char *key, char *val)
+{
+	t_env	*node;
+
+	node = malloc(sizeof(t_env));
+	if (!node)
+		return (NULL);
+	assert(key != NULL);
+	assert(val != NULL);
+	node->key = key;
+	node->value = val;
+	return (node);
+}
+
+int	*hash_function(t_list *map_env, t_env_tracker *tracker,
 			unsigned int hash, char *env_var)
 {
 	unsigned int		key_index;
-	char				*value;
+	t_env				*key_val_node;
+	t_node				*content_node;
+	char				**value;
 
 	assert(hash > 0);
 	key_index = hash % tracker->capacity;
-	value = ft_strchr(env_var, '=') + 1;
+	value = ft_split(env_var, '=');
+	if (!value)
+		return (0);
 	assert(key_index <= (unsigned int) tracker->capacity);
-	if (map_env[key_index])
-		while (map_env[key_index]->next != NULL)
-			map_env[key_index] = map_env[key_index]->next;
-	map_env[key_index] = ft_newnode(value);
-	//assert(map_env[key_index]->value == NULL);
-	//if (map_env[key_index]->value == NULL)
-	//	map_env[key_index]->value = value;
+	key_val_node = make_kv_node(value[0], value[1]);
+	content_node = ft_nodenew(key_val_node);
+	if (!content_node)
+		return (0);
+	ft_lstadd_back(&map_env[key_index], content_node);
 	tracker->elem_num++;
 }
 
-int	fill_env(t_env_map **map_env, t_env_tracker *tracker, char **env)
+	/*if (map_env[key_index].content)
+		while (map_env[key_index].next != NULL)
+			map_env[key_index].next = map_env[key_index].next;*/
+
+	//map_env[key_index].content = ft_nodenew(value);
+	//assert(map_env[key_index]->value == NULL);
+	//if (map_env[key_index]->value == NULL)
+	//	map_env[key_index]->value = value;
+
+int	fill_env(t_list *map_env, t_env_tracker *tracker, char **env)
 {
 	int				index_arr;
 	int				i_str;
@@ -72,13 +97,10 @@ int	fill_env(t_env_map **map_env, t_env_tracker *tracker, char **env)
 
 int	initialise_env(t_env_tracker *tracker)
 {
-	t_env_map				**map_env;
+	static t_list	map_env[CAPACITY];
 
 	tracker->elem_num = 0;
-	tracker->capacity = 67;
-	map_env = ft_calloc(tracker->capacity, sizeof(t_env_map *));
-	if (!map_env)
-		return (0);
+	tracker->capacity = CAPACITY;
 	tracker->env_ptr = map_env;
 	return (1);
 }
