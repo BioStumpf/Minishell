@@ -2,3 +2,6 @@
 *.d
 *.a
 minishell
+shell.nix
+.cache
+compile_commands.json

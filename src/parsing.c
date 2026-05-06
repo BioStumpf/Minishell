@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "parsing.h"
-#include <stdio.h>
 #include "libft.h"
 
 void	parse_input(t_data *dat)
