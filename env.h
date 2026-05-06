@@ -6,7 +6,7 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/23 08:18:08 by knajmech          #+#    #+#             */
-/*   Updated: 2026/05/04 09:02:57 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/05/06 10:21:44 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,15 +40,15 @@ typedef struct s_env_tracker
 	int					elem_num;
 
 	t_list	*env_ptr;
-} t_env_tracker;
+} 				t_env_tracker;
 
-typedef struct s_data
+/*typedef struct s_data
 {
-	t_env **env_mp;
-}				t_data;
-
+	t_list *env_mp;
+}				t_data;*/
 
 t_env	*ft_newnode(void *value);
+t_env	*hash_search(t_node *list, char *key);
 void	error_and_cleanup(t_data *data, char *error_str);
 
 #endif

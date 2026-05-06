@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 14:04:55 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/05/04 09:26:31 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/05/04 11:55:27 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,5 +80,7 @@ size_t	count_nums(const char *s);
 int		ft_atoi_multi(char **nptr);
 int		ft_iswhitespace(const char c);
 int		ft_atoi_hex_multi(char **nptr);
+int		ft_strlen_char(char *str, char delimitter);
+char	*ft_strndup(const char *s, char delimitter);
 
 #endif
