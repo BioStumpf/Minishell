@@ -14,7 +14,7 @@ SRCS_DIR := src/
 HEADER_DIR := headers/
 
 SRCS_main := main.c
-SRCS_david := parsing.c tokenize.c to_delete_later.c token_list_utils.c token_string_utils.c
+SRCS_david := parsing.c tokenize.c to_delete_later.c token_list_utils.c token_string_utils.c parser_error.c
 SRCS_kian := 
 SRCS := $(SRCS_main) $(SRCS_kian) $(SRCS_david)
 SRCS := $(addprefix $(SRCS_DIR), $(SRCS))
@@ -29,6 +29,7 @@ CFLAGS_NAME = -Wall -Wextra -Werror -g -o $@ $(OBJS) $(LIB_LINKS)
 DEP_FLAGS = -MMD -MP -MT $@ -MF $(DEP_DIR)$*.d
 
 all: $(NAME)
+nix: CFLAGS_OBJS += -Wno-unused-result
 nix: all 
 
 $(NAME): $(LIBFT) $(OBJS) 

@@ -6,11 +6,12 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 15:15:50 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/05/06 16:49:32 by david            ###   ########.fr       */
+/*   Updated: 2026/05/06 22:16:04 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
+#include "unistd.h"
 
 static int	double_ttype(char metachar)
 {
@@ -19,49 +20,51 @@ static int	double_ttype(char metachar)
 
 //note for tokens: &&, ||, >> or << the actual numeric enum value/type variable inside the token
 //refers to 2 * token + 1 which is passed to new_token_node
-static t_node	*meta_token(char **input, char metachar, t_parse_err *err)
-{
-	t_node	*node;
 
+//make sure to check error code after returning from find_token function (if skip or invalid you need to free the current node, for invalid cleanup, for skip you continue the loop with the next token)
+
+
+static void	meta_token(char **input, t_node *new, char metachar)
+{
 	if (is_double_metachar(**input) && (*input)[1] == metachar)
 	{
 		(*input) = (*input) + 2;
-		node = new_token_node(double_ttype(metachar), NONE, NULL);
+		set_token_node(new, double_ttype(metachar), Q_NONE, NULL);
 	}
 	else if (invalid_metachar(metachar))
 	{
-		err->status = PARSE_ERR_INVALID_CHAR;
-		err->invalid = metachar;
-		return (NULL);
+		set_error(PARSE_ERR_INVALID_CHAR, metachar);
+		return ;
 	}
 	else if (skip_metachar(metachar))
-		return (NULL);
+	{
+		(*input)++;
+		return ;
+	}
 	else
 	{
 		(*input)++;
-		node = new_token_node(metachar, NONE, NULL);
+		set_token_node(new, metachar, Q_NONE, NULL);
 	}
-	if (!node)
-		return (err->status = PARSE_ERR_MALLOC, NULL);
-	return (node);
 }
 
-static t_node	*word_token(char **input)
+static void	word_token(char **input, t_node *new)
 {
 	(void)input;
 	while (**input && !get_metachar(**input))
 		(*input)++;
-	return (new_token_node(WORD, NONE, "test_word"));
+	set_token_node(new, T_WORD, Q_NONE, "test_word");
 }
 
-static t_node	*find_next_token(char **input, t_parse_err *err)
+static void	find_next_token(char **input, t_node *new)
 {
 	char	metachar;
 
 	metachar = get_metachar(**input);
 	if (metachar)
-		return (meta_token(input, metachar, err));
-	return (word_token(input));
+		meta_token(input, new, metachar);
+	else
+		word_token(input, new);
 }
 
 t_list	*tokenize(t_data *dat)
@@ -69,18 +72,23 @@ t_list	*tokenize(t_data *dat)
 	char		*input;
 	t_node		*new_node;
 	t_list		*lst;
-	t_parse_err	err;
 
-	err.status = PARSE_OK;
 	input = dat->input;
 	lst = ft_lstnew();
 	if (!lst)
-		token_cleanup(lst, &err);
+	{
+		set_error(PARSE_ERR_MALLOC, 0);
+		token_cleanup(lst);
+	}
 	while (*input)
 	{
-		new_node = find_next_token(&input, &err);
+		new_node = new_token_node();
 		if (!new_node)
-			token_cleanup(lst, &err);
+		{
+			set_error(PARSE_ERR_MALLOC, 0);
+			token_cleanup(lst);
+		}
+		find_next_token(&input, new_node);
 		ft_lstadd_back(lst, new_node);
 	}
 	return (lst);

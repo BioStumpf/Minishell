@@ -6,7 +6,7 @@
 /*   By: david <user@student.42mail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/30 16:54:01 by david             #+#    #+#             */
-/*   Updated: 2026/05/06 16:48:32 by david            ###   ########.fr       */
+/*   Updated: 2026/05/06 21:56:43 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,64 +14,51 @@
 #include "libft.h"
 #include "stdlib.h"
 
-static t_word	*word_new(enum e_quote quote, char *lexeme)
-{
-	t_word	*word;
-
-	word = malloc(sizeof(t_word));
-	if (!word)
-		return (NULL);
-	word->quote = quote;
-	word->lexeme = lexeme;
-	return (word);
-}
-
-static t_token	*token_new(enum e_token type, t_word *word)
+static t_token	*token_new(void)
 {
 	t_token *token;
 
 	token = malloc(sizeof(t_token));
 	if (!token)
 		return (NULL);
-	token->type = type;
-	token->word = word;
+	token->type = T_NONE;
+	token->quote = Q_NONE;
+	token->word = NULL;
 	return (token);
 }
 
 void	free_token(void *token)
 {
-	free(((t_token *)token)->word);
+	// free(((t_token *)token)->word);
 	free(token);
 }
 
-void	token_cleanup(t_list *lst, t_parse_err *err)
+void	token_cleanup(t_list *lst)
 {
-	if (err->status == PARSE_ERR_MALLOC)
-		ft_putstr_fd("Malloc fail.", 2);
-	else if (err->status == PARSE_ERR_INVALID_CHAR)
-		ft_putstr_fd("minishell: syntax error near unexpected token", 2);
+	int	ret_value;
+
+	ret_value = print_error();
 	ft_lstclear(lst, free_token);
-	exit(1);
+	exit(ret_value);
 }
 
-t_node	*new_token_node(enum e_token type, enum e_quote quote, char *lexeme)
+void	set_token_node(t_node *node, enum e_token ttype, enum e_quote qtype, char *word)
+{
+	((t_token *)node->content)->type = ttype;
+	((t_token *)node->content)->quote = qtype;
+	((t_token *)node->content)->word = word;
+}
+
+t_node	*new_token_node(void)
 {
 	t_token	*token;
-	t_word	*word;
 	t_node	*node;
 
-	word = NULL;
-	if (type == WORD)
-	{
-		word = word_new(quote, lexeme);
-		if (!word)
-			return (NULL);
-	}
-	token = token_new(type, word);
+	token = token_new();
 	if (!token)
-		return (free(word), NULL);
+		return (NULL);
 	node = ft_nodenew(token);
 	if (!node)
-		return (free(word), free(token), NULL);
+		return (free(token), NULL);
 	return (node);
 }
