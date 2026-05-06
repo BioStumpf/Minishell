@@ -6,7 +6,7 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 09:36:17 by knajmech          #+#    #+#             */
-/*   Updated: 2026/05/04 09:58:05 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/05/06 10:13:35 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,19 +39,28 @@ t_env	*make_kv_node(char *key, char *val)
 	return (node);
 }
 
-int	*hash_function(t_list *map_env, t_env_tracker *tracker,
+void	replace_val(t_env *key_val_node, char *val)
+{
+	key_val_node->value = val;
+}
+
+int	hash_function(t_list *map_env, t_env_tracker *tracker,
 			unsigned int hash, char *env_var)
 {
 	unsigned int		key_index;
 	t_env				*key_val_node;
 	t_node				*content_node;
-	char				**value;
+	char				*value[2];
 
 	assert(hash > 0);
 	key_index = hash % tracker->capacity;
-	value = ft_split(env_var, '=');
-	if (!value)
-		return (0);
+	value[1] = ft_strdup(ft_strchr(env_var, '=') + 1);
+	value[0] = ft_strndup(env_var,'=');
+	if (!value[0])
+		return (free(value[0]), free(value[1]), 0);
+	key_val_node = hash_search((map_env[key_index].head), value[0]);
+	if (key_val_node)
+		return (replace_val(key_val_node, value[1]), 1);
 	assert(key_index <= (unsigned int) tracker->capacity);
 	key_val_node = make_kv_node(value[0], value[1]);
 	content_node = ft_nodenew(key_val_node);
@@ -111,6 +120,7 @@ int process_env(t_data *data, char **env)
 
 	if (!initialise_env(&tracker) || !fill_env(tracker.env_ptr, &tracker, env))
 		error_and_cleanup(data, "malloc");
+	data->env_mp = &tracker;
 	return (1);
 }
 
