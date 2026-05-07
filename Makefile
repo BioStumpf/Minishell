@@ -15,7 +15,7 @@ HEADER_DIR := headers/
 
 SRCS_main := main.c
 SRCS_david := parsing.c tokenize.c
-SRCS_kian := 
+SRCS_kian := env.c cleanup.c new_variables.c hash_search.c 
 SRCS := $(SRCS_main) $(SRCS_kian) $(SRCS_david)
 SRCS := $(addprefix $(SRCS_DIR), $(SRCS))
 OBJS := $(patsubst $(SRCS_DIR)%.c, $(OBJ_DIR)%.o, $(SRCS))
