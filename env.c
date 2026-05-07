@@ -6,24 +6,24 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 09:36:17 by knajmech          #+#    #+#             */
-/*   Updated: 2026/05/06 12:31:51 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/05/07 09:49:56 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "env.h"
+#include "headers/env.h"
 #include <assert.h>
 
-int		ft_strlen_char(char *str, char delimitter)
+/*int		ft_strlen_char(char *str, char delimitter)
 {
 	int	i;
 
 	i = 0;
 	while (str[i] != delimitter && str[i])
 		i++;
-	/*if (!str[i])
-		return (-1);*/
+	if (!str[i])
+		return (-1);
 	return (i);
-}
+}*/
 
 t_env	*make_kv_node(char *key, char *val)
 {
@@ -39,10 +39,10 @@ t_env	*make_kv_node(char *key, char *val)
 	return (node);
 }
 
-void	replace_val(t_env *key_val_node, char *val)
+/*void	unset_variable()
 {
-	key_val_node->value = val;
-}
+
+}*/
 
 int	hash_function(t_list *map_env, t_env_tracker *tracker,
 			unsigned int hash, char *env_var)
@@ -61,7 +61,7 @@ int	hash_function(t_list *map_env, t_env_tracker *tracker,
 		return (free(value[0]), free(value[1]), 0);
 	key_val_node = hash_search((map_env[key_index].head), value[0]);
 	if (key_val_node)
-		return (replace_val(key_val_node, value[1]), 1);
+		return (key_val_node->value = val, 1);
 	key_val_node = make_kv_node(value[0], value[1]);
 	content_node = ft_nodenew(key_val_node);
 	if (!content_node)
@@ -122,7 +122,7 @@ int process_env(t_data *data, char **env)
 
 	if (tracker.capacity == 0)
 	{
-		initialise_env(&tracker) 
+		initialise_env(&tracker); 
 		if (!fill_env(tracker.env_ptr, &tracker, env))
 			error_and_cleanup(data, "malloc");
 		data->env_mp = &tracker;

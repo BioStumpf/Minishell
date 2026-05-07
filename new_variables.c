@@ -6,11 +6,11 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/06 11:01:30 by knajmech          #+#    #+#             */
-/*   Updated: 2026/05/06 12:30:20 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/05/06 14:55:33 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "env.h"
+#include "headers/env.h"
 
 int	replace_or_add(t_list *map_env, t_env_tracker *tracker,
 		unsigned int hash, char **env_var)
@@ -29,7 +29,7 @@ int	replace_or_add(t_list *map_env, t_env_tracker *tracker,
 		return (free(value[0]), free(value[1]), 0);
 	key_val_node = hash_search((map_env[key_index].head), value[0]);
 	if (key_val_node)
-		return (key_val_node->value = val, 1));
+		return (key_val_node->value = value[1], 1);
 	key_val_node = make_kv_node(value[0], value[1]);
 	content_node = ft_nodenew(key_val_node);
 	if (!content_node)

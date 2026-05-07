@@ -6,11 +6,11 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/04 10:03:18 by knajmech          #+#    #+#             */
-/*   Updated: 2026/05/05 16:46:22 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/05/06 12:48:19 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "env.h"
+#include "headers/env.h"
 
 t_env	*hash_search(t_node *list, char *key)
 {
