@@ -6,7 +6,7 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/23 08:18:08 by knajmech          #+#    #+#             */
-/*   Updated: 2026/05/06 14:48:54 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/05/07 10:18:40 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,5 +27,6 @@ t_env	*ft_newnode(void *value);
 t_env	*hash_search(t_node *list, char *key);
 void	error_and_cleanup(t_data *data, char *error_str);
 int		insert_new(t_list *env_ptr, t_env_tracker *tracker, char **new_variable);
+t_node	*delete_node(t_node *node);
 
 #endif

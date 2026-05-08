@@ -6,7 +6,7 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/27 07:31:26 by knajmech          #+#    #+#             */
-/*   Updated: 2026/05/07 09:46:42 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/05/07 10:23:47 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,8 @@ void	error_and_cleanup(t_data *data, char *error_desc)
 			node = map_env[i].head;
 			while (node)
 				node = delete_node(node);
-			//map_env[i].head = NULL;
-			//map_env[i].tail = NULL;
+			map_env[i].head = NULL;
+			map_env[i].tail = NULL;
 			i++;
 		}
 	}
