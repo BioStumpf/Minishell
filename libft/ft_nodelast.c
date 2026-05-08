@@ -1,29 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.h                                             :+:      :+:    :+:   */
+/*   ft_lstlast_bonus.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
+/*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/20 14:52:11 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/05/07 10:12:17 by knajmech         ###   ########.fr       */
+/*   Created: 2025/10/14 10:53:03 by knajmech          #+#    #+#             */
+/*   Updated: 2026/05/08 08:35:16 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+#include "libft.h"
 
-#ifndef MAIN_H
-# define MAIN_H
-
-# include <stdio.h>
-# include "env.h"
-# include "structs.h"
-/*
-typedef struct s_data
+t_node	*ft_nodelast(t_node *lst)
 {
-//	t_ast	*ast;
-//	t_envp	*envp;
-	char			*input;
-	char			**new_variable;
-	t_env_tracker	*env_mp;
-}			t_data;
-*/
-#endif
+	if (!lst)
+		return (0);
+	while (lst->next)
+		lst = lst->next;
+	return (lst);
+}

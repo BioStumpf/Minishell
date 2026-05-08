@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 14:04:55 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/05/04 11:55:27 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/05/08 08:37:03 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <limits.h>
 # include <unistd.h>
 # include <stdbool.h>
+# include <assert.h>
 
 typedef struct s_node
 {
@@ -82,5 +83,7 @@ int		ft_iswhitespace(const char c);
 int		ft_atoi_hex_multi(char **nptr);
 int		ft_strlen_char(char *str, char delimitter);
 char	*ft_strndup(const char *s, char delimitter);
+t_node	*ft_nodeadd_back(t_node **lst, t_node *new, t_node *tail);
+t_node	*ft_nodelast(t_node *lst);
 
 #endif

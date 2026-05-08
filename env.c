@@ -6,7 +6,7 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 09:36:17 by knajmech          #+#    #+#             */
-/*   Updated: 2026/05/07 09:49:56 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/05/08 08:45:45 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,51 @@ t_env	*make_kv_node(char *key, char *val)
 	return (node);
 }
 
-/*void	unset_variable()
+unsigned int	find_hash_key(char	*key)
 {
+	unsigned int	hash;
+	unsigned int	key_index;
+	unsigned int	i;
+	unsigned int	key_len;
 
-}*/
+	assert(key != NULL);
+	hash = 5381;
+	key_len = ft_strlen_char(key, '=');
+	i = 0;
+	while (i < key_len)
+	{
+		hash = hash * 31 + key[i];
+		i++;
+	}
+	key_index = hash / CAPACITY;
+	return (key_index);
+}
+
+void	unset_variable(t_list *map_env, char *key)
+{
+	t_node			*node;
+	t_env			*env;
+	unsigned int	hash_key;
+	int				len;
+
+	assert(key != NULL);
+	hash_key = find_hash_key(key);
+	node = map_env[hash_key].head;
+	if (!node)
+		return ;
+	len = ft_strlen(key);
+	while(node)
+	{
+		env = node->content;
+		if (!ft_strncmp(env->key, key, len + 1))
+		{
+			map_env[hash_key].tail = ft_nodeadd_back(&map_env[hash_key].head,
+					delete_node(node), map_env[hash_key].tail);
+			return ;
+		}
+		node = node->next;
+	}
+}
 
 int	hash_function(t_list *map_env, t_env_tracker *tracker,
 			unsigned int hash, char *env_var)
@@ -61,7 +102,7 @@ int	hash_function(t_list *map_env, t_env_tracker *tracker,
 		return (free(value[0]), free(value[1]), 0);
 	key_val_node = hash_search((map_env[key_index].head), value[0]);
 	if (key_val_node)
-		return (key_val_node->value = val, 1);
+		return (key_val_node->value = value[1], 1);
 	key_val_node = make_kv_node(value[0], value[1]);
 	content_node = ft_nodenew(key_val_node);
 	if (!content_node)
