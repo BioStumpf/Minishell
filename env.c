@@ -6,7 +6,7 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 09:36:17 by knajmech          #+#    #+#             */
-/*   Updated: 2026/05/08 08:45:45 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/05/08 09:01:23 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,15 +86,12 @@ void	unset_variable(t_list *map_env, char *key)
 }
 
 int	hash_function(t_list *map_env, t_env_tracker *tracker,
-			unsigned int hash, char *env_var)
+			unsigned int key_index, char *env_var)
 {
-	unsigned int		key_index;
 	t_env				*key_val_node;
 	t_node				*content_node;
 	char				*value[2];
 
-	assert(hash > 0);
-	key_index = hash % tracker->capacity;
 	assert(key_index <= (unsigned int) tracker->capacity);
 	value[1] = ft_strdup(ft_strchr(env_var, '=') + 1);
 	value[0] = ft_strndup(env_var,'=');
@@ -124,23 +121,21 @@ int	hash_function(t_list *map_env, t_env_tracker *tracker,
 int	fill_env(t_list *map_env, t_env_tracker *tracker, char **env)
 {
 	int				index_arr;
-	int				i_str;
 	int				var_len;
-	unsigned int	hash;
+	unsigned int	hash_key;
 
 	index_arr = 0;
 	while (env[index_arr])
 	{
-		i_str = 0;
-		hash = 5381;
 		var_len = ft_strlen_char(env[index_arr], '=');
-		while(i_str < var_len && var_len > 0)//remove var_len and just check up until hardcoded '='
+		/*while(i_str < var_len && var_len > 0)//remove var_len and just check up until hardcoded '='
 		{
 			hash = hash * 31 + env[index_arr][i_str];
 			i_str++;
-		}
+		}*/
+		hash_key = find_hash_key(env[index_arr]);
 		if (var_len > 0)
-			if (hash_function(map_env, tracker, hash, env[index_arr]) == 0)
+			if (hash_function(map_env, tracker, hash_key, env[index_arr]) == 0)
 				return (0); //consider if variable adding is needed.
 		index_arr++;
 	}
@@ -149,7 +144,7 @@ int	fill_env(t_list *map_env, t_env_tracker *tracker, char **env)
 
 int	initialise_env(t_env_tracker *tracker)
 {
-	static t_list	map_env[CAPACITY];
+	static t_list	map_env[CAPACITY + 1];
 
 	tracker->elem_num = 0;
 	tracker->capacity = CAPACITY;
