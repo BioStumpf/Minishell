@@ -6,7 +6,7 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/04 10:03:18 by knajmech          #+#    #+#             */
-/*   Updated: 2026/05/10 09:44:17 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/05/10 10:22:31 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ unsigned int	find_hash_key(char	*key)
 		hash = hash * 31 + key[i];
 		i++;
 	}
-	key_index = hash / CAPACITY;
+	key_index = hash % CAPACITY;
 	return (key_index);
 }
 
@@ -48,3 +48,9 @@ t_env	*hash_search(t_node *list, char *key)
 	}
 	return (NULL);
 }
+
+/*void	hash_find(t_data *data, char *var)
+{
+	assert (var != NULL && data->env_mp->env_ptr != NULL);
+	
+}*/

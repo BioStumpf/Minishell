@@ -6,7 +6,7 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/22 10:52:24 by knajmech          #+#    #+#             */
-/*   Updated: 2026/05/07 09:13:19 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/05/10 10:31:32 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,5 @@ int	ft_strlen_char(char *str, char delimitter)
 	i = 0;
 	while (str[i] != delimitter && str[i])
 		i++;
-	/*if (!str[i])
-		return (-1);*/
 	return (i);
 }
-
