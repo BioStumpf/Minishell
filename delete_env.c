@@ -6,11 +6,11 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/10 09:46:59 by knajmech          #+#    #+#             */
-/*   Updated: 2026/05/10 09:49:16 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/05/10 09:57:06 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "headers/structs.h"
+#include "headers/main.h"
 
 t_node	*delete_node(t_node *node)
 {
@@ -26,3 +26,28 @@ t_node	*delete_node(t_node *node)
 	return (node_next);
 }
 
+void	unset_variable(t_list *map_env, char *key)
+{
+	t_node			*node;
+	t_env			*env;
+	unsigned int	hash_key;
+	int				len;
+
+	assert(key != NULL);
+	hash_key = find_hash_key(key);
+	node = map_env[hash_key].head;
+	if (!node)
+		return ;
+	len = ft_strlen(key);
+	while(node)
+	{
+		env = node->content;
+		if (!ft_strncmp(env->key, key, len + 1))
+		{
+			map_env[hash_key].tail = ft_nodeadd_back(&map_env[hash_key].head,
+					delete_node(node), map_env[hash_key].tail);
+			return ;
+		}
+		node = node->next;
+	}
+}

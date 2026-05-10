@@ -6,24 +6,12 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 09:36:17 by knajmech          #+#    #+#             */
-/*   Updated: 2026/05/10 09:44:37 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/05/10 10:27:30 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "headers/env.h"
 #include <assert.h>
-
-/*int		ft_strlen_char(char *str, char delimitter)
-{
-	int	i;
-
-	i = 0;
-	while (str[i] != delimitter && str[i])
-		i++;
-	if (!str[i])
-		return (-1);
-	return (i);
-}*/
 
 t_env	*make_kv_node(char *key, char *val)
 {
@@ -37,32 +25,6 @@ t_env	*make_kv_node(char *key, char *val)
 	node->key = key;
 	node->value = val;
 	return (node);
-}
-
-void	unset_variable(t_list *map_env, char *key)
-{
-	t_node			*node;
-	t_env			*env;
-	unsigned int	hash_key;
-	int				len;
-
-	assert(key != NULL);
-	hash_key = find_hash_key(key);
-	node = map_env[hash_key].head;
-	if (!node)
-		return ;
-	len = ft_strlen(key);
-	while(node)
-	{
-		env = node->content;
-		if (!ft_strncmp(env->key, key, len + 1))
-		{
-			map_env[hash_key].tail = ft_nodeadd_back(&map_env[hash_key].head,
-					delete_node(node), map_env[hash_key].tail);
-			return ;
-		}
-		node = node->next;
-	}
 }
 
 int	hash_function(t_list *map_env, t_env_tracker *tracker,
@@ -89,15 +51,6 @@ int	hash_function(t_list *map_env, t_env_tracker *tracker,
 	return (1);
 }
 
-	/*if (map_env[key_index].content)
-		while (map_env[key_index].next != NULL)
-			map_env[key_index].next = map_env[key_index].next;*/
-
-	//map_env[key_index].content = ft_nodenew(value);
-	//assert(map_env[key_index]->value == NULL);
-	//if (map_env[key_index]->value == NULL)
-	//	map_env[key_index]->value = value;
-
 int	fill_env(t_list *map_env, t_env_tracker *tracker, char **env)
 {
 	int				index_arr;
@@ -108,15 +61,10 @@ int	fill_env(t_list *map_env, t_env_tracker *tracker, char **env)
 	while (env[index_arr])
 	{
 		var_len = ft_strlen_char(env[index_arr], '=');
-		/*while(i_str < var_len && var_len > 0)//remove var_len and just check up until hardcoded '='
-		{
-			hash = hash * 31 + env[index_arr][i_str];
-			i_str++;
-		}*/
 		hash_key = find_hash_key(env[index_arr]);
 		if (var_len > 0)
 			if (hash_function(map_env, tracker, hash_key, env[index_arr]) == 0)
-				return (0); //consider if variable adding is needed.
+				return (0);
 		index_arr++;
 	}
 	return (1);
@@ -144,7 +92,7 @@ int process_env(t_data *data, char **env)
 		data->env_mp = &tracker;
 		return (1);
 	}
-	if (data->new_variable)
+	else if (data->new_variable)
 	{
 		if (!insert_new(tracker.env_ptr, &tracker, data->new_variable))
 			return (0);
@@ -156,9 +104,17 @@ int process_env(t_data *data, char **env)
 int	main(int argc, char **argv, char **env)
 {
 	static t_data	data;
+	t_env			*tmp;
 
 	(void) argc;
 	(void) argv;
 	process_env(&data, env);
+	char	*variables[2]={"VAR", "FOO"};
+	data.new_variable = variables;
+	process_env(&data, env);
+	unsigned int	key = find_hash_key(data.new_variable[0]);
+	tmp = hash_search(data.env_mp->env_ptr[key].head, data.new_variable[0]);
+	if (tmp->key)
+		printf("%s\n", tmp->value);
 	error_and_cleanup(&data, NULL);
 }
