@@ -6,7 +6,7 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/06 11:01:30 by knajmech          #+#    #+#             */
-/*   Updated: 2026/05/08 09:14:57 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/05/08 12:04:43 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ int	replace_or_add(t_list *map_env, t_env_tracker *tracker,
 	char				*value[2];
 
 	assert(key_index <= (unsigned int) tracker->capacity);
-	value[1] = ft_strdup(env_var[0]);
-	value[0] = ft_strdup(env_var[1]);
+	value[0] = ft_strdup(env_var[0]);
+	value[1] = ft_strdup(env_var[1]);
 	if (!value[0])
 		return (free(value[0]), free(value[1]), 0);
 	key_val_node = hash_search((map_env[key_index].head), value[0]);
