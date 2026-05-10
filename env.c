@@ -6,7 +6,7 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 09:36:17 by knajmech          #+#    #+#             */
-/*   Updated: 2026/05/08 09:01:23 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/05/10 09:44:37 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,26 +37,6 @@ t_env	*make_kv_node(char *key, char *val)
 	node->key = key;
 	node->value = val;
 	return (node);
-}
-
-unsigned int	find_hash_key(char	*key)
-{
-	unsigned int	hash;
-	unsigned int	key_index;
-	unsigned int	i;
-	unsigned int	key_len;
-
-	assert(key != NULL);
-	hash = 5381;
-	key_len = ft_strlen_char(key, '=');
-	i = 0;
-	while (i < key_len)
-	{
-		hash = hash * 31 + key[i];
-		i++;
-	}
-	key_index = hash / CAPACITY;
-	return (key_index);
 }
 
 void	unset_variable(t_list *map_env, char *key)
