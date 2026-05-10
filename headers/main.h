@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 14:52:11 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/05/07 10:12:17 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/05/10 10:34:52 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,5 @@
 # include <stdio.h>
 # include "env.h"
 # include "structs.h"
-/*
-typedef struct s_data
-{
-//	t_ast	*ast;
-//	t_envp	*envp;
-	char			*input;
-	char			**new_variable;
-	t_env_tracker	*env_mp;
-}			t_data;
-*/
+
 #endif
