@@ -1,21 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.h                                             :+:      :+:    :+:   */
+/*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
+/*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/20 14:52:11 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/05/11 09:53:01 by knajmech         ###   ########.fr       */
+/*   Created: 2026/05/11 09:33:31 by knajmech          #+#    #+#             */
+/*   Updated: 2026/05/11 09:36:14 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MAIN_H
-# define MAIN_H
+#include "../headers/builtins.h"
 
-# include <stddef.h>
-# include <stdio.h>
-# include "env.h"
-# include "structs.h"
-
-#endif
+int	echo_print(t_data *data, int n_flag)
+{
+	assert(data->input != NULL);
+	printf("%s", data->input);
+	if (n_flag != 0)
+		printf("\n");
+	return (0);
+}

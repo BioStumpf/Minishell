@@ -1,21 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.h                                             :+:      :+:    :+:   */
+/*   pworkdir.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
+/*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/20 14:52:11 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/05/11 09:53:01 by knajmech         ###   ########.fr       */
+/*   Created: 2026/05/11 08:47:22 by knajmech          #+#    #+#             */
+/*   Updated: 2026/05/11 09:22:11 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MAIN_H
-# define MAIN_H
+#include "../headers/env.h"
 
-# include <stddef.h>
-# include <stdio.h>
-# include "env.h"
-# include "structs.h"
+int	pworkdir(t_data *data)
+{
+	char	*currdir;
 
-#endif
+	currdir = getcwd(NULL, 0);
+	if (currdir == NULL)
+		error_and_cleanup(data, "getcwd");
+	printf("%s\n", currdir);
+	free(currdir);
+	return (1);
+}

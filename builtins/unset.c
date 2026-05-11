@@ -1,21 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.h                                             :+:      :+:    :+:   */
+/*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
+/*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/20 14:52:11 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/05/11 09:53:01 by knajmech         ###   ########.fr       */
+/*   Created: 2026/05/11 09:37:47 by knajmech          #+#    #+#             */
+/*   Updated: 2026/05/11 09:58:31 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MAIN_H
-# define MAIN_H
+#include "../headers/builtins.h"
 
-# include <stddef.h>
-# include <stdio.h>
-# include "env.h"
-# include "structs.h"
+void	unset_var(t_list *map_env, char *key)
+{
+	unsigned int	hash_key;
 
-#endif
+	hash_key = find_hash_key(key);
+	unset_variable(map_env, key);
+	if (map_env[hash_key].len == 0)
+		map_env[hash_key].head = NULL;
+}
