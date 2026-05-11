@@ -1,21 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.h                                             :+:      :+:    :+:   */
+/*   base_test.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/20 14:52:11 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/05/11 09:53:01 by knajmech         ###   ########.fr       */
+/*   Created: 2026/04/14 18:01:36 by dstumpf           #+#    #+#             */
+/*   Updated: 2026/04/14 18:02:35 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MAIN_H
-# define MAIN_H
+#include <criterion/criterion.h>
+#include <stdio.h>
+#include "libft.h"
 
-# include <stddef.h>
-# include <stdio.h>
-# include "env.h"
-# include "structs.h"
-
-#endif
+Test(print, string) {
+    cr_assert_eq(ft_atoi("1"), 1);
+}

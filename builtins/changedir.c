@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   built_ins.c                                        :+:      :+:    :+:   */
+/*   changedir.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/05/08 12:05:48 by knajmech          #+#    #+#             */
-/*   Updated: 2026/05/08 12:07:10 by knajmech         ###   ########.fr       */
+/*   Created: 2026/05/11 10:00:28 by knajmech          #+#    #+#             */
+/*   Updated: 2026/05/11 10:01:22 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "builtins.h"
+#include "../headers/builtins.h"
 
-int	which_builtin(t_data *built_in)
+int	change_dir()
 {
 	
 }

@@ -6,7 +6,7 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/06 13:52:42 by knajmech          #+#    #+#             */
-/*   Updated: 2026/05/11 07:42:56 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/05/11 08:32:52 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,16 @@
 
 # include "../libft/libft.h"
 
-typedef enum s_builtin
+typedef enum e_builtin
 {
-	
-
-}
+	echo,
+	cd,
+	pwd,
+	expo,
+	unset,
+	env,
+	exit_shell
+}			t_builtin;
 
 typedef struct s_env_tracker
 {
