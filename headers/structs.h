@@ -6,7 +6,7 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/06 13:52:42 by knajmech          #+#    #+#             */
-/*   Updated: 2026/05/10 10:41:50 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/05/11 07:42:56 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,12 @@
 # define STRUCTS_H
 
 # include "../libft/libft.h"
+
+typedef enum s_builtin
+{
+	
+
+}
 
 typedef struct s_env_tracker
 {
