@@ -6,7 +6,7 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/12 09:10:22 by knajmech          #+#    #+#             */
-/*   Updated: 2026/05/12 09:51:09 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/05/12 10:01:44 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ void	env_var(t_data *data)
 		i++;
 	}
 	assert(i == data->env_mp->capacity);
-	return (1);
 }
 
 //remember to remove assert len check here
