@@ -6,7 +6,7 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/06 13:52:42 by knajmech          #+#    #+#             */
-/*   Updated: 2026/05/11 08:32:52 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/05/11 11:23:03 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ typedef struct s_data
 	char			*input;
 	char			**new_variable;
 	char			*find_var;
+	char			*cwd;
+	char			*newdir;
 	t_env_tracker	*env_mp;
 }			t_data;
 

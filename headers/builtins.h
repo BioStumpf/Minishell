@@ -6,7 +6,7 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/11 07:52:24 by knajmech          #+#    #+#             */
-/*   Updated: 2026/05/11 09:38:11 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/05/12 09:50:52 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,9 @@ int		which_builtin(t_data *built_in, int builtin_call);
 int		echo_print(t_data *data, int flag);
 int		change_dir(t_data *data);
 int		pworkdir(t_data *data);
-int		export_var(t_data *data);
+void	export_var(t_data *data);
 void	unset_var(t_list *map_env, char *key);
-int		env_var(t_data *data);
+void	env_var(t_data *data);
 int		exit_Minishell(t_data *data);
 
 #endif
