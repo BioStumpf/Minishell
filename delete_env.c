@@ -6,7 +6,7 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/10 09:46:59 by knajmech          #+#    #+#             */
-/*   Updated: 2026/05/11 09:58:42 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/05/12 09:04:23 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,5 +52,5 @@ void	unset_variable(t_list *map_env, char *key)
 		}
 		node = node->next;
 	}
-	return (0);
+	return ;
 }
