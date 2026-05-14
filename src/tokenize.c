@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 15:15:50 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/05/14 17:04:18 by david            ###   ########.fr       */
+/*   Updated: 2026/05/14 17:53:48 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static void	meta_token(char **input, t_node *new, char metachar)
 	if (is_double_metachar(**input) && (*input)[1] == metachar)
 	{
 		(*input) = (*input) + 2;
-		set_token_node(new, double_ttype(metachar), Q_NONE, NULL);
+		set_token_node(new, double_ttype(metachar), NULL);
 	}
 	else if (invalid_metachar(metachar))
 	{
@@ -39,7 +39,7 @@ static void	meta_token(char **input, t_node *new, char metachar)
 	else
 	{
 		(*input)++;
-		set_token_node(new, metachar, Q_NONE, NULL);
+		set_token_node(new, metachar, NULL);
 	}
 }
 
@@ -56,7 +56,7 @@ static void	word_token(char **input, t_node *new)
 		return ;
 	}
 	set_word(input, word, word_len);
-	set_token_node(new, T_WORD, Q_NONE, word); 
+	set_token_node(new, T_WORD, word); 
 }
 
 static void	find_next_token(char **input, t_node *new)

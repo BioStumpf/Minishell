@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 12:23:19 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/05/14 17:06:25 by david            ###   ########.fr       */
+/*   Updated: 2026/05/14 17:52:20 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,6 @@
 ///////////////////////////////////////////
 
 //structs and enums
-enum e_quote
-{
-	Q_NONE,
-	Q_SINGLE,
-	Q_DOUBLE
-};
-
 enum e_token
 {
 	T_NONE,
@@ -46,7 +39,6 @@ enum e_token
 typedef struct s_token
 {
 	enum e_token	type;
-	enum e_quote	quote;
 	char			*word;
 }					t_token;
 
@@ -70,7 +62,7 @@ void				set_word(char **input, char *word, size_t word_len);
 
 //utilities for linked list
 t_node				*new_token_node(void);
-void				set_token_node(t_node *new, enum e_token ttype, enum e_quote qtype, char *word);
+void				set_token_node(t_node *new, enum e_token ttype, char *word);
 
 //string utilities
 char				get_metachar(char c);

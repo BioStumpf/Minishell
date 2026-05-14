@@ -22,15 +22,13 @@ static t_token	*token_new(void)
 	if (!token)
 		return (NULL);
 	token->type = T_NONE;
-	token->quote = Q_NONE;
 	token->word = NULL;
 	return (token);
 }
 
-void	set_token_node(t_node *node, enum e_token ttype, enum e_quote qtype, char *word)
+void	set_token_node(t_node *node, enum e_token ttype, char *word)
 {
 	((t_token *)node->content)->type = ttype;
-	((t_token *)node->content)->quote = qtype;
 	((t_token *)node->content)->word = word;
 }
 
