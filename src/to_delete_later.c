@@ -6,7 +6,7 @@
 /*   By: david <user@student.42mail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/30 17:02:23 by david             #+#    #+#             */
-/*   Updated: 2026/05/06 22:00:27 by david            ###   ########.fr       */
+/*   Updated: 2026/05/07 14:38:13 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,6 @@ void	print_token(void *content)
 	token_map[T_REDIR_APPEND] = "REDIR_APPEND";
 	token_map[T_LEFT_PARA] = "LEFT_PARA";
 	token_map[T_RIGHT_PARA] = "RIGHT_PARA";
-	// token_map[T_SPACE] = "SPACE";
-	// token_map[T_NEWLINE] = "NEWLINE";
-	// token_map[T_TAB] = "TAB";
-	// token_map[T_SEMICOLON] = "SEMICOLON";
 	t_token *tok = (t_token *)content;
 	printf("Type: %s  ", token_map[tok->type]);
 	if (tok->type == T_WORD)

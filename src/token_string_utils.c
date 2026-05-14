@@ -6,7 +6,7 @@
 /*   By: david <user@student.42mail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/30 17:04:19 by david             #+#    #+#             */
-/*   Updated: 2026/05/06 16:32:22 by david            ###   ########.fr       */
+/*   Updated: 2026/05/14 16:19:33 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,4 +55,12 @@ char	is_double_metachar(char c)
 
 	double_metachars = "|&<>";
 	return (char_in_str(c, double_metachars));
+}
+
+char	is_quote(char c)
+{
+	const char	*quote;
+
+	quote = "\"\'";
+	return (char_in_str(c, quote));
 }

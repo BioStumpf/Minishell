@@ -12,6 +12,7 @@
 
 #include "parsing.h"
 #include "libft.h"
+#include "main.h"
 
 void	parse_input(t_data *dat)
 {
@@ -19,6 +20,7 @@ void	parse_input(t_data *dat)
 	//t_compound_tokens *compound_tokens;
 	//t_compound_commands *compound_commands;
 
+	set_error(OK, NOCHAR);
 	tokens = tokenize(dat);
 	ft_lstprint(tokens, print_token);
 	ft_lstclear(tokens, free_token);

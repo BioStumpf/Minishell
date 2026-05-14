@@ -27,21 +27,6 @@ static t_token	*token_new(void)
 	return (token);
 }
 
-void	free_token(void *token)
-{
-	// free(((t_token *)token)->word);
-	free(token);
-}
-
-void	token_cleanup(t_list *lst)
-{
-	int	ret_value;
-
-	ret_value = print_error();
-	ft_lstclear(lst, free_token);
-	exit(ret_value);
-}
-
 void	set_token_node(t_node *node, enum e_token ttype, enum e_quote qtype, char *word)
 {
 	((t_token *)node->content)->type = ttype;
