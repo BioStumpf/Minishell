@@ -29,7 +29,7 @@ char	get_metachar(char c)
 {
 	const char	*metachars;
 
-	metachars = "|&;()<> \t\n";
+	metachars = "\\|&;()<> \t\n";
 	return (char_in_str(c, metachars));
 }
 
