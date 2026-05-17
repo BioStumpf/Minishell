@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/14 18:21:16 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/05/07 17:24:48 by david            ###   ########.fr       */
+/*   Updated: 2026/05/17 19:28:06 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,9 @@
 #include <readline/history.h>
 #include "main.h"
 
-void	free_envp(t_data *dat)
+void	free_all(t_data *dat)
 {
+	rl_clear_history();
 	(void)dat;
 }
 
@@ -41,7 +42,7 @@ int main(int argc, char **argv, char **envp)
 		//clean_ast(dat.ast); //since we run infinetly, clean up the ast after each loop iteration
 		free(dat.input);
 		//set_last_return(&dat); //this is to fetch dat->return and set envp $? to this return
-		if (dat.quit == QUIT)
-			return (free_envp(&dat), 1);
+		if (fatal_error(&dat))
+			return (free_all(&dat), 1);
 	}
 }

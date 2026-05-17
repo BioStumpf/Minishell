@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 14:14:19 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/04/23 16:19:28 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/05/17 18:42:09 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	parse_input(t_data *dat)
 	//t_compound_tokens *compound_tokens;
 	//t_compound_commands *compound_commands;
 
-	set_error(OK, NOCHAR);
+	set_error(dat, OK);
 	tokens = tokenize(dat);
 	ft_lstprint(tokens, print_token);
 	ft_lstclear(tokens, free_token);

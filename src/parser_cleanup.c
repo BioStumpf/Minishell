@@ -6,10 +6,11 @@
 /*   By: david <user@student.42mail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/07 14:57:40 by david             #+#    #+#             */
-/*   Updated: 2026/05/14 17:03:02 by david            ###   ########.fr       */
+/*   Updated: 2026/05/17 19:09:34 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
 #include "main.h"
 #include "parsing.h"
 
@@ -19,10 +20,10 @@ void	free_token(void *token)
 	free(token);
 }
 
-void	token_cleanup(t_list *lst, t_data *dat)
+void	token_cleanup(t_list *lst, enum e_err status, t_data *dat, t_node *n)
 {
-	if (evaluate_state() == ERR_MALLOC)
-		dat->quit = QUIT;
-	dat->ret_code = get_and_print_error();
+	ft_lstdelone(n, free_token);
 	ft_lstclear(lst, free_token);
+	if (status != OK)
+		set_error(dat, status);
 }

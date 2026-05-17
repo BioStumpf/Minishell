@@ -6,7 +6,7 @@
 /*   By: david <user@student.42mail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/30 17:04:19 by david             #+#    #+#             */
-/*   Updated: 2026/05/14 16:19:33 by david            ###   ########.fr       */
+/*   Updated: 2026/05/17 17:35:06 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,23 +25,15 @@ static char	char_in_str(char c, const char *str)
 	return ('\0');
 }
 
-char	get_metachar(char c)
+char	is_single_metachar(char c)
 {
 	const char	*metachars;
 
-	metachars = "\\|&;()<> \t\n";
+	metachars = "|()<>";
 	return (char_in_str(c, metachars));
 }
 
-char	invalid_metachar(char c)
-{
-	const char	*invalid_token;
-
-	invalid_token = "&;\\";
-	return (char_in_str(c, invalid_token));
-}
-
-char	skip_metachar(char c)
+char	is_whitespace_metachar(char c)
 {
 	const char	*no_token;
 
@@ -49,12 +41,16 @@ char	skip_metachar(char c)
 	return (char_in_str(c, no_token));
 }
 
-char	is_double_metachar(char c)
+char	is_double_metachar(char *input)
 {
+	char		current;
+	char		next;
 	const char	*double_metachars;
 
+	current = *input;
+	next = *(input + 1);
 	double_metachars = "|&<>";
-	return (char_in_str(c, double_metachars));
+	return (char_in_str(current, double_metachars) && current == next);
 }
 
 char	is_quote(char c)

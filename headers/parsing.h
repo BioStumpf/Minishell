@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 12:23:19 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/05/14 17:52:20 by david            ###   ########.fr       */
+/*   Updated: 2026/05/17 21:36:13 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,10 @@ enum e_token
 	T_REDIR_APPEND = '>' * 2 + 1,
 	T_LEFT_PARA = '(',
 	T_RIGHT_PARA = ')',
+	SPACE = ' ',
+	TAB = ' ',
+	NEWLINE = ' '
+
 };
 
 typedef struct s_token
@@ -55,8 +59,8 @@ void	parse_input(t_data *dat);
 t_list				*tokenize(t_data *data);
 
 //helpers for word and metatokens
-int					double_ttype(char metachar);
-size_t				get_word_len(char *input);
+int					double_tok_type(char metachar);
+size_t				get_word_len(char *input, t_data *dat);
 void				set_word(char **input, char *word, size_t word_len);
 
 
@@ -65,10 +69,9 @@ t_node				*new_token_node(void);
 void				set_token_node(t_node *new, enum e_token ttype, char *word);
 
 //string utilities
-char				get_metachar(char c);
-char				is_double_metachar(char c);
-char				skip_metachar(char c);
-char				invalid_metachar(char c);
+char				is_double_metachar(char *input);
+char				is_single_metachar(char c);
+char				is_whitespace_metachar(char c);
 char				is_quote(char c);
 
 //to_delete_functions (just usefull for now)
@@ -76,7 +79,7 @@ void				print_token(void *content); //this need to be removed
 									//
 //cleanup
 void				free_token(void *token);
-void				token_cleanup(t_list *lst, t_data *dat);
+void				token_cleanup(t_list *lst, enum e_err status, t_data *dat, t_node *n);
 
 //////////////////
 //parser
