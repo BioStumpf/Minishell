@@ -6,7 +6,7 @@
 /*   By: david <user@student.42mail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/14 19:47:35 by david             #+#    #+#             */
-/*   Updated: 2026/05/17 15:26:28 by david            ###   ########.fr       */
+/*   Updated: 2026/05/17 22:15:41 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -310,6 +310,14 @@ static int	exec_builtin(t_ast *node, bool in_pipeline, t_data *dat)
 	//if we are in the parent process, we do not want to exit, since that would quit the shell all together, so just return to the calling function
 	else
 	{
+		//note i think saving the fds is not save, if we backup e.g. stdout into say fd == 4, and user specified sth like echo hello 4>file, then later during redirect, fd 4 will be redirected to the file and upon restoring stdout, stdout will also point to file after (since fd4 now points to file and restore sets stdout to whatever fd4 points to). 
+		//so during redirection, we should check if a redirection affects any of the backups we made, and incase it does, we should redo the backup
+		//so pass backup fds into redirect:
+		//redirect(node->left, fds);
+		//inside redirect:
+		//if (node-redir_fd is in backup_fds)
+		//	new_backup = dup(backed_up_colliding_fd)
+		//	close(backed_up_colliding_fd);
 		if (node->left)
 		{
 			save_std_fds(&fds);
@@ -330,9 +338,10 @@ int	execute(t_ast *node, bool in_pipeline, t_data *dat)
 		return (exec_or(node, in_pipeline, dat));
 	else if (node->type == PIPE)
 		return (exec_pipe(node, in_pipeline, dat));
-	else if (node->type == CMD_EXTERN)
+	else if (node->type == CMD_EXTERN) //note here i will just have a token for CMD not distinguishing between external or builtin there needs to be a function called is_builtin incase a command token node is read
 		return (exec_extern(node, in_pipeline, dat));
-	// else if (node->type == CMD_BUILTIN)
+	// else if (node->type == CMD && !is_bultin(node->cmd_argv[0])) //so sort of like this
+	// 	return (exec_extern(node, in_pipeline, dat));
 	else 
 		return (exec_builtin(node, in_pipeline, dat));
 }
@@ -362,7 +371,7 @@ int main(int ac, char **av, char **envp)
 	t_dummy left_redir1_node = {
 		.type = REDIR_OUTFILE,
 		.redir_file = "file",
-		.redir_fd_target = 1,
+		.redir_fd_target = 4,
 		.cmd_argv = NULL 
 	};
 	t_dummy left_redir2_node = {
@@ -399,17 +408,17 @@ int main(int ac, char **av, char **envp)
 
 	//make some dummy nodes for testing
 	// t_ast	*root = new_ast_node(&dat.ast, &pipe_node);
-	// t_ast	*root = new_ast_node(&dat.ast, &buitin_node);
+	t_ast	*root = new_ast_node(&dat.ast, &buitin_node);
 	// t_ast	*root = new_ast_node(&dat.ast, &extern_node);
-	t_ast	*root = new_ast_node(&dat.ast, &or_node);
-	t_ast	*left_cmd = new_ast_node(&dat.ast, &buitin_node);
-	t_ast	*right_cmd = new_ast_node(&dat.ast, &extern_node);
-	// t_ast	*left_redir1 = new_ast_node(&dat.ast, &left_redir1_node);
+	// t_ast	*root = new_ast_node(&dat.ast, &or_node);
+	// t_ast	*left_cmd = new_ast_node(&dat.ast, &buitin_node);
+	// t_ast	*right_cmd = new_ast_node(&dat.ast, &extern_node);
+	t_ast	*left_redir1 = new_ast_node(&dat.ast, &left_redir1_node);
 	// t_ast	*left_redir2 = new_ast_node(&dat.ast, &left_redir2_node);
 	// t_ast	*right_redir = new_ast_node(&dat.ast, &right_redir_node);
-	root->left = left_cmd;
-	// root->left = left_redir1;
-	root->right = right_cmd;
+	// root->left = left_cmd;
+	root->left = left_redir1;
+	// root->right = right_cmd;
 	// left_cmd->left = left_redir1;
 	// left_redir1->left = left_redir2;
 	// right_cmd->left = right_redir;
@@ -417,6 +426,6 @@ int main(int ac, char **av, char **envp)
 	//do execution of the dummy tree to test out execute() function
 	// print_tree(dat.ast.start, 0);
 	execute(dat.ast.start, NO_PIPELINE, &dat);
-	// write(STDOUT_FILENO, "Backup should be in terminal\n", 29); 
+	write(STDOUT_FILENO, "Backup should be in terminal\n", 29); 
 	free_ast(&dat.ast);
 }
