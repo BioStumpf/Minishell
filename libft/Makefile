@@ -13,9 +13,6 @@ DEPS := $(patsubst %.c, $(DEP_DIR)%.d, $(SRCS))
  
 all: $(NAME)
 
-nix: CFLAGS += -Wno-unused-result
-nix: all
-
 $(NAME): $(OBJS)
 	ar rcs $@ $?
 

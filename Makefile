@@ -24,13 +24,11 @@ LIBFT := $(addprefix $(LIBFT_DIR), libft.a)
 
 LIB_LINKS := $(LIBFT) -lreadline
 
-CFLAGS_OBJS = -Wall -Wextra -Werror -O1 -g -c $< -o $@ -U_FORTIFY_SOURCE -I$(LIBFT_DIR) -I$(HEADER_DIR) -fno-optimize-sibling-calls -fno-omit-frame-pointer -fno-inline
+CFLAGS_OBJS = -Wall -Wextra -Werror -g -c $< -o $@ -I$(LIBFT_DIR) -I$(HEADER_DIR)
 CFLAGS_NAME = -Wall -Wextra -Werror -g -o $@ $(OBJS) $(LIB_LINKS) 
 DEP_FLAGS = -MMD -MP -MT $@ -MF $(DEP_DIR)$*.d
 
 all: $(NAME)
-nix: CFLAGS_OBJS += -Wno-unused-result
-nix: all 
 
 $(NAME): $(LIBFT) $(OBJS) 
 	@echo -e 
@@ -39,7 +37,7 @@ $(NAME): $(LIBFT) $(OBJS)
 
 $(LIBFT): FORCE
 	@echo -e "$(GREEN)==$(BOLD)$(BLUE)Libft/Objs$(GREEN)==$(RESET)"
-	$(MAKE) --no-print-directory -sC $(LIBFT_DIR) $(MAKECMDGOALS)
+	$(MAKE) --no-print-directory -sC $(LIBFT_DIR)
 
 FORCE:
 	@echo -e "$(GREEN)======================================$(RESET)"
