@@ -6,7 +6,7 @@
 /*   By: david <user@student.42mail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/14 19:47:35 by david             #+#    #+#             */
-/*   Updated: 2026/05/17 22:15:41 by david            ###   ########.fr       */
+/*   Updated: 2026/05/18 08:56:42 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ enum e_token
 	NONE,
 	CMD_BUILTIN,
 	CMD_EXTERN,
+	// CMD, //this will be the real thing
 	WORD,
 	PIPE = '|',
 	AND	= '&' * 2 + 1,
@@ -51,7 +52,7 @@ typedef struct s_ast
 typedef struct s_ast_buff
 {
 	size_t	idx;
-	t_ast	*start;
+	t_ast	*start; //root
 }			t_ast_buff;
 
 typedef struct s_data
