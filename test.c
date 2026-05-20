@@ -6,7 +6,7 @@
 /*   By: david <user@student.42mail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/14 19:47:35 by david             #+#    #+#             */
-/*   Updated: 2026/05/18 08:56:42 by david            ###   ########.fr       */
+/*   Updated: 2026/05/20 10:43:35 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -367,7 +367,8 @@ int main(int ac, char **av, char **envp)
 		.type = CMD_EXTERN,
 		.redir_file = NULL,
 		.redir_fd_target = -1,
-		.cmd_argv = (char *[]){"/nix/store/vzx1mi9c0xfadmsm9dhd83d005cb1qs9-coreutils-9.8/bin/cat", "infile", NULL}
+		//.cmd_argv = (char *[]){"/nix/store/vzx1mi9c0xfadmsm9dhd83d005cb1qs9-coreutils-9.8/bin/cat", "infile", NULL}
+		.cmd_argv = (char *[]){"/usr/bin/cat", NULL}
 	};
 	t_dummy left_redir1_node = {
 		.type = REDIR_OUTFILE,
@@ -408,18 +409,18 @@ int main(int ac, char **av, char **envp)
 	dat.ast = ast_init(nodes);
 
 	//make some dummy nodes for testing
-	// t_ast	*root = new_ast_node(&dat.ast, &pipe_node);
-	t_ast	*root = new_ast_node(&dat.ast, &buitin_node);
+	t_ast	*root = new_ast_node(&dat.ast, &pipe_node);
+	//t_ast	*root = new_ast_node(&dat.ast, &buitin_node);
 	// t_ast	*root = new_ast_node(&dat.ast, &extern_node);
 	// t_ast	*root = new_ast_node(&dat.ast, &or_node);
-	// t_ast	*left_cmd = new_ast_node(&dat.ast, &buitin_node);
-	// t_ast	*right_cmd = new_ast_node(&dat.ast, &extern_node);
-	t_ast	*left_redir1 = new_ast_node(&dat.ast, &left_redir1_node);
+	t_ast	*left_cmd = new_ast_node(&dat.ast, &buitin_node);
+	t_ast	*right_cmd = new_ast_node(&dat.ast, &extern_node);
+	//t_ast	*left_redir1 = new_ast_node(&dat.ast, &left_redir1_node);
 	// t_ast	*left_redir2 = new_ast_node(&dat.ast, &left_redir2_node);
 	// t_ast	*right_redir = new_ast_node(&dat.ast, &right_redir_node);
-	// root->left = left_cmd;
-	root->left = left_redir1;
-	// root->right = right_cmd;
+	root->left = left_cmd;
+	//root->left = left_redir1;
+	root->right = right_cmd;
 	// left_cmd->left = left_redir1;
 	// left_redir1->left = left_redir2;
 	// right_cmd->left = right_redir;
@@ -427,6 +428,6 @@ int main(int ac, char **av, char **envp)
 	//do execution of the dummy tree to test out execute() function
 	// print_tree(dat.ast.start, 0);
 	execute(dat.ast.start, NO_PIPELINE, &dat);
-	write(STDOUT_FILENO, "Backup should be in terminal\n", 29); 
+	//write(STDOUT_FILENO, "Backup should be in terminal\n", 29); 
 	free_ast(&dat.ast);
 }
