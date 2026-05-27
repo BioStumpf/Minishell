@@ -6,13 +6,18 @@
 /*   By: david <user@student.42mail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/30 16:54:01 by david             #+#    #+#             */
-/*   Updated: 2026/05/06 21:56:43 by david            ###   ########.fr       */
+/*   Updated: 2026/05/26 15:05:34 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 #include "libft.h"
 #include "stdlib.h"
+
+t_token	*fetch_token(t_node *node)
+{
+	return ((t_token *)node->content);
+}
 
 static t_token	*token_new(void)
 {

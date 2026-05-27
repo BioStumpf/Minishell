@@ -14,7 +14,7 @@ SRCS_DIR := src/
 HEADER_DIR := headers/
 
 SRCS_main := main.c error_handling.c
-SRCS_david := parsing.c tokenize.c to_delete_later.c token_list_utils.c token_string_utils.c parser_cleanup.c token_word_utils.c token_metachar_utils.c
+SRCS_david := parsing.c tokenize.c to_delete_later.c token_list_utils.c token_string_utils.c parser_cleanup.c token_word_utils.c token_metachar_utils.c compound.c dynamic_compound_array.c
 SRCS_kian := 
 SRCS := $(SRCS_main) $(SRCS_kian) $(SRCS_david)
 SRCS := $(addprefix $(SRCS_DIR), $(SRCS))
