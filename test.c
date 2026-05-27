@@ -6,7 +6,7 @@
 /*   By: david <user@student.42mail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/14 19:47:35 by david             #+#    #+#             */
-/*   Updated: 2026/05/20 10:43:35 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/05/27 00:29:17 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ typedef struct s_ast
 {
 	enum e_token	type;
 	int				redir_fd;
+	int				redir_backup;
 	char			*redir_file;
 	char			**cmd_argv;
 	struct s_ast	*left;
@@ -88,6 +89,7 @@ t_ast	*new_ast_node(t_ast_buff *buff, t_dummy *node)
 	buff->idx++;
 	new->type = node->type;
 	new->redir_fd = node->redir_fd_target;
+	new->redir_backup = -1;
 	new->redir_file = node->redir_file;
 	new->cmd_argv = node->cmd_argv;
 	new->left = NULL;
@@ -220,10 +222,24 @@ static void	redirect(t_ast *redirection)
 
 	while (redirection)
 	{
+		redirection->redir_backup = dup(redirection->redir_fd);
 		fd = open(redirection->redir_file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 		dup2(fd, redirection->redir_fd);
 		close(fd);
 		redirection = redirection->left;
+	}
+}
+
+static void	restore_fds(t_ast *redirection)
+{
+	if (!redirection)
+		return ;
+	restore_fds(redirection->left);
+	if (redirection->redir_backup != -1)
+	{
+		dup2(redirection->redir_backup, redirection->redir_fd);
+		close(redirection->redir_backup);
+		redirection->redir_backup = -1;
 	}
 }
 
@@ -262,42 +278,10 @@ static int	which_builtin(char **argv)
 	return (0);
 }
 
-typedef struct s_fd_backup
-{
-	int	stdin_cpy;
-	int	stdout_cpy;
-	int	stderr_cpy;
-}		t_fd_backup;
-
-//TODO: set error inside dat so we can later identify what went wrong (dup failure)
-static int	save_std_fds(t_fd_backup *fds)
-{
-	fds->stdin_cpy = dup(STDIN_FILENO);
-	fds->stdout_cpy = dup(STDOUT_FILENO);
-	fds->stderr_cpy = dup(STDERR_FILENO);
-	if (fds->stdin_cpy == -1 || fds->stdout_cpy == -1 || fds->stderr_cpy == -1)
-		return (1);
-	return (0);
-}
-
-
-//TODO: pass dat here and set error if dup2 failure
-//so also protect for dup2 failure
-static int	restore_std_fds(t_fd_backup *fds)
-{
-	dup2(fds->stdin_cpy, STDIN_FILENO);
-	dup2(fds->stdout_cpy, STDOUT_FILENO);
-	dup2(fds->stderr_cpy, STDERR_FILENO);
-	close(fds->stdin_cpy);
-	close(fds->stdout_cpy);
-	close(fds->stderr_cpy);
-	return (0);
-}
-
 //TODO: protections for redirect
 static int	exec_builtin(t_ast *node, bool in_pipeline, t_data *dat)
 {
-	t_fd_backup	fds;
+	// t_fd_backup	fds;
 	int			status;
 
 	//for builtin, if we are in the pipeline we need to exit after executing the command (we dont want the child to be running anything else other then the actual command)
@@ -311,22 +295,9 @@ static int	exec_builtin(t_ast *node, bool in_pipeline, t_data *dat)
 	//if we are in the parent process, we do not want to exit, since that would quit the shell all together, so just return to the calling function
 	else
 	{
-		//note i think saving the fds is not save, if we backup e.g. stdout into say fd == 4, and user specified sth like echo hello 4>file, then later during redirect, fd 4 will be redirected to the file and upon restoring stdout, stdout will also point to file after (since fd4 now points to file and restore sets stdout to whatever fd4 points to). 
-		//so during redirection, we should check if a redirection affects any of the backups we made, and incase it does, we should redo the backup
-		//so pass backup fds into redirect:
-		//redirect(node->left, fds);
-		//inside redirect:
-		//if (node-redir_fd is in backup_fds)
-		//	new_backup = dup(backed_up_colliding_fd)
-		//	close(backed_up_colliding_fd);
-		if (node->left)
-		{
-			save_std_fds(&fds);
-			redirect(node->left);
-		}
+		redirect(node->left);
 		status = which_builtin(node->cmd_argv);
-		if (node->left)
-			restore_std_fds(&fds);
+		restore_fds(node->left);
 		return (status);
 	}
 }
@@ -367,13 +338,13 @@ int main(int ac, char **av, char **envp)
 		.type = CMD_EXTERN,
 		.redir_file = NULL,
 		.redir_fd_target = -1,
-		//.cmd_argv = (char *[]){"/nix/store/vzx1mi9c0xfadmsm9dhd83d005cb1qs9-coreutils-9.8/bin/cat", "infile", NULL}
-		.cmd_argv = (char *[]){"/usr/bin/cat", NULL}
+		.cmd_argv = (char *[]){"/nix/store/vzx1mi9c0xfadmsm9dhd83d005cb1qs9-coreutils-9.8/bin/cat", "infile", NULL}
+		// .cmd_argv = (char *[]){"/usr/bin/cat", NULL}
 	};
 	t_dummy left_redir1_node = {
 		.type = REDIR_OUTFILE,
 		.redir_file = "file",
-		.redir_fd_target = 4,
+		.redir_fd_target = 3,
 		.cmd_argv = NULL 
 	};
 	t_dummy left_redir2_node = {
@@ -409,18 +380,20 @@ int main(int ac, char **av, char **envp)
 	dat.ast = ast_init(nodes);
 
 	//make some dummy nodes for testing
-	t_ast	*root = new_ast_node(&dat.ast, &pipe_node);
-	//t_ast	*root = new_ast_node(&dat.ast, &buitin_node);
+	// t_ast	*root = new_ast_node(&dat.ast, &pipe_node);
+	t_ast	*root = new_ast_node(&dat.ast, &buitin_node);
 	// t_ast	*root = new_ast_node(&dat.ast, &extern_node);
 	// t_ast	*root = new_ast_node(&dat.ast, &or_node);
-	t_ast	*left_cmd = new_ast_node(&dat.ast, &buitin_node);
-	t_ast	*right_cmd = new_ast_node(&dat.ast, &extern_node);
-	//t_ast	*left_redir1 = new_ast_node(&dat.ast, &left_redir1_node);
-	// t_ast	*left_redir2 = new_ast_node(&dat.ast, &left_redir2_node);
+	// t_ast	*left_cmd = new_ast_node(&dat.ast, &buitin_node);
+	// t_ast	*right_cmd = new_ast_node(&dat.ast, &extern_node);
+	t_ast	*left_redir1 = new_ast_node(&dat.ast, &left_redir1_node); //3>file
+	// t_ast	*left_redir2 = new_ast_node(&dat.ast, &left_redir2_node); //>file2
 	// t_ast	*right_redir = new_ast_node(&dat.ast, &right_redir_node);
-	root->left = left_cmd;
-	//root->left = left_redir1;
-	root->right = right_cmd;
+	// root->left = left_cmd;
+	// root->left = left_redir2;
+	root->left = left_redir1;
+	// left_redir2->left = left_redir1;
+	// root->right = right_cmd;
 	// left_cmd->left = left_redir1;
 	// left_redir1->left = left_redir2;
 	// right_cmd->left = right_redir;
@@ -428,6 +401,6 @@ int main(int ac, char **av, char **envp)
 	//do execution of the dummy tree to test out execute() function
 	// print_tree(dat.ast.start, 0);
 	execute(dat.ast.start, NO_PIPELINE, &dat);
-	//write(STDOUT_FILENO, "Backup should be in terminal\n", 29); 
+	write(STDOUT_FILENO, "Backup should be in terminal\n", 29); 
 	free_ast(&dat.ast);
 }
