@@ -3,18 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   cleanup.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
+/*   By: knajmech <knajmech@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/27 07:31:26 by knajmech          #+#    #+#             */
-/*   Updated: 2026/05/10 09:48:38 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/06/01 08:17:20 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "headers/env.h"
-#include <errno.h>
-#include <stdio.h>
+#include "../headers/env.h"
 
-void	error_and_cleanup(t_data *data, char *error_desc)
+void	error_and_cleanup(t_data *data, char *error_desc, int status)
 {
 	t_list			*map_env;
 	t_node			*node;

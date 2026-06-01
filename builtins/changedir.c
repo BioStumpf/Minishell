@@ -6,7 +6,7 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/11 10:00:28 by knajmech          #+#    #+#             */
-/*   Updated: 2026/05/11 11:26:26 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/05/15 15:32:40 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,13 @@ int	change_dir(t_data *data)
 	char	*curdir;
 	char	*tmp;
 
+	if (ft_strchr(data->newdir, '\'))
+	{
+		chdir(data->newdir);
+		free(data->curdir);
+		data->curdir = data->newdir;
+		return (1);
+	}
 	curdir = ft_strjoin(data->cwd, "/");
 	if (!curdir)
 		error_and_cleanup(data, "malloc");

@@ -6,7 +6,7 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/11 07:52:24 by knajmech          #+#    #+#             */
-/*   Updated: 2026/05/12 09:57:17 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/05/27 12:37:13 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,5 +32,6 @@ void	export_var(t_data *data);
 void	unset_var(t_list *map_env, char *key);
 void	env_var(t_data *data);
 void	exit_minishell(t_data *data);
+int		execute_builtin(t_ast *node, bool in_pipeline, t_data *data);
 
 #endif

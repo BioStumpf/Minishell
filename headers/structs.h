@@ -6,7 +6,7 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/06 13:52:42 by knajmech          #+#    #+#             */
-/*   Updated: 2026/05/11 11:23:03 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/06/01 08:53:17 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,23 +15,79 @@
 
 # include "../libft/libft.h"
 
+typedef struct s_env_tracker t_env_tracker;
+
+enum e_token
+{
+	NONE,
+	CMD,
+	WORD,
+	PIPE = '|',
+	AND	= '&' * 2 + 1,
+	OR = '|' * 2 + 1,
+	REDIR_INFILE = '<',
+	REDIR_OUTFILE = '>',
+	REDIR_HEREDOC = '<' * 2 + 1,
+	REDIR_APPEND = '>' * 2 + 1,
+	LEFT_PARA = '(',
+	RIGHT_PARA = ')',
+};
+
+typedef struct s_ast
+{
+	enum e_token	type;
+	int				in_redir_fd;
+	char			*out_redir_file;
+	char			**cmd_argv;
+	struct s_ast	*left;
+	struct s_ast	*right;
+}					t_ast;
+
+typedef struct s_ast_buff
+{
+	size_t	idx;
+	t_ast	*start; //root
+}			t_ast_buff;
+
+typedef struct s_data
+{
+	// char		quit;
+	// char		*input;
+	// int		ret_code;
+	t_ast_buff		ast;
+	char			*input;
+	char			**new_variable;
+	char			*find_var;
+	char			*cwd;
+	char			*newdir;
+	t_env_tracker	*env_mp;
+	//char		**envp; //this needs to be changed to whatever the envp struct is
+}				t_data;
+
+typedef struct s_pipe_manager
+{
+	bool	in_pipeline;
+	pid_t	child[2];
+	t_data	*data;
+}				t_pipe_manager;
+
 typedef enum e_builtin
 {
-	echo,
-	cd,
-	pwd,
-	expo,
-	unset,
-	env,
-	exit_shell
+	ECHO,
+	CD,
+	PWD,
+	EXPO,
+	UNSET,
+	ENV,
+	EXIT
 }			t_builtin;
 
 typedef struct s_env_tracker
 {
-	int					capacity;
-	int					elem_num;
-	t_list				*env_ptr;
-}						t_env_tracker;
+	int		capacity;
+	int		elem_num;
+	t_list	*env_ptr;
+}			t_env_tracker;
 
 typedef struct s_env
 {
@@ -39,7 +95,7 @@ typedef struct s_env
 	char	*value;
 }			t_env;
 
-typedef struct s_data
+/*typedef struct s_data
 {
 	char			*input;
 	char			**new_variable;
@@ -47,6 +103,6 @@ typedef struct s_data
 	char			*cwd;
 	char			*newdir;
 	t_env_tracker	*env_mp;
-}			t_data;
+}			t_data;*/
 
 #endif

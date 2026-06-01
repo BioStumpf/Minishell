@@ -6,96 +6,109 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/25 10:17:19 by knajmech          #+#    #+#             */
-/*   Updated: 2026/05/28 16:20:14 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/06/01 08:58:18 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../headers/main.h"
 
-int	execute(t_ast *node, bool in_pipeline, t_data *data);
+int	execute(t_ast *node, t_pipe_manager *pipe_info);
 
-int	child_forking(t_data *data, t_ast *direction, int fd, int std_fd)
+int	launch_childp(t_ast *direction, int *fds, int std_fd,
+		t_pipe_manager *pipe_info)
 {
+	
 	if (std_fd == 1)
-		close(fd - 1);
+	{
+		close(fds[0]);
+	}
 	else
-		close(fd + 1);
-	if (dup2(fd, std_fd) == -1)
+		close(fds[1]);
+	if (dup2(fds[std_fd], std_fd) == -1)
 		return (-1);
-	close(fd);
-	exit(execute(direction, IN_PIPELINE, data));
+	close(fds[std_fd]);
+	return (execute(direction, pipe_info));
 }
 
-int	execute_pipe(t_ast *node, bool in_pipeline, t_data *data)
+int	exec_pipe(t_ast *node, t_pipe_manager *pipe_info)
 {
-	pid_t	child[2];
 	int		fds[2];
+	pid_t	child[2];
 	int		status;
 
 	if (pipe(fds) == -1)
-		error_and_cleanup(data, "pipe");
+		error_and_cleanup(pipe_info->data, "pipe", 0);
 	child[0] = fork();
-	if (child[0] < 0)
-		error_and_cleanup(data, "fork");
+	if (child[0] == -1)
+		error_and_cleanup(pipe_info->data, "fork", 0);
 	else if (child[0] == 0)
-		if (child_forking(data, node->left, fds[1], STDOUT_FILENO) == -1)
-			error_and_cleanup(data, "dup2");
+	{
+		status = launch_childp(node->left, fds, STDOUT_FILENO, pipe_info);
+		error_and_cleanup(pipe_info->data, NULL, status);
+	}
 	child[1] = fork();
-	if (child[1] < 0)
-		error_and_cleanup(data, "fork");
-	else if (child[1] == 0)
-		if (child_forking(data, node->right, fds[0], STDIN_FILENO) == -1)
-			error_and_cleanup(data, "dup2");
-	waitpid(child[0], NULL, 0);
-	waitpid(child[1], &status, 0);
-	if (in_pipeline)
-		exit (WEXITSTATUS(status));
-	return (WEXITSTATUS(status));
+	if (child[1] == -1)
+		error_and_cleanup(pipe_info->data, "fork", 0);
+	else if (child[0] == 0)
+	{
+		status = launch_childp(node->left, fds, STDOUT_FILENO, pipe_info);
+		error_and_cleanup(pipe_info->data, NULL, status);
+	}
+
 }
 
-int	execute_or(t_ast *node, bool in_pipeline, t_data *data)
+int	exec_or(t_ast *node, t_pipe_manager *pipe_info)
 {
 	int	status;
 
-	status = execute(node->left, NO_PIPELINE, data);
-	if (status)
-		status = execute(node->right, NO_PIPELINE, data);
-	if (in_pipeline)
-		exit(status);
+	assert(node->left != NULL && node->right != NULL);
+	pipe_info->in_pipeline = NO_PIPELINE;
+	status = execute(node->left, pipe_info);
+	if (status > 0)
+		status = execute(node->right, pipe_info);
+	if (pipe_info->in_pipeline)
+		error_and_cleanup(pipe_info->data, "execution", status);
 	return (status);
 }
 
-int	execute_and(t_ast *node, bool in_pipeline, t_data *data)
+int	exec_and(t_ast *node, t_pipe_manager *pipe_info)
 {
 	int	status;
 
-	status = execute(node->left, NO_PIPELINE, data);
-	if (!status)
-		status = execute(node->right, NO_PIPELINE, data);
-	if (in_pipeline)
-		exit(status);
+	assert(node->left != NULL && node->right != NULL);
+	pipe_info->in_pipeline = NO_PIPELINE;
+	status = execute(node->left, pipe_info);
+	if (status == 0)
+		status = execute(node->right, pipe_info);
+	if (pipe_info->in_pipeline)
+		error_and_cleanup(pipe_info->data, "execution", status);
 	return (status);
 }
 
-int	execute(t_ast *node, bool in_pipeline, t_data *data)
+int	execute(t_ast *node, t_pipe_manager *pipe_info)
 {
 	if (node->type == AND)
-		return (execute_and(node, in_pipeline, data));
+		return (exec_and(node, pipe_info));
 	else if (node->type == OR)
-		return (execute_or(node, in_pipeline, data));
+		return (exec_or(node, pipe_info));
 	else if (node->type == PIPE)
-		return (execute_pipe(node, in_pipeline, data));
+		return (exec_pipe(node, pipe_info));
 	else if (node->type == CMD && is_builtin(node->cmd_argv[0]) > -1)
-		return (execute_builtin(node, in_pipeline, data));
+		return (exec_builtin(node, pipe_info));
 	else
-		return (execute_extern(node, in_pipeline, data));
+		return (exec_extern(node, pipe_info));
 }
 
 int	coordinate_exec(t_data *data)
 {
-	t_ast	*node;
+	t_ast			*node;
+	t_pipe_manager	pipe_info;
 
 	assert(data->ast && data->ast.start);
+	pipe_info.data = data;
+	pipe_info.in_pipeline = NO_PIPELINE;
+	pipe_info.child[0] = 0;
+	pipe_info.child[1] = 0;
 	node = data->ast.start;
-	execute(node, NO_PIPELINE, data);
+	execute(node, &pipe_info);
 }

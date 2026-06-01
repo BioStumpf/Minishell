@@ -6,7 +6,7 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/12 09:27:50 by knajmech          #+#    #+#             */
-/*   Updated: 2026/05/12 09:50:55 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/05/15 15:46:00 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	export_var(t_data *data)
 	while (i <= data->env_mp->capacity)
 	{
 		if (env_arr[i].head)
-			print_expolist(env_arr[i].head, env_arr[i].len);
+			print_expolist(env_arr[i].head);
 		i++;
 	}
 	assert(i == data->env_mp->capacity);

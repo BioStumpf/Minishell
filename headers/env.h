@@ -6,7 +6,7 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/23 08:18:08 by knajmech          #+#    #+#             */
-/*   Updated: 2026/05/10 10:36:57 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/06/01 08:16:50 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void			unset_variable(t_list *map_env, char *key);
 t_env			*make_kv_node(char *key, char *val);
 t_env			*ft_newnode(void *value);
 t_env			*hash_search(t_node *list, char *key);
-void			error_and_cleanup(t_data *data, char *error_str);
+void			error_and_cleanup(t_data *data, char *error_str, int status);
 unsigned int	find_hash_key(char	*key);
 int				insert_new(t_list *env_ptr, t_env_tracker *tracker,
 					char **new_variable);

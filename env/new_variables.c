@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   new_variables.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
+/*   By: knajmech <knajmech@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/06 11:01:30 by knajmech          #+#    #+#             */
-/*   Updated: 2026/05/08 12:04:43 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/05/12 11:13:09 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "headers/env.h"
+#include "../headers/env.h"
 
 int	replace_or_add(t_list *map_env, t_env_tracker *tracker,
 		unsigned int key_index, char **env_var)

@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
+/*   By: knajmech <knajmech@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 09:36:17 by knajmech          #+#    #+#             */
-/*   Updated: 2026/05/10 10:27:30 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/05/28 15:54:01 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "headers/env.h"
+#include "../headers/env.h"
 #include <assert.h>
 
 t_env	*make_kv_node(char *key, char *val)
@@ -35,13 +35,13 @@ int	hash_function(t_list *map_env, t_env_tracker *tracker,
 	char				*value[2];
 
 	assert(key_index <= (unsigned int) tracker->capacity);
-	value[1] = ft_strdup(ft_strchr(env_var, '=') + 1);
 	value[0] = ft_strndup(env_var,'=');
-	if (!value[0])
+	value[1] = ft_strdup(ft_strchr(env_var, '=') + 1);
+	if (!value[0] || !value[1])
 		return (free(value[0]), free(value[1]), 0);
 	key_val_node = hash_search((map_env[key_index].head), value[0]);
 	if (key_val_node)
-		return (key_val_node->value = value[1], 1);
+		return (free(value[0]), key_val_node->value = value[1], 1);
 	key_val_node = make_kv_node(value[0], value[1]);
 	content_node = ft_nodenew(key_val_node);
 	if (!content_node)
@@ -72,7 +72,7 @@ int	fill_env(t_list *map_env, t_env_tracker *tracker, char **env)
 
 int	initialise_env(t_env_tracker *tracker)
 {
-	static t_list	map_env[CAPACITY + 1];
+	static t_list	map_env[CAPACITY];
 
 	tracker->elem_num = 0;
 	tracker->capacity = CAPACITY;
@@ -109,11 +109,11 @@ int	main(int argc, char **argv, char **env)
 	(void) argc;
 	(void) argv;
 	process_env(&data, env);
-	char	*variables[2]={"VAR", "FOO"};
-	data.new_variable = variables;
-	process_env(&data, env);
-	unsigned int	key = find_hash_key(data.new_variable[0]);
-	tmp = hash_search(data.env_mp->env_ptr[key].head, data.new_variable[0]);
+	//char	*variables[2]={"VAR", "FOO"};
+	//data.new_variable = variables;
+	//process_env(&data, env);
+	unsigned int	key = find_hash_key("SHLVL");
+	tmp = hash_search(data.env_mp->env_ptr[key].head, "SHLVL");
 	if (tmp->key)
 		printf("%s\n", tmp->value);
 	error_and_cleanup(&data, NULL);

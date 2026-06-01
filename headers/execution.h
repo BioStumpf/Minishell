@@ -1,32 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.h                                             :+:      :+:    :+:   */
+/*   execution.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
+/*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/20 14:52:11 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/05/27 09:10:05 by knajmech         ###   ########.fr       */
+/*   Created: 2026/05/27 09:07:15 by knajmech          #+#    #+#             */
+/*   Updated: 2026/05/27 09:12:38 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MAIN_H
-# define MAIN_H
+#ifndef EXECUTION_H
+# define EXECUTION_H
 
-# include <stddef.h>
+# define NO_PIPELINE 0
+# define IN_PIPELINE 1
+
+# include <unistd.h>
+# include <stdlib.h>
 # include <stdio.h>
-# include "env.h"
-# include "structs.h"
-# include "execution.h"
-
-/*typedef struct s_data
-{
-	char			*input;
-	char			**new_variable;
-	char			*find_var;
-	char			*cwd;
-	char			*newdir;
-	t_env_tracker	*env_mp;
-}			t_data;*/
+# include <sys/wait.h>
+# include <stdbool.h>
+# include <fcntl.h>
+# include <unistd.h>
 
 #endif
+
