@@ -6,7 +6,7 @@
 /*   By: david <user@student.42mail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/26 13:37:33 by david             #+#    #+#             */
-/*   Updated: 2026/05/27 15:28:07 by david            ###   ########.fr       */
+/*   Updated: 2026/06/02 15:14:13 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,8 @@ t_compound_arr	*compound_group(t_data *dat, t_list *tokens)
 	(void)dat;
 	t_compound_arr	*ca;
 
+	if (!tokens)
+		return (NULL);
 	ca = malloc(sizeof(t_compound_arr));
 	if (!ca)
 		return (NULL);
@@ -86,7 +88,7 @@ t_compound_arr	*compound_group(t_data *dat, t_list *tokens)
 	if (!ca->arr)
 		return (free(ca), NULL);
 	if (!init_args(&ca->arr->args))
-		return (NULL);
+		return (free(ca), NULL);
 	make_compound_arr(ca, tokens);
 	return (ca);
 }

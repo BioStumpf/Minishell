@@ -6,7 +6,7 @@
 /*   By: david <user@student.42mail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/30 17:02:23 by david             #+#    #+#             */
-/*   Updated: 2026/05/27 10:12:52 by david            ###   ########.fr       */
+/*   Updated: 2026/06/02 15:15:14 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 
 void	print_token(void *content)
 {
+	if (!content)
+		return ;
 	char *token_map[253];
 	token_map[T_WORD] = "WORD";
 	token_map[T_PIPE] = "PIPE";
@@ -35,6 +37,8 @@ void	print_token(void *content)
 
 void	print_compound(t_compound_arr *compounds)
 {
+	if (!compounds)
+		return ;
 	char *token_map[253];
 	token_map[CMD] = "CMD";
 	token_map[T_WORD] = "WORD";

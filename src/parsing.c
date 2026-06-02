@@ -13,7 +13,7 @@
 #include "parsing.h"
 #include "libft.h"
 #include "main.h"
-#include "ft_printf.h"
+// #include "ft_printf.h"
 
 void	parse_input(t_data *dat)
 {
