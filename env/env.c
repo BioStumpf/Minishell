@@ -6,7 +6,7 @@
 /*   By: knajmech <knajmech@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 09:36:17 by knajmech          #+#    #+#             */
-/*   Updated: 2026/05/28 15:54:01 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/06/02 15:02:58 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,9 @@ t_env	*make_kv_node(char *key, char *val)
 	assert(key != NULL);
 	assert(val != NULL);
 	node->key = key;
+	node->key_w_equal = ft_strjoin(key, "=");
+	if (!node->key_w_equal)
+		return NULL;
 	node->value = val;
 	return (node);
 }
@@ -88,7 +91,7 @@ int process_env(t_data *data, char **env)
 	{
 		initialise_env(&tracker); 
 		if (!fill_env(tracker.env_ptr, &tracker, env))
-			error_and_cleanup(data, "malloc");
+			error_and_cleanup(data, "malloc", 0);
 		data->env_mp = &tracker;
 		return (1);
 	}

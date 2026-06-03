@@ -1,36 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   echo.c                                             :+:      :+:    :+:   */
+/*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/05/11 09:33:31 by knajmech          #+#    #+#             */
-/*   Updated: 2026/06/01 10:54:25 by knajmech         ###   ########.fr       */
+/*   Created: 2026/06/03 09:24:30 by knajmech          #+#    #+#             */
+/*   Updated: 2026/06/03 11:59:00 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../headers/main.h"
 
-int	echo_print(char **string_arg)
+void	redirections(t_data *data, t_ast *redir, char **cmd)
 {
-	int	i;
-	int	newline_flag;
+	int	saved_fd;
+	int	file_fd;
 
-	assert(string_arg != NULL);
-	i = 1;
-	newline_flag = 1;
-	if (!ft_strncmp(string_arg[1], "-n", 3))
+	if (!redir)
 	{
-		i++;
-		newline_flag = 0;
+		which_builtin(data, cmd, is_builtin(cmd[0]));
+		return ;
 	}
-	while (string_arg[i])
-	{
-		printf("%s ", string_arg[i]);
-		i++;
-	}
-	if (newline_flag == 1)
-		printf("\n");
-	return (0);
+	file_fd = open(redir->out_redir_file,
+				O_CREAT | O_CREAT | O_WRONLY, 0664);
+	saved_fd = dup(redir->in_redir_fd);
+	dup2(file_fd, redir->in_redir_fd);
+	close(file_fd);
+	redirections(data, redir->left, cmd);
+	dup2(saved_fd, redir->in_redir_fd);
+	close(saved_fd);
 }
+

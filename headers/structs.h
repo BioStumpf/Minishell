@@ -6,7 +6,7 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/06 13:52:42 by knajmech          #+#    #+#             */
-/*   Updated: 2026/06/01 08:53:17 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/06/03 11:50:01 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ typedef struct s_ast
 {
 	enum e_token	type;
 	int				in_redir_fd;
+	int				out_redir_fd;
 	char			*out_redir_file;
 	char			**cmd_argv;
 	struct s_ast	*left;
@@ -66,7 +67,9 @@ typedef struct s_data
 
 typedef struct s_pipe_manager
 {
+	bool	cmd_found;
 	bool	in_pipeline;
+	char	*pathwcmd;
 	pid_t	child[2];
 	t_data	*data;
 }				t_pipe_manager;
@@ -92,6 +95,7 @@ typedef struct s_env_tracker
 typedef struct s_env
 {
 	char	*key;
+	char	*key_w_equal;
 	char	*value;
 }			t_env;
 

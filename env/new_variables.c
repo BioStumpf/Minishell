@@ -6,11 +6,40 @@
 /*   By: knajmech <knajmech@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/06 11:01:30 by knajmech          #+#    #+#             */
-/*   Updated: 2026/05/12 11:13:09 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/06/02 15:41:32 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../headers/env.h"
+
+char	**env_ptrptr(t_data *data, t_list *env_list, char **env)
+{
+	t_node	*node_list;
+	t_env	*key_and_val;
+	int		i;
+	int		k;
+
+	i = 0;
+	k = 0;
+	while (i < CAPACITY)
+	{
+		node_list = (t_node *) env_list[i].head;
+		k = 0;
+		while (node_list)
+		{
+			key_and_val = (t_env *)node_list->content;
+			assert(node_list && key_and_val);
+			env[i] = ft_strjoin(key_and_val->key_w_equal, key_and_val->value);
+			k++;
+			if (env[i])
+				free_out(env, k);
+			node_list = node_list->content;
+		}
+		i++;
+	}
+	env[i] = 0;
+	return (env);
+}
 
 int	replace_or_add(t_list *map_env, t_env_tracker *tracker,
 		unsigned int key_index, char **env_var)

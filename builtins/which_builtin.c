@@ -6,7 +6,7 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/08 12:05:48 by knajmech          #+#    #+#             */
-/*   Updated: 2026/05/27 12:37:16 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/06/01 11:02:51 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	is_builtin(char *cmd)
 	return (-1);
 }
 
-int	which_builtin(t_data *data, t_ast *node, int builtin_call)
+int	which_builtin(t_data *data, char **cmd_argv, int builtin_call)
 {
 	t_builtin	e_builtin;
 	int			status;

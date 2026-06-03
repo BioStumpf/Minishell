@@ -6,7 +6,7 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/11 07:52:24 by knajmech          #+#    #+#             */
-/*   Updated: 2026/05/27 12:37:13 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/06/01 11:03:11 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,9 @@
 # define ENV 5
 # define EXIT 6
 
-int		which_builtin(t_data *built_in, int builtin_call);
-int		echo_print(t_data *data, int flag);
+int		is_builtin(char *cmd);
+int		which_builtin(t_data *built_in, char **cmd_argv, int builtin_call);
+int		echo_print(char **echo_string);
 int		change_dir(t_data *data);
 int		pworkdir(t_data *data);
 void	export_var(t_data *data);
