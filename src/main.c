@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/14 18:21:16 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/05/17 19:28:06 by david            ###   ########.fr       */
+/*   Updated: 2026/06/03 13:51:02 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ void	free_all(t_data *dat)
 	rl_clear_history();
 	(void)dat;
 }
-
 
 int main(int argc, char **argv, char **envp)
 {

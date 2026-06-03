@@ -6,7 +6,7 @@
 /*   By: david <user@student.42mail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/26 13:37:33 by david             #+#    #+#             */
-/*   Updated: 2026/06/02 15:14:13 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/06/03 13:46:39 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,13 @@ static size_t	count_compounds(t_list *tokens)
 
 static void	add_words(t_compound *compound, t_node **token)
 {
+	void	*s;
+
 	while (*token && fetch_token(*token)->type == T_WORD)
 	{
-		add_arg(&compound->args, compound->args.size, fetch_token(*token)->word);
+		s = add_arg(&compound->args, compound->args.size, fetch_token(*token)->word);
+		if (!s)
+			return ;
 		*token = (*token)->next;
 	}
 }

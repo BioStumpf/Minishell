@@ -15,8 +15,8 @@
 #ifndef MAIN_H
 # define MAIN_H
 
-# define QUIT 1
-# define CONTINUE 1
+// # define QUIT 1
+// # define CONTINUE 1
 # define NOCHAR 0
 # define NOWORD NULL
 
