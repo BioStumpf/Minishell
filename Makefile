@@ -13,9 +13,15 @@ LIBFT_DIR := libft/
 SRCS_DIR := src/
 HEADER_DIR := headers/
 
+<<<<<<< HEAD
 SRCS_main := main.c
 SRCS_david := parsing.c tokenize.c
 SRCS_kian := env.c cleanup.c new_variables.c hash_search.c 
+=======
+SRCS_main := main.c error_handling.c
+SRCS_david := parsing.c tokenize.c to_delete_later.c token_list_utils.c token_string_utils.c parser_cleanup.c token_word_utils.c token_metachar_utils.c compound.c dynamic_compound_array.c
+SRCS_kian := 
+>>>>>>> parsing
 SRCS := $(SRCS_main) $(SRCS_kian) $(SRCS_david)
 SRCS := $(addprefix $(SRCS_DIR), $(SRCS))
 OBJS := $(patsubst $(SRCS_DIR)%.c, $(OBJ_DIR)%.o, $(SRCS))
@@ -31,18 +37,18 @@ DEP_FLAGS = -MMD -MP -MT $@ -MF $(DEP_DIR)$*.d
 all: $(NAME)
 
 $(NAME): $(LIBFT) $(OBJS) 
-	@echo 
-	@echo "$(GREEN)==$(BOLD)$(BLUE)Executable$(GREEN)==$(RESET)"
+	@echo -e 
+	@echo -e "$(GREEN)==$(BOLD)$(BLUE)Executable$(GREEN)==$(RESET)"
 	$(CC) $(CFLAGS_NAME)
 
 $(LIBFT): FORCE
-	@echo "$(GREEN)==$(BOLD)$(BLUE)Libft/Objs$(GREEN)==$(RESET)"
+	@echo -e "$(GREEN)==$(BOLD)$(BLUE)Libft/Objs$(GREEN)==$(RESET)"
 	$(MAKE) --no-print-directory -sC $(LIBFT_DIR)
 
 FORCE:
-	@echo "$(GREEN)======================================$(RESET)"
-	@echo "$(BOLD)$(BLUE)       Compile Project          $(RESET)"
-	@echo "$(GREEN)======================================$(RESET)"
+	@echo -e "$(GREEN)======================================$(RESET)"
+	@echo -e "$(BOLD)$(BLUE)       Compile Project          $(RESET)"
+	@echo -e "$(GREEN)======================================$(RESET)"
 
 test:
 	@cc tests/base_test.c -Ilibft -Llibft -lft -lcriterion -o test
@@ -60,27 +66,27 @@ $(OBJ_DIR):
 	mkdir -p $@
 
 localclean:
-	@echo "$(GREEN)======================================$(RESET)"
-	@echo "$(BOLD)$(BLUE)       LOCAL CLEANING          $(RESET)"
-	@echo "$(GREEN)======================================$(RESET)"
+	@echo -e "$(GREEN)======================================$(RESET)"
+	@echo -e "$(BOLD)$(BLUE)       LOCAL CLEANING          $(RESET)"
+	@echo -e "$(GREEN)======================================$(RESET)"
 	rm -rf $(OBJ_DIR)
 	rm -rf $(DEP_DIR)
-	@echo 
+	@echo -e 
 
 clean: localclean
-	@echo "$(GREEN)======================================$(RESET)"
-	@echo "$(BOLD)$(BLUE)       CLEANING          $(RESET)"
-	@echo "$(GREEN)======================================$(RESET)"
+	@echo -e "$(GREEN)======================================$(RESET)"
+	@echo -e "$(BOLD)$(BLUE)       CLEANING          $(RESET)"
+	@echo -e "$(GREEN)======================================$(RESET)"
 	$(MAKE) --no-print-directory -sC $(LIBFT_DIR) clean
-	@echo 
+	@echo -e 
 
 fclean: localclean
-	@echo "$(GREEN)======================================$(RESET)"
-	@echo "$(BOLD)$(BLUE)       FCLEANING          $(RESET)"
-	@echo "$(GREEN)======================================$(RESET)"
+	@echo -e "$(GREEN)======================================$(RESET)"
+	@echo -e "$(BOLD)$(BLUE)       FCLEANING          $(RESET)"
+	@echo -e "$(GREEN)======================================$(RESET)"
 	rm -rf $(NAME)
 	$(MAKE) --no-print-directory -sC $(LIBFT_DIR) fclean
-	@echo 
+	@echo -e 
 
 re: fclean all
 

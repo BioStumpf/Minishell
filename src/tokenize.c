@@ -6,172 +6,96 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 15:15:50 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/04/24 18:03:53 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/05/17 21:37:34 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parsing.h"
-#include "stdlib.h"
 #include "libft.h"
+#include "main.h"
+#include "parsing.h"
+#include "unistd.h"
 
-static t_word	*word_new(enum e_quote quote, char *lexeme)
+//after knowing the current char is a metachar, check if its a double (&& || >> <<)
+//if not double metachar but and and, we dont want to do anything because in our minishell this one does not have special meaning
+//whitespace metachar that we should skip (SPACE TAB \n)
+//or else a valid single metachar ( | < > ')' '(' )
+static int	meta_token(char **input, t_node *new)
 {
-	t_word	*word;
-
-	word = malloc(sizeof(t_word));
-	if (!word)
-		return (NULL);
-	word->quote = quote;
-	word->lexeme = lexeme;
-	return (word);
-}
-
-static t_token	*token_new(enum e_token type, t_word *word)
-{
-	t_token *token;
-
-	token = malloc(sizeof(t_token));
-	if (!token)
-		return (NULL);
-	token->type = type;
-	token->word = word;
-	return (token);
-}
-
-void	free_token(void *token)
-{
-	free(((t_token *)token)->word);
-	free(token);
-}
-
-static void	cleanup(t_list *lst)
-{
-	ft_lstclear(lst, free_token);
-	exit(1);
-}
-
-t_node	*new_token_node(enum e_token type, enum e_quote quote, char *lexeme)
-{
-	t_token	*token;
-	t_word	*word;
-	t_node	*node;
-
-	word = NULL;
-	if (type == WORD)
+	if (is_double_metachar(*input))
 	{
-		word = word_new(quote, lexeme);
-		if (!word)
-			return (NULL);
-	}
-	token = token_new(type, word);
-	if (!token)
-		return (free(word), NULL);
-	node = ft_nodenew(token);
-	if (!node)
-		return (free(word), free(token), NULL);
-	return (node);
-}
-
-static char	char_in_str(char c, const char *str)
-{
-	size_t		i;
-
-	i = -1;
-	while (str[++i])
-	{
-		if (str[i] == c)
-			return (c);
-	}
-	return ('\0');
-}
-
-static char	get_metachar(char c)
-{
-	const char	*metachars;
-
-	metachars = "|&;()<> \t\n";
-	return (char_in_str(c, metachars));
-}
-
-static char	is_double_metachar(char c)
-{
-	const char	*double_metachars;
-
-	double_metachars = "|&<>";
-	return (char_in_str(c, double_metachars));
-}
-
-//note for tokens: &&, ||, >> or << the actual numeric enum value/type variable inside the token
-//refers to 2 * token + 1 which is passed to new_token_node
-static t_node	*meta_token(char **input, char metachar)
-{
-	if (is_double_metachar(**input) && (*input)[1] == metachar)
-	{
+		set_token_node(new, double_tok_type(**input), NOWORD);
 		(*input) = (*input) + 2;
-		return (new_token_node(metachar	* 2 + 1, NONE, NULL));
+		return (2);
 	}
-	(*input)++;
-	return (new_token_node(metachar, NONE, NULL));
-}
-
-static t_node	*word_token(char **input)
-{
-	(void)input;
-	while (**input && !get_metachar(**input))
+	else if (is_whitespace_metachar(**input))
+	{
 		(*input)++;
-	return (new_token_node(WORD, NONE, "test_word"));
+		return (1);
+	}
+	else if (is_single_metachar(**input))
+	{
+		set_token_node(new, **input, NOWORD);
+		(*input)++;
+		return (1);
+	}
+	return (0);
 }
 
-t_node	*find_next_token(char **input)
+static void	word_token(char **input, t_node *new, t_data *dat)
 {
-	char	metachar;
+	char	*word;
+	size_t	word_len;
 
-	metachar = get_metachar(**input);
-	if (metachar)
-		return (meta_token(input, metachar));
-	return (word_token(input));
+	word_len = get_word_len(*input, dat);
+	if (!status_ok(dat))
+		return ;
+	word = malloc(sizeof(char) * (word_len + 1));
+	if (!word)
+		return (set_error(dat, ERR_MALLOC), (void)0);
+	set_word(input, word, word_len);
+	set_token_node(new, T_WORD, word); 
+}
+
+static void	find_next_token(char **input, t_node *new, t_data *dat)
+{
+	int			token_bytes;
+
+	//what if char **input is nothing?
+	token_bytes = meta_token(input, new);
+	if (token_bytes == 0)
+		word_token(input, new, dat);
+}
+
+static bool	empty_node(t_node *node)
+{
+	return (((t_token *)node->content)->type == T_NONE);
 }
 
 t_list	*tokenize(t_data *dat)
 {
-	char	*input;
-	t_node	*new_node;
-	t_list	*lst;
+	char		*input;
+	t_node		*node;
+	t_list		*lst;
 
 	input = dat->input;
 	lst = ft_lstnew();
+	node = NULL;
 	if (!lst)
-		cleanup(lst);
+		return (token_cleanup(lst, ERR_MALLOC, dat, node), NULL);
 	while (*input)
 	{
-		new_node = find_next_token(&input);
-		if (!new_node)
-			cleanup(lst);
-		ft_lstadd_back(lst, new_node);
+		node = new_token_node();
+		if (!node)
+			return (token_cleanup(lst, ERR_MALLOC, dat, node), NULL);
+		find_next_token(&input, node, dat);
+		if (!status_ok(dat))
+			return (token_cleanup(lst, OK, dat, node), NULL);
+		if (empty_node(node))
+		{
+			ft_lstdelone(node, free_token);
+			node = NULL;
+		}
+		ft_lstadd_back(lst, node);
 	}
 	return (lst);
-}
-
-//remove this funciton since its not relevant just for debugging
-#include "stdio.h"
-
-void	print_token(void *content)
-{
-	char *token_map[253];
-	token_map[WORD] = "WORD";
-	token_map[PIPE] = "PIPE";
-	token_map[AND] = "AND";
-	token_map[OR] = "OR";
-	token_map[REDIR_INFILE] = "REDIR_INFILE";
-	token_map[REDIR_OUTFILE] = "REDIR_OUTFILE";
-	token_map[REDIR_HEREDOC] = "REDIR_HEREDOC";
-	token_map[REDIR_APPEND] = "REDIR_APPEND";
-	token_map[LEFT_PARA] = "LEFT_PARA";
-	token_map[RIGHT_PARA] = "RIGHT_PARA";
-	token_map[' '] = "SPACE";
-	t_token *tok = (t_token *)content;
-	printf("Type: %s  ", token_map[tok->type]);
-	if (tok->type == WORD)
-		printf("Word: %s", tok->word->lexeme);
-	printf("\n");
 }
