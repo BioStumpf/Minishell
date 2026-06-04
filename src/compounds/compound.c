@@ -6,7 +6,7 @@
 /*   By: david <user@student.42mail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/26 13:37:33 by david             #+#    #+#             */
-/*   Updated: 2026/06/04 16:42:31 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/06/04 20:04:03 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static size_t	count_compounds(t_list *tokens)
 	in_cmd = false;
 	while (cur)
 	{
-		if (fetch_token(cur)->type != WORD) 
+		if (tok_type(cur) != WORD) 
 		{
 			in_cmd = false;
 			count++;
@@ -41,13 +41,13 @@ static size_t	count_compounds(t_list *tokens)
 	return (count);
 }
 
-static bool	add_words(t_compound *compound, t_node **token)
+static bool	add_words(t_compound *comp, t_node **token)
 {
 	void	*s;
 
-	while (*token && fetch_token(*token)->type == WORD)
+	while (*token && tok_type(*token) == WORD) 
 	{
-		s = add_arg(&compound->args, compound->args.size, fetch_token(*token)->word);
+		s = add_arg(comp_args(comp), arg_size(comp), tok_word(*token));
 		if (!s)
 			return (false);
 		*token = (*token)->next;
@@ -64,9 +64,9 @@ static bool	make_compound_arr(t_compound_arr *ca, t_list *tokens)
 	cur = tokens->head;
 	while (i < ca->len)
 	{
-		if (fetch_token(cur)->type != WORD)
+		if (tok_type(cur))
 		{
-			ca->arr[i].type = fetch_token(cur)->type;
+			ca->arr[i].type = tok_type(cur);
 			cur = cur->next;
 		}
 		else

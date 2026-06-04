@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/04 11:00:01 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/06/04 15:40:37 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/06/04 21:19:41 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,20 @@
 ///////////////////////////////////////////
 //tokenizer structs and enums
 ///////////////////////////////////////////
+//task: add to tokenizer the capability of directly associating the next word as 
 typedef struct s_token
 {
 	enum e_token	type;
-	char			*word;
-}					t_token;
+	union
+	{
+		char	*word;
+		struct
+		{
+			int		fd;
+			char	*filename;
+		} s_redir;
+	} u_value;
+}	t_token;
 
 //////////////////
 //functions
@@ -44,9 +53,16 @@ void				set_word(char **input, char *word, size_t word_len);
 
 
 //utilities for linked list
-t_token				*fetch_token(t_node *node);
 t_node				*new_token_node(void);
-void				set_token_node(t_node *new, enum e_token ttype, char *word);
+void				set_redir_tok(t_node *node, enum e_token ttype, int fd, char *file);
+void				set_word_tok(t_node *node, enum e_token ttype, char *word);
+void				set_tok(t_node *node, enum e_token ttype);
+
+//utilities for accessing linked list token attributes
+char				*tok_word(t_node *node);
+char				*tok_filename(t_node *node);
+int					tok_fd(t_node *node);
+enum e_token		tok_type(t_node *node);
 
 //string utilities
 char				is_double_metachar(char *input);
@@ -81,8 +97,16 @@ typedef struct s_arg
 typedef struct s_compound
 {
 	enum e_token	type;
-	t_arg			args;
-}					t_compound;
+	union
+	{
+		t_arg	args;
+		struct
+		{
+			int		fd;
+			char	*filename;
+		} s_redir;
+	} u_value;
+}	t_compound;
 
 typedef struct	s_compound_arr
 {
@@ -91,6 +115,17 @@ typedef struct	s_compound_arr
 }				t_compound_arr;
 
 //functions
+//accessors for compounds
+enum e_token		comp_type(t_compound *comp);
+int					comp_fd(t_compound *comp);
+char				*comp_filename(t_compound *comp);
+t_arg				*comp_args(t_compound *comp);
+size_t				arg_size(t_compound *comp);
+size_t				arg_capacity(t_compound *comp);
+char				**arg_av(t_compound *comp);
+size_t				arr_len(t_compound_arr *comps);
+t_compound			*arr_get(t_compound_arr *comps, size_t idx);
+
 //dynamic argument array
 bool				init_args(t_arg *args);
 void				*add_arg(t_arg *args, size_t idx, char *arg);

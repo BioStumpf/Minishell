@@ -6,12 +6,13 @@
 /*   By: david <user@student.42mail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/30 17:02:23 by david             #+#    #+#             */
-/*   Updated: 2026/06/04 11:08:01 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/06/04 21:21:34 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "stdio.h"
 #include "parsing.h"
+#include "structs.h"
 
 void	print_token(void *content)
 {
@@ -31,7 +32,13 @@ void	print_token(void *content)
 	t_token *tok = (t_token *)content;
 	printf("Type: %s  ", token_map[tok->type]);
 	if (tok->type == WORD)
-		printf("Word: %s", tok->word);
+		printf("Word: %s", tok->u_value.word);
+	else if (tok->type == REDIR_APPEND || tok->type == REDIR_OUTFILE
+			|| tok->type == REDIR_HEREDOC || tok->type == REDIR_INFILE)
+	{
+		printf("fd: %d    ", tok->u_value.s_redir.fd);
+		printf("filename: %s", tok->u_value.s_redir.filename);
+	}
 	printf("\n");
 }
 
@@ -57,10 +64,10 @@ void	print_compound(t_compound_arr *compounds)
 	while (i < compounds->len)
 	{
 		j = 0;
-		comp = &compounds->arr[i++];
-		printf("Compound type: %s\n", token_map[comp->type]);
-		while (j < comp->args.size)
-			printf("%s  ", comp->args.av[j++]);
+		comp = arr_get(compounds, i++);
+		printf("Compound type: %s\n", token_map[comp_type(comp)]);
+		while (j < arg_size(comp))
+			printf("%s  ", arg_av(comp)[j++]); 
 		printf("\n");
 	}
 }
