@@ -6,17 +6,28 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/03 09:24:30 by knajmech          #+#    #+#             */
-/*   Updated: 2026/06/04 10:40:00 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/06/04 11:15:16 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../headers/main.h"
 
-int	fd_assign(enum e_token type, char *file_name)
+int	fd_assign(enum e_token type, char *file_name, t_data *data)
 {
 	int	fd;
 
-
+	if (type == REDIR_INFILE)
+		fd = open(file);
+	else if (type == REDIR_OUTFILE)
+		fd = open(file);
+	
+	else if (type == REDIR_HEREDOC)
+		fd = open(file);
+	
+	else if (type == REDIR_APPEND)
+		fd = open(file);
+	if (fd == -1)
+		error_and_cleanup(data, "open", 0);
 }
 
 void	redirections(t_data *data, t_ast *redir, char **cmd)
