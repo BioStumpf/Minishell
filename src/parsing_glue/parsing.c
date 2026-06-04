@@ -6,13 +6,14 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 14:14:19 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/06/03 15:16:56 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/06/04 16:46:31 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 #include "libft.h"
 #include "err.h"
+#include "structs.h"
 // #include "ft_printf.h"
 
 void	parse_input(t_data *dat)
@@ -21,7 +22,8 @@ void	parse_input(t_data *dat)
 	t_compound_arr *compound_tokens;
 	//t_compound_commands *compound_commands;
 
-	set_error(dat, OK);
+	if (!dat->input)
+		return ;
 	tokens = tokenize(dat);
 	// ft_lstprint(tokens, print_token);
 	compound_tokens = compound_group(dat, tokens);

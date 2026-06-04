@@ -6,7 +6,7 @@
 /*   By: david <user@student.42mail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/26 13:37:33 by david             #+#    #+#             */
-/*   Updated: 2026/06/04 15:43:46 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/06/04 16:42:31 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,9 +92,9 @@ t_compound_arr	*compound_group(t_data *dat, t_list *tokens)
 		return (free_compound(ca, ERR_MALLOC, dat), NULL);
 	ca->len = count_compounds(tokens);
 	ca->arr = malloc(sizeof(t_compound) * ca->len);
-	ft_bzero(ca->arr, ca->len * (sizeof(t_compound)));
 	if (!ca->arr)
 		return (free_compound(ca, ERR_MALLOC, dat), NULL);
+	ft_bzero(ca->arr, ca->len * (sizeof(t_compound)));
 	if (!make_compound_arr(ca, tokens))
 		return (free_compound(ca, ERR_MALLOC, dat), NULL);
 	return (ca);
