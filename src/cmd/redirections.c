@@ -38,9 +38,7 @@ void	redirections(t_data *data, t_ast *redir, char **cmd)
 {
 	int	saved_fd;
 	int	file_fd;
-	int	double_or_single;
 
-	double_or_single = 1;
 	if (!redir)
 	{
 		which_builtin(data, cmd, is_builtin(cmd[0]));
