@@ -6,7 +6,7 @@
 /*   By: david <user@student.42mail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/26 18:24:02 by david             #+#    #+#             */
-/*   Updated: 2026/06/02 16:03:21 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/06/04 15:36:03 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	*add_arg(t_arg *args, size_t idx, char *arg)
 	void	*dest;
 	void	*src;
 
-	if (idx > args->size)
+	if (!args->av && !init_args(args))
 		return (NULL);
 	if (args->size >= args->capacity)
 	{

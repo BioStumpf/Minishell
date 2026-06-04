@@ -6,7 +6,7 @@
 /*   By: david <user@student.42mail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/26 13:37:33 by david             #+#    #+#             */
-/*   Updated: 2026/06/04 11:10:23 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/06/04 15:43:46 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,20 +80,6 @@ static bool	make_compound_arr(t_compound_arr *ca, t_list *tokens)
 	return (true);
 }
 
-static bool	init_compound_arr(t_compound_arr *ca)
-{
-	size_t	i;
-
-	i = 0;
-	while (i < ca->len)
-	{
-		if (!init_args(&ca->arr[i].args))
-			return (false);
-		i++;
-	}
-	return (true);
-}
-
 t_compound_arr	*compound_group(t_data *dat, t_list *tokens)
 {
 	(void)dat;
@@ -106,9 +92,8 @@ t_compound_arr	*compound_group(t_data *dat, t_list *tokens)
 		return (free_compound(ca, ERR_MALLOC, dat), NULL);
 	ca->len = count_compounds(tokens);
 	ca->arr = malloc(sizeof(t_compound) * ca->len);
+	ft_bzero(ca->arr, ca->len * (sizeof(t_compound)));
 	if (!ca->arr)
-		return (free_compound(ca, ERR_MALLOC, dat), NULL);
-	if (!init_compound_arr(ca))
 		return (free_compound(ca, ERR_MALLOC, dat), NULL);
 	if (!make_compound_arr(ca, tokens))
 		return (free_compound(ca, ERR_MALLOC, dat), NULL);
