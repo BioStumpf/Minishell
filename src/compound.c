@@ -6,7 +6,7 @@
 /*   By: david <user@student.42mail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/26 13:37:33 by david             #+#    #+#             */
-/*   Updated: 2026/06/03 13:46:39 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/06/04 11:10:23 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static size_t	count_compounds(t_list *tokens)
 	in_cmd = false;
 	while (cur)
 	{
-		if (fetch_token(cur)->type != T_WORD) 
+		if (fetch_token(cur)->type != WORD) 
 		{
 			in_cmd = false;
 			count++;
@@ -41,20 +41,21 @@ static size_t	count_compounds(t_list *tokens)
 	return (count);
 }
 
-static void	add_words(t_compound *compound, t_node **token)
+static bool	add_words(t_compound *compound, t_node **token)
 {
 	void	*s;
 
-	while (*token && fetch_token(*token)->type == T_WORD)
+	while (*token && fetch_token(*token)->type == WORD)
 	{
 		s = add_arg(&compound->args, compound->args.size, fetch_token(*token)->word);
 		if (!s)
-			return ;
+			return (false);
 		*token = (*token)->next;
 	}
+	return (true);
 }
 
-static void	make_compound_arr(t_compound_arr *ca, t_list *tokens)
+static bool	make_compound_arr(t_compound_arr *ca, t_list *tokens)
 {
 	size_t	i;
 	t_node	*cur;
@@ -63,7 +64,7 @@ static void	make_compound_arr(t_compound_arr *ca, t_list *tokens)
 	cur = tokens->head;
 	while (i < ca->len)
 	{
-		if (fetch_token(cur)->type != T_WORD)
+		if (fetch_token(cur)->type != WORD)
 		{
 			ca->arr[i].type = fetch_token(cur)->type;
 			cur = cur->next;
@@ -71,10 +72,26 @@ static void	make_compound_arr(t_compound_arr *ca, t_list *tokens)
 		else
 		{
 			ca->arr[i].type = CMD;
-			add_words(&ca->arr[i], &cur);
+			if (!add_words(&ca->arr[i], &cur))
+				return (false);
 		}
 		i++;
 	}
+	return (true);
+}
+
+static bool	init_compound_arr(t_compound_arr *ca)
+{
+	size_t	i;
+
+	i = 0;
+	while (i < ca->len)
+	{
+		if (!init_args(&ca->arr[i].args))
+			return (false);
+		i++;
+	}
+	return (true);
 }
 
 t_compound_arr	*compound_group(t_data *dat, t_list *tokens)
@@ -86,13 +103,14 @@ t_compound_arr	*compound_group(t_data *dat, t_list *tokens)
 		return (NULL);
 	ca = malloc(sizeof(t_compound_arr));
 	if (!ca)
-		return (NULL);
+		return (free_compound(ca, ERR_MALLOC, dat), NULL);
 	ca->len = count_compounds(tokens);
 	ca->arr = malloc(sizeof(t_compound) * ca->len);
 	if (!ca->arr)
-		return (free(ca), NULL);
-	if (!init_args(&ca->arr->args))
-		return (free(ca), NULL);
-	make_compound_arr(ca, tokens);
+		return (free_compound(ca, ERR_MALLOC, dat), NULL);
+	if (!init_compound_arr(ca))
+		return (free_compound(ca, ERR_MALLOC, dat), NULL);
+	if (!make_compound_arr(ca, tokens))
+		return (free_compound(ca, ERR_MALLOC, dat), NULL);
 	return (ca);
 }

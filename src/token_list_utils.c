@@ -26,7 +26,7 @@ static t_token	*token_new(void)
 	token = malloc(sizeof(t_token));
 	if (!token)
 		return (NULL);
-	token->type = T_NONE;
+	token->type = NONE;
 	token->word = NULL;
 	return (token);
 }

@@ -5,42 +5,20 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/20 12:23:19 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/06/03 15:18:15 by knajmech         ###   ########.fr       */
+/*   Created: 2026/06/04 11:00:01 by dstumpf           #+#    #+#             */
+/*   Updated: 2026/06/04 11:00:17 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PARSING_H
 # define PARSING_H
 
-#include "main.h"
 #include "libft.h"
+#include "structs.h"
 
 ///////////////////////////////////////////
 //tokenizer structs and enums
 ///////////////////////////////////////////
-
-//structs and enums
-/*enum e_token
-{
-	T_NONE,
-	CMD,
-	T_WORD,
-	T_PIPE = '|',
-	T_AND	= '&' * 2 + 1,
-	T_OR = '|' * 2 + 1,
-	T_REDIR_INFILE = '<',
-	T_REDIR_OUTFILE = '>',
-	T_REDIR_HEREDOC = '<' * 2 + 1,
-	T_REDIR_APPEND = '>' * 2 + 1,
-	T_LEFT_PARA = '(',
-	T_RIGHT_PARA = ')',
-	SPACE = ' ',
-	TAB = ' ',
-	NEWLINE = ' '
-
-};*/
-
 typedef struct s_token
 {
 	enum e_token	type;
@@ -113,13 +91,17 @@ typedef struct	s_compound_arr
 }				t_compound_arr;
 
 //functions
-//make dynamic argument array work
+//dynamic argument array
 bool				init_args(t_arg *args);
 void				*add_arg(t_arg *args, size_t idx, char *arg);
+void				free_args(t_arg *args);
 
+//compound forming and freeing
 t_compound_arr		*compound_group(t_data *dat, t_list *tokens);
+void				free_compound(t_compound_arr *ca, enum e_err status, t_data *dat);
 
 //to_delete_functions (just usefull for now)
 void				print_token(void *content); //this need to be removed
 void				print_compound(t_compound_arr *compounds);
+
 #endif

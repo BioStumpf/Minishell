@@ -6,12 +6,15 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/06 13:52:42 by knajmech          #+#    #+#             */
-/*   Updated: 2026/06/04 10:40:05 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/06/04 11:01:50 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef STRUCTS_H
 # define STRUCTS_H
+
+//parsing macro definition for tokenizer
+# define NOWORD NULL
 
 # include "../libft/libft.h"
 
@@ -32,32 +35,11 @@ enum e_token
 	LEFT_PARA = '(',
 	RIGHT_PARA = ')',
 };
-/*
-enum e_token
-{
-	T_NONE,
-	CMD,
-	T_WORD,
-	T_PIPE = '|',
-	T_AND	= '&' * 2 + 1,
-	T_OR = '|' * 2 + 1,
-	T_REDIR_INFILE = '<',
-	T_REDIR_OUTFILE = '>',
-	T_REDIR_HEREDOC = '<' * 2 + 1,
-	T_REDIR_APPEND = '>' * 2 + 1,
-	T_LEFT_PARA = '(',
-	T_RIGHT_PARA = ')',
-	SPACE = ' ',
-	TAB = ' ',
-	NEWLINE = ' '
-
-};*/
 
 typedef struct s_ast
 {
 	enum e_token	type;
 	int				in_redir_fd;
-//	int				out_redir_fd;
 	char			*out_redir_file;
 	char			**cmd_argv;
 	struct s_ast	*left;
@@ -74,15 +56,11 @@ enum e_err
 {
     OK,
     ERR_MALLOC,
-    // PARSE_ERR_INVALID_CHAR,
     PARSE_ERR_UNCLOSED_QUOTES
 };
 
 typedef struct s_data
 {
-	// char		quit;
-	// char		*input;
-	// int		ret_code;
 	t_ast_buff		ast;
 	char			*input;
 	char			**new_variable;
@@ -93,19 +71,6 @@ typedef struct s_data
 	int				ret_code;
 	t_env_tracker	*env_mp;
 }				t_data;
-/*
-	// char		quit;
-	// char		*input;
-	// int		ret_code;
-	t_ast_buff		ast;
-	char			*input;
-	char			**new_variable;
-	char			*find_var;
-	char			*cwd;
-	char			*newdir;
-	t_env_tracker	*env_mp;
-	//char		**envp; //this needs to be changed to whatever the envp struct is
-}				t_data;*/
 
 typedef struct s_pipe_manager
 {
@@ -140,15 +105,5 @@ typedef struct s_env
 	char	*key_w_equal;
 	char	*value;
 }			t_env;
-
-/*typedef struct s_data
-{
-	char			*input;
-	char			**new_variable;
-	char			*find_var;
-	char			*cwd;
-	char			*newdir;
-	t_env_tracker	*env_mp;
-}			t_data;*/
 
 #endif

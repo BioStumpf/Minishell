@@ -6,13 +6,13 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 15:15:50 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/06/04 09:56:33 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/06/04 11:10:11 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include "main.h"
 #include "parsing.h"
+#include "err.h"
 
 //after knowing the current char is a metachar, check if its a double (&& || >> <<)
 //if not double metachar but and and, we dont want to do anything because in our minishell this one does not have special meaning
@@ -52,7 +52,7 @@ static void	word_token(char **input, t_node *new, t_data *dat)
 	if (!word)
 		return (set_error(dat, ERR_MALLOC), (void)0);
 	set_word(input, word, word_len);
-	set_token_node(new, T_WORD, word); 
+	set_token_node(new, WORD, word); 
 }
 
 static void	find_next_token(char **input, t_node *new, t_data *dat)
@@ -67,7 +67,7 @@ static void	find_next_token(char **input, t_node *new, t_data *dat)
 
 static bool	empty_node(t_node *node)
 {
-	return (((t_token *)node->content)->type == T_NONE);
+	return (((t_token *)node->content)->type == NONE);
 }
 
 t_list	*tokenize(t_data *dat)

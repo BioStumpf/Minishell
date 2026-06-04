@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "main.h"
+#include "structs.h"
 #include "ft_printf.h"
 
 static int	print_error_get_return(enum e_err err)

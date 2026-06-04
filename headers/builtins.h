@@ -6,15 +6,15 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/11 07:52:24 by knajmech          #+#    #+#             */
-/*   Updated: 2026/06/04 08:51:53 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/06/04 10:58:12 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef BUILTINS_H
 # define BUILTINS_H
 
-# include "main.h"
 # include <unistd.h>
+# include "structs.h"
 
 /*# define ECHO 0
 # define CD 1

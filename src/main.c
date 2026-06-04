@@ -5,18 +5,16 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/14 18:21:16 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/06/03 15:16:41 by knajmech         ###   ########.fr       */
+/*   Created: 2026/06/04 11:02:46 by dstumpf           #+#    #+#             */
+/*   Updated: 2026/06/04 11:03:04 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-// #include "libft.h"
 #include <stdio.h>
 #include "libft.h"
-#include "../headers/parsing.h"
+#include "parsing.h"
 #include <readline/readline.h>
 #include <readline/history.h>
-#include "../headers/main.h"
 
 void	free_all(t_data *dat)
 {
@@ -41,7 +39,8 @@ int main(int argc, char **argv, char **envp)
 		//clean_ast(dat.ast); //since we run infinetly, clean up the ast after each loop iteration
 		free(dat.input);
 		//set_last_return(&dat); //this is to fetch dat->return and set envp $? to this return
-		if (fatal_error(&dat))
-			return (free_all(&dat), 1);
+		return (free_all(&dat), 1);
+		// if (fatal_error(&dat))
+		// 	return (free_all(&dat), 1);
 	}
 }

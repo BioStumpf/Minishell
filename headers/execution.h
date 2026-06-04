@@ -6,7 +6,7 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/27 09:07:15 by knajmech          #+#    #+#             */
-/*   Updated: 2026/06/03 12:01:17 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/06/04 10:59:18 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@
 # include <stdbool.h>
 # include <fcntl.h>
 # include <unistd.h>
-# include "builtins.h"
+# include "structs.h"
+// # include "builtins.h"
 
 void	redirections(t_data *data, t_ast *redir, char **cmd);
 char	**free_out(char **out, size_t len);

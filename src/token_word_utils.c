@@ -6,11 +6,12 @@
 /*   By: david <user@student.42mail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/14 17:06:36 by david             #+#    #+#             */
-/*   Updated: 2026/05/17 21:32:43 by david            ###   ########.fr       */
+/*   Updated: 2026/06/04 11:09:08 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <parsing.h>
+#include "parsing.h"
+#include "err.h"
 
 static bool	is_metachar(char *input)
 {

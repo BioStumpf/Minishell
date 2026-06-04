@@ -6,7 +6,7 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/23 08:18:08 by knajmech          #+#    #+#             */
-/*   Updated: 2026/06/04 08:08:50 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/06/04 10:58:27 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,7 @@
 # define ENV_H
 
 # include <assert.h>
-# include <errno.h>
-# include "main.h"
+// # include <errno.h>
 # include "structs.h"
 # include "../libft/libft.h"
 # define CAPACITY 67
