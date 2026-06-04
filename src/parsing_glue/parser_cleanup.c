@@ -6,14 +6,13 @@
 /*   By: david <user@student.42mail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/07 14:57:40 by david             #+#    #+#             */
-/*   Updated: 2026/06/04 21:01:43 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/06/05 10:54:24 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "parsing.h"
 #include "err.h"
-
 void	free_token(void *token)
 {
 	free(((t_token *)token)->u_value.word);
