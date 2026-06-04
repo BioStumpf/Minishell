@@ -6,11 +6,13 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/08 12:05:48 by knajmech          #+#    #+#             */
-/*   Updated: 2026/06/04 08:54:08 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/06/04 11:58:15 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../headers/main.h"
+#include "structs.h"
+#include "libft.h"
+#include "builtins.h"
 
 int	is_builtin(char *cmd)
 {

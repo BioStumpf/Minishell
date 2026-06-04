@@ -6,11 +6,13 @@
 /*   By: knajmech <knajmech@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/27 07:31:26 by knajmech          #+#    #+#             */
-/*   Updated: 2026/06/04 08:01:58 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/06/04 11:52:04 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../headers/env.h"
+#include <errno.h>
+#include <execution.h>
+#include "env.h"
 
 void	error_and_cleanup(t_data *data, char *error_desc, int status)
 {

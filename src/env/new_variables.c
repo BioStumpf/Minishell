@@ -6,11 +6,13 @@
 /*   By: knajmech <knajmech@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/06 11:01:30 by knajmech          #+#    #+#             */
-/*   Updated: 2026/06/04 08:07:56 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/06/04 11:57:27 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../headers/env.h"
+#include "env.h"
+#include "structs.h"
+#include "execution.h"
 
 char	**env_ptrptr(t_data *dat, t_list *env_list, char **env)
 {

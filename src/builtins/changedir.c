@@ -6,11 +6,13 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/11 10:00:28 by knajmech          #+#    #+#             */
-/*   Updated: 2026/06/04 07:28:06 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/06/04 12:02:51 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../headers/builtins.h"
+#include "structs.h"
+#include "builtins.h"
+#include "env.h"
 
 int	change_dir(t_data *data)
 {

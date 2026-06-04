@@ -6,11 +6,14 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/25 10:17:19 by knajmech          #+#    #+#             */
-/*   Updated: 2026/06/04 08:59:09 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/06/04 11:42:47 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../headers/main.h"
+#include "structs.h"
+#include "execution.h"
+#include "env.h"
+#include "builtins.h"
 
 int	execute(t_ast *node, t_pipe_manager *pipe_info);
 
@@ -132,11 +135,11 @@ int	exec_builtin(t_ast *node, t_pipe_manager *pipe_info)
 
 int	execute(t_ast *node, t_pipe_manager *pipe_info)
 {
-	if (node->type == T_AND)
+	if (node->type == AND)
 		return (exec_and(node, pipe_info));
-	else if (node->type == T_OR)
+	else if (node->type == OR)
 		return (exec_or(node, pipe_info));
-	else if (node->type == T_PIPE)
+	else if (node->type == PIPE)
 		return (exec_pipe(node, pipe_info));
 	else if (node->type == CMD && is_builtin(node->cmd_argv[0]) > -1)
 		return (exec_builtin(node, pipe_info));

@@ -6,11 +6,13 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/03 07:24:21 by knajmech          #+#    #+#             */
-/*   Updated: 2026/06/04 08:01:23 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/06/04 11:48:26 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../headers/main.h"
+#include "libft.h"
+#include "env.h"
+#include "structs.h"
 
 char	*check_access(t_pipe_manager *pipe_info, char *ptc, char *cmd)
 {

@@ -6,11 +6,11 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/11 09:33:31 by knajmech          #+#    #+#             */
-/*   Updated: 2026/06/04 07:28:26 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/06/04 12:01:59 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../headers/main.h"
+#include "execution.h"
 
 int	echo_print(char **string_arg)
 {

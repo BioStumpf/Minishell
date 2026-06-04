@@ -6,11 +6,13 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/12 09:27:50 by knajmech          #+#    #+#             */
-/*   Updated: 2026/06/04 07:31:39 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/06/04 12:00:18 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../headers/builtins.h"
+#include "structs.h"
+#include "env.h"
+#include "execution.h"
 
 void	print_expolist(t_node	*env_list)
 {

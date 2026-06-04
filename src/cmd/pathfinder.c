@@ -6,11 +6,13 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/01 11:52:36 by knajmech          #+#    #+#             */
-/*   Updated: 2026/06/04 07:33:04 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/06/04 11:44:18 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../headers/main.h"
+#include "libft.h"
+#include "structs.h"
+#include "env.h"
 
 char	**free_out(char **out, size_t len)
 {

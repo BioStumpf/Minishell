@@ -6,12 +6,16 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/03 09:24:30 by knajmech          #+#    #+#             */
-/*   Updated: 2026/06/04 11:15:16 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/06/04 11:50:59 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../headers/main.h"
+#include "structs.h"
+#include "env.h"
+#include "execution.h"
+#include "builtins.h"
 
+/*
 int	fd_assign(enum e_token type, char *file_name, t_data *data)
 {
 	int	fd;
@@ -28,7 +32,7 @@ int	fd_assign(enum e_token type, char *file_name, t_data *data)
 		fd = open(file);
 	if (fd == -1)
 		error_and_cleanup(data, "open", 0);
-}
+}*/
 
 void	redirections(t_data *data, t_ast *redir, char **cmd)
 {
@@ -42,8 +46,6 @@ void	redirections(t_data *data, t_ast *redir, char **cmd)
 		which_builtin(data, cmd, is_builtin(cmd[0]));
 		return ;
 	}
-	if (redir->type == T_)
-
 	file_fd = open(redir->out_redir_file,
 				O_CREAT | O_CREAT | O_WRONLY, 0664);
 	saved_fd = dup(redir->in_redir_fd);

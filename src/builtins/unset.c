@@ -6,11 +6,12 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/11 09:37:47 by knajmech          #+#    #+#             */
-/*   Updated: 2026/06/04 07:32:06 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/06/04 11:58:43 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../headers/builtins.h"
+#include "structs.h"
+#include "env.h"
 
 void	unset_var(t_list *map_env, char *key)
 {
