@@ -6,11 +6,11 @@
 /*   By: knajmech <knajmech@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 09:36:17 by knajmech          #+#    #+#             */
-/*   Updated: 2026/06/02 15:02:58 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/06/04 08:59:46 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../headers/env.h"
+#include "../../headers/env.h"
 #include <assert.h>
 
 t_env	*make_kv_node(char *key, char *val)
@@ -104,7 +104,7 @@ int process_env(t_data *data, char **env)
 	return (0);
 }
 
-int	main(int argc, char **argv, char **env)
+/*int	main(int argc, char **argv, char **env)
 {
 	static t_data	data;
 	t_env			*tmp;
@@ -119,5 +119,5 @@ int	main(int argc, char **argv, char **env)
 	tmp = hash_search(data.env_mp->env_ptr[key].head, "SHLVL");
 	if (tmp->key)
 		printf("%s\n", tmp->value);
-	error_and_cleanup(&data, NULL);
-}
+	error_and_cleanup(&data, NULL, 0);
+}*/

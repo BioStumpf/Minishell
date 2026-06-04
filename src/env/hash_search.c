@@ -6,11 +6,11 @@
 /*   By: knajmech <knajmech@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/04 10:03:18 by knajmech          #+#    #+#             */
-/*   Updated: 2026/05/12 11:13:06 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/06/04 07:27:08 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../headers/env.h"
+#include "../../headers/env.h"
 
 unsigned int	find_hash_key(char	*key)
 {

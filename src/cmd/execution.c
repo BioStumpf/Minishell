@@ -6,11 +6,11 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/25 10:17:19 by knajmech          #+#    #+#             */
-/*   Updated: 2026/06/03 12:06:23 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/06/04 08:59:09 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../headers/main.h"
+#include "../../headers/main.h"
 
 int	execute(t_ast *node, t_pipe_manager *pipe_info);
 
@@ -132,11 +132,11 @@ int	exec_builtin(t_ast *node, t_pipe_manager *pipe_info)
 
 int	execute(t_ast *node, t_pipe_manager *pipe_info)
 {
-	if (node->type == AND)
+	if (node->type == T_AND)
 		return (exec_and(node, pipe_info));
-	else if (node->type == OR)
+	else if (node->type == T_OR)
 		return (exec_or(node, pipe_info));
-	else if (node->type == PIPE)
+	else if (node->type == T_PIPE)
 		return (exec_pipe(node, pipe_info));
 	else if (node->type == CMD && is_builtin(node->cmd_argv[0]) > -1)
 		return (exec_builtin(node, pipe_info));
@@ -146,12 +146,12 @@ int	execute(t_ast *node, t_pipe_manager *pipe_info)
 		return (0);
 }
 
-int	coordinate_exec(t_data *data)
+void	coordinate_exec(t_data *data)
 {
 	t_ast			*node;
 	t_pipe_manager	pipe_info;
 
-	assert(data->ast && data->ast.start);
+	assert(data->ast.start != NULL);
 	pipe_info.data = data;
 	pipe_info.in_pipeline = NO_PIPELINE;
 	pipe_info.child[0] = 0;

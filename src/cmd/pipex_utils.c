@@ -6,11 +6,11 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/03 07:24:21 by knajmech          #+#    #+#             */
-/*   Updated: 2026/06/03 08:57:39 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/06/04 08:01:23 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../headers/main.h"
+#include "../../headers/main.h"
 
 char	*check_access(t_pipe_manager *pipe_info, char *ptc, char *cmd)
 {
@@ -64,12 +64,9 @@ void	pathfinder(t_pipe_manager *pipe_info, char **path_parts, char **args)
 		if (!path_to_check)
 			error_and_cleanup(pipe_info->data, "malloc", 0);
 		if (check_access(pipe_info, path_to_check, args[0]))
-			execute_task(manager, args, j);
+			return ;
 		free(path_to_check);
 		i++;
 	}
-	ft_putstr_fd(manager->cmd[0], 2);
-	ft_putendl_fd(": command not found", 2);
-	clean_up(manager);
 }
 

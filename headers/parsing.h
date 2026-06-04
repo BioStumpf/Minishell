@@ -6,11 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 12:23:19 by dstumpf           #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2026/05/17 21:36:13 by david            ###   ########.fr       */
-=======
-/*   Updated: 2026/05/27 10:10:30 by david            ###   ########.fr       */
->>>>>>> parsing
+/*   Updated: 2026/06/03 15:18:15 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +21,10 @@
 ///////////////////////////////////////////
 
 //structs and enums
-enum e_token
+/*enum e_token
 {
 	T_NONE,
-<<<<<<< HEAD
-=======
 	CMD,
->>>>>>> parsing
 	T_WORD,
 	T_PIPE = '|',
 	T_AND	= '&' * 2 + 1,
@@ -46,7 +39,7 @@ enum e_token
 	TAB = ' ',
 	NEWLINE = ' '
 
-};
+};*/
 
 typedef struct s_token
 {
@@ -73,10 +66,7 @@ void				set_word(char **input, char *word, size_t word_len);
 
 
 //utilities for linked list
-<<<<<<< HEAD
-=======
 t_token				*fetch_token(t_node *node);
->>>>>>> parsing
 t_node				*new_token_node(void);
 void				set_token_node(t_node *new, enum e_token ttype, char *word);
 
@@ -86,11 +76,8 @@ char				is_single_metachar(char c);
 char				is_whitespace_metachar(char c);
 char				is_quote(char c);
 
-<<<<<<< HEAD
 //to_delete_functions (just usefull for now)
 void				print_token(void *content); //this need to be removed
-=======
->>>>>>> parsing
 									//
 //cleanup
 void				free_token(void *token);

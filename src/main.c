@@ -6,17 +6,17 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/14 18:21:16 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/06/03 13:51:02 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/06/03 15:16:41 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 // #include "libft.h"
 #include <stdio.h>
 #include "libft.h"
-#include "parsing.h"
+#include "../headers/parsing.h"
 #include <readline/readline.h>
 #include <readline/history.h>
-#include "main.h"
+#include "../headers/main.h"
 
 void	free_all(t_data *dat)
 {

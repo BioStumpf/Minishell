@@ -6,11 +6,11 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/01 11:52:36 by knajmech          #+#    #+#             */
-/*   Updated: 2026/06/02 14:30:16 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/06/04 07:33:04 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../headers/main.h"
+#include "../../headers/main.h"
 
 char	**free_out(char **out, size_t len)
 {

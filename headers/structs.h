@@ -6,7 +6,7 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/06 13:52:42 by knajmech          #+#    #+#             */
-/*   Updated: 2026/06/03 11:50:01 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/06/04 08:57:55 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 
 typedef struct s_env_tracker t_env_tracker;
 
-enum e_token
+/*enum e_token
 {
 	NONE,
 	CMD,
@@ -31,6 +31,26 @@ enum e_token
 	REDIR_APPEND = '>' * 2 + 1,
 	LEFT_PARA = '(',
 	RIGHT_PARA = ')',
+};*/
+
+enum e_token
+{
+	T_NONE,
+	CMD,
+	T_WORD,
+	T_PIPE = '|',
+	T_AND	= '&' * 2 + 1,
+	T_OR = '|' * 2 + 1,
+	T_REDIR_INFILE = '<',
+	T_REDIR_OUTFILE = '>',
+	T_REDIR_HEREDOC = '<' * 2 + 1,
+	T_REDIR_APPEND = '>' * 2 + 1,
+	T_LEFT_PARA = '(',
+	T_RIGHT_PARA = ')',
+	SPACE = ' ',
+	TAB = ' ',
+	NEWLINE = ' '
+
 };
 
 typedef struct s_ast
@@ -50,6 +70,14 @@ typedef struct s_ast_buff
 	t_ast	*start; //root
 }			t_ast_buff;
 
+enum e_err
+{
+    OK,
+    ERR_MALLOC,
+    // PARSE_ERR_INVALID_CHAR,
+    PARSE_ERR_UNCLOSED_QUOTES
+};
+
 typedef struct s_data
 {
 	// char		quit;
@@ -61,9 +89,23 @@ typedef struct s_data
 	char			*find_var;
 	char			*cwd;
 	char			*newdir;
+	enum e_err		err;
+	int				ret_code;
+	t_env_tracker	*env_mp;
+}				t_data;
+/*
+	// char		quit;
+	// char		*input;
+	// int		ret_code;
+	t_ast_buff		ast;
+	char			*input;
+	char			**new_variable;
+	char			*find_var;
+	char			*cwd;
+	char			*newdir;
 	t_env_tracker	*env_mp;
 	//char		**envp; //this needs to be changed to whatever the envp struct is
-}				t_data;
+}				t_data;*/
 
 typedef struct s_pipe_manager
 {

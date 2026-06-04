@@ -6,11 +6,11 @@
 /*   By: knajmech <knajmech@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/10 09:46:59 by knajmech          #+#    #+#             */
-/*   Updated: 2026/05/12 11:12:52 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/06/04 07:26:52 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../headers/main.h"
+#include "../../headers/main.h"
 
 t_node	*delete_node(t_node *node)
 {

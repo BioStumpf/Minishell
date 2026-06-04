@@ -6,11 +6,11 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/08 12:05:48 by knajmech          #+#    #+#             */
-/*   Updated: 2026/06/01 11:02:51 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/06/04 08:54:08 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../headers/main.h"
+#include "../../headers/main.h"
 
 int	is_builtin(char *cmd)
 {
@@ -34,17 +34,15 @@ int	is_builtin(char *cmd)
 
 int	which_builtin(t_data *data, char **cmd_argv, int builtin_call)
 {
-	t_builtin	e_builtin;
-	int			status;
-
+	//t_builtin	e_builtin;
 	assert (builtin_call <= 6 && builtin_call >= 0);
 	if (builtin_call == ECHO)
-		return (echo_print(node->cmd_argv));
+		return (echo_print(cmd_argv));
 	else if (builtin_call == CD)
 		return (change_dir(data));
 	else if (builtin_call == PWD)
 		return (pworkdir(data));
-	else if (builtin_call == EXPORT)
+	else if (builtin_call == EXPO)
 		return (export_var(data), 0);
 	else if (builtin_call == UNSET)
 	{
@@ -64,10 +62,7 @@ int	execute_builtin(t_ast *node, bool in_pipeline, t_data *data)
 
 	builtin = is_builtin(node->cmd_argv[0]);
 	if (node->out_redir_file && !in_pipeline)
-	{
-		backup_fds(data->);
-		return (which_builtin(data, builtin));
-	}
+		return (which_builtin(data, node->cmd_argv, builtin));
 	else
-		return (which_builtin(data, builtin));
+		return (which_builtin(data, node->cmd_argv, builtin));
 }

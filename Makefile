@@ -13,19 +13,16 @@ LIBFT_DIR := libft/
 SRCS_DIR := src/
 HEADER_DIR := headers/
 
-<<<<<<< HEAD
-SRCS_main := main.c
-SRCS_david := parsing.c tokenize.c
-SRCS_kian := env.c cleanup.c new_variables.c hash_search.c 
-=======
 SRCS_main := main.c error_handling.c
 SRCS_david := parsing.c tokenize.c to_delete_later.c token_list_utils.c token_string_utils.c parser_cleanup.c token_word_utils.c token_metachar_utils.c compound.c dynamic_compound_array.c
-SRCS_kian := 
->>>>>>> parsing
+SRCS_kian := cmd/execution.c cmd/pathfinder.c cmd/pipex_utils.c cmd/redirections.c \
+			env/cleanup.c env/delete_env.c env/hash_search.c env/new_variables.c env/env.c\
+			builtins/which_builtin.c builtins/unset.c builtins/pworkdir.c builtins/export.c builtins/exit.c builtins/env_bi.c builtins/echo.c builtins/changedir.c
+
 SRCS := $(SRCS_main) $(SRCS_kian) $(SRCS_david)
 SRCS := $(addprefix $(SRCS_DIR), $(SRCS))
 OBJS := $(patsubst $(SRCS_DIR)%.c, $(OBJ_DIR)%.o, $(SRCS))
-DEPS := $(patsubst $(SRCS_DIR)%.c, $(DEP_DIR)%.d, $(SRCS)) 
+DEPS := $(patsubst $(SRCS_DIR)%.c, $(DEP_DIR)%.d, $(SRCS))
 LIBFT := $(addprefix $(LIBFT_DIR), libft.a)
 
 LIB_LINKS := $(LIBFT) -lreadline
@@ -54,9 +51,9 @@ test:
 	@cc tests/base_test.c -Ilibft -Llibft -lft -lcriterion -o test
 	@./test
 	rm -rf test
-	
 
 $(OBJ_DIR)%.o: $(SRCS_DIR)%.c | $(OBJ_DIR) $(DEP_DIR)
+	@mkdir -p $(dir $@) $(dir $(DEP_DIR)$*.d)
 	$(CC) $(CFLAGS_OBJS) $(DEP_FLAGS)
 
 $(DEP_DIR):

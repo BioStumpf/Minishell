@@ -6,13 +6,13 @@
 /*   By: knajmech <knajmech@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/06 11:01:30 by knajmech          #+#    #+#             */
-/*   Updated: 2026/06/02 15:41:32 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/06/04 08:07:56 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../headers/env.h"
+#include "../../headers/env.h"
 
-char	**env_ptrptr(t_data *data, t_list *env_list, char **env)
+char	**env_ptrptr(t_data *dat, t_list *env_list, char **env)
 {
 	t_node	*node_list;
 	t_env	*key_and_val;
@@ -30,9 +30,9 @@ char	**env_ptrptr(t_data *data, t_list *env_list, char **env)
 			key_and_val = (t_env *)node_list->content;
 			assert(node_list && key_and_val);
 			env[i] = ft_strjoin(key_and_val->key_w_equal, key_and_val->value);
+			if (!env[i])
+				return (free_out(env, k), error_and_cleanup(dat, "mall", 0), NULL);
 			k++;
-			if (env[i])
-				free_out(env, k);
 			node_list = node_list->content;
 		}
 		i++;

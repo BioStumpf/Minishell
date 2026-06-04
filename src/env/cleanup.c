@@ -6,11 +6,11 @@
 /*   By: knajmech <knajmech@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/27 07:31:26 by knajmech          #+#    #+#             */
-/*   Updated: 2026/06/01 08:17:20 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/06/04 08:01:58 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../headers/env.h"
+#include "../../headers/env.h"
 
 void	error_and_cleanup(t_data *data, char *error_desc, int status)
 {
@@ -34,4 +34,5 @@ void	error_and_cleanup(t_data *data, char *error_desc, int status)
 	}
 	if (error_desc)
 		perror(error_desc);
+	exit (status);
 }

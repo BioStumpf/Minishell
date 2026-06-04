@@ -1,23 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   unset.c                                            :+:      :+:    :+:   */
+/*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/05/11 09:37:47 by knajmech          #+#    #+#             */
-/*   Updated: 2026/05/11 09:58:31 by knajmech         ###   ########.fr       */
+/*   Created: 2026/05/11 09:33:31 by knajmech          #+#    #+#             */
+/*   Updated: 2026/06/04 07:28:26 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../headers/builtins.h"
+#include "../../headers/main.h"
 
-void	unset_var(t_list *map_env, char *key)
+int	echo_print(char **string_arg)
 {
-	unsigned int	hash_key;
+	int	i;
+	int	newline_flag;
 
-	hash_key = find_hash_key(key);
-	unset_variable(map_env, key);
-	if (map_env[hash_key].len == 0)
-		map_env[hash_key].head = NULL;
+	assert(string_arg != NULL);
+	i = 1;
+	newline_flag = 1;
+	if (!ft_strncmp(string_arg[1], "-n", 3))
+	{
+		i++;
+		newline_flag = 0;
+	}
+	while (string_arg[i])
+	{
+		printf("%s ", string_arg[i]);
+		i++;
+	}
+	if (newline_flag == 1)
+		printf("\n");
+	return (0);
 }
