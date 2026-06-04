@@ -6,7 +6,7 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/06 13:52:42 by knajmech          #+#    #+#             */
-/*   Updated: 2026/06/04 08:57:55 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/06/04 10:40:05 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 
 typedef struct s_env_tracker t_env_tracker;
 
-/*enum e_token
+enum e_token
 {
 	NONE,
 	CMD,
@@ -31,8 +31,8 @@ typedef struct s_env_tracker t_env_tracker;
 	REDIR_APPEND = '>' * 2 + 1,
 	LEFT_PARA = '(',
 	RIGHT_PARA = ')',
-};*/
-
+};
+/*
 enum e_token
 {
 	T_NONE,
@@ -51,13 +51,13 @@ enum e_token
 	TAB = ' ',
 	NEWLINE = ' '
 
-};
+};*/
 
 typedef struct s_ast
 {
 	enum e_token	type;
 	int				in_redir_fd;
-	int				out_redir_fd;
+//	int				out_redir_fd;
 	char			*out_redir_file;
 	char			**cmd_argv;
 	struct s_ast	*left;

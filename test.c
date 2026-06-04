@@ -6,11 +6,11 @@
 /*   By: david <user@student.42mail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/14 19:47:35 by david             #+#    #+#             */
-/*   Updated: 2026/05/27 00:29:17 by david            ###   ########.fr       */
+/*   Updated: 2026/06/04 09:10:35 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "unistd.h"
+#include "headers/main.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <sys/wait.h>
@@ -20,7 +20,7 @@
 
 #define NO_PIPELINE 0
 #define IN_PIPELINE 1
-
+/*
 enum e_token
 {
 	NONE,
@@ -64,7 +64,7 @@ typedef struct s_data
 	t_ast_buff	ast;
 	char		**envp; //this needs to be changed to whatever the envp struct is
 }				t_data;
-
+*/
 t_ast_buff	ast_init(size_t size)
 {
 	t_ast_buff	buff;
@@ -147,7 +147,7 @@ void print_tree(t_ast *root, int depth) {
     // Print left subtree
     print_tree(root->right, depth + 1);
 }
-
+/*
 int	execute(t_ast *node, bool in_pipeline, t_data *dat);
 
 static int	exec_and(t_ast *node, bool in_pipeline, t_data *dat)
@@ -317,7 +317,7 @@ int	execute(t_ast *node, bool in_pipeline, t_data *dat)
 	else 
 		return (exec_builtin(node, in_pipeline, dat));
 }
-
+*/
 int main(int ac, char **av, char **envp)
 {
 	(void)ac;

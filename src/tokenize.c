@@ -6,14 +6,13 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 15:15:50 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/05/17 21:37:34 by david            ###   ########.fr       */
+/*   Updated: 2026/06/04 09:56:33 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "main.h"
 #include "parsing.h"
-#include "unistd.h"
 
 //after knowing the current char is a metachar, check if its a double (&& || >> <<)
 //if not double metachar but and and, we dont want to do anything because in our minishell this one does not have special meaning
