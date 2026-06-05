@@ -1,29 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing.c                                          :+:      :+:    :+:   */
+/*   comp_accessors.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/20 14:14:19 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/04/23 16:19:28 by dstumpf          ###   ########.fr       */
+/*   Created: 2026/06/04 19:26:03 by dstumpf           #+#    #+#             */
+/*   Updated: 2026/06/04 20:00:06 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
-#include <stdio.h>
-#include "libft.h"
 
-void	parse_input(t_data *dat)
+enum e_token	comp_type(t_compound *comp)
 {
-	t_list	*tokens;
-	//t_compound_tokens *compound_tokens;
-	//t_compound_commands *compound_commands;
+	return (comp->type);
+}
 
-	tokens = tokenize(dat);
-	ft_lstprint(tokens, print_token);
-	ft_lstclear(tokens, free_token);
-	//compound_tokens = compound_group(tokens);
-	//expand(dat, compound_tokens);
-	//dat->ast = parse_tokens(dat, compound_tokens);
+int	comp_fd(t_compound *comp)
+{
+	return (comp->u_value.s_redir.fd);
+}
+
+char	*comp_filename(t_compound *comp)
+{
+	return (comp->u_value.s_redir.filename);
+}
+
+t_arg	*comp_args(t_compound *comp)
+{
+	return (&comp->u_value.args);
 }

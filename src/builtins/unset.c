@@ -1,27 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstprint.c                                      :+:      :+:    :+:   */
+/*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dstumpf <dstumpf@student.42vienna.com      +#+  +:+       +#+        */
+/*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/28 17:39:50 by dstumpf           #+#    #+#             */
-/*   Updated: 2025/11/28 17:39:54 by dstumpf          ###   ########.fr       */
+/*   Created: 2026/05/11 09:37:47 by knajmech          #+#    #+#             */
+/*   Updated: 2026/06/04 11:58:43 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "structs.h"
+#include "env.h"
 
-void	ft_lstprint(t_list *lst, void (*print_fn)(void *content))
+void	unset_var(t_list *map_env, char *key)
 {
-	t_node	*cursor;
+	unsigned int	hash_key;
 
-	if (!lst)
-		return ;
-	cursor = lst->head;
-	while (cursor)
-	{
-		print_fn(cursor->content);
-		cursor = cursor->next;
-	}
+	hash_key = find_hash_key(key);
+	unset_variable(map_env, key);
+	if (map_env[hash_key].len == 0)
+		map_env[hash_key].head = NULL;
 }

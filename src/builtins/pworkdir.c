@@ -1,27 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstprint.c                                      :+:      :+:    :+:   */
+/*   pworkdir.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dstumpf <dstumpf@student.42vienna.com      +#+  +:+       +#+        */
+/*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/28 17:39:50 by dstumpf           #+#    #+#             */
-/*   Updated: 2025/11/28 17:39:54 by dstumpf          ###   ########.fr       */
+/*   Created: 2026/05/11 08:47:22 by knajmech          #+#    #+#             */
+/*   Updated: 2026/06/04 11:59:42 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "execution.h"
+#include "structs.h"
+#include "env.h"
 
-void	ft_lstprint(t_list *lst, void (*print_fn)(void *content))
+int	pworkdir(t_data *data)
 {
-	t_node	*cursor;
+	char	*currdir;
 
-	if (!lst)
-		return ;
-	cursor = lst->head;
-	while (cursor)
-	{
-		print_fn(cursor->content);
-		cursor = cursor->next;
-	}
+	currdir = getcwd(NULL, 0);
+	if (currdir == NULL)
+		error_and_cleanup(data, "getcwd", 0);
+	printf("%s\n", currdir);
+	free(currdir);
+	return (1);
 }

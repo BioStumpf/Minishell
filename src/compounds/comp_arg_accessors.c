@@ -1,27 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstprint.c                                      :+:      :+:    :+:   */
+/*   comp_arg_accessors.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dstumpf <dstumpf@student.42vienna.com      +#+  +:+       +#+        */
+/*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/28 17:39:50 by dstumpf           #+#    #+#             */
-/*   Updated: 2025/11/28 17:39:54 by dstumpf          ###   ########.fr       */
+/*   Created: 2026/06/04 19:26:03 by dstumpf           #+#    #+#             */
+/*   Updated: 2026/06/04 21:08:57 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "parsing.h"
 
-void	ft_lstprint(t_list *lst, void (*print_fn)(void *content))
+size_t	arg_size(t_compound *comp)
 {
-	t_node	*cursor;
+	return (comp->u_value.args.size);
+}
 
-	if (!lst)
-		return ;
-	cursor = lst->head;
-	while (cursor)
-	{
-		print_fn(cursor->content);
-		cursor = cursor->next;
-	}
+size_t	arg_capacity(t_compound *comp)
+{
+	return (comp->u_value.args.capacity);
+}
+
+char	**arg_av(t_compound *comp)
+{
+	return (comp->u_value.args.av);
 }

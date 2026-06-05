@@ -1,27 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstprint.c                                      :+:      :+:    :+:   */
+/*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dstumpf <dstumpf@student.42vienna.com      +#+  +:+       +#+        */
+/*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/28 17:39:50 by dstumpf           #+#    #+#             */
-/*   Updated: 2025/11/28 17:39:54 by dstumpf          ###   ########.fr       */
+/*   Created: 2026/05/12 09:55:27 by knajmech          #+#    #+#             */
+/*   Updated: 2026/06/04 12:00:40 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-
-void	ft_lstprint(t_list *lst, void (*print_fn)(void *content))
+#include "structs.h"
+#include "env.h"
+void	exit_minishell(t_data *data)
 {
-	t_node	*cursor;
-
-	if (!lst)
-		return ;
-	cursor = lst->head;
-	while (cursor)
-	{
-		print_fn(cursor->content);
-		cursor = cursor->next;
-	}
+	error_and_cleanup(data, NULL, 0);
 }

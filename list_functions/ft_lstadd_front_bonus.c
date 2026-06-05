@@ -1,27 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstprint.c                                      :+:      :+:    :+:   */
+/*   ft_lstadd_front.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dstumpf <dstumpf@student.42vienna.com      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/28 17:39:50 by dstumpf           #+#    #+#             */
-/*   Updated: 2025/11/28 17:39:54 by dstumpf          ###   ########.fr       */
+/*   Created: 2025/10/10 10:09:33 by dstumpf           #+#    #+#             */
+/*   Updated: 2025/10/10 14:50:55 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_lstprint(t_list *lst, void (*print_fn)(void *content))
+void	ft_lstadd_front(t_list **lst, t_list *new)
 {
-	t_node	*cursor;
-
-	if (!lst)
+	if (!lst || !new)
 		return ;
-	cursor = lst->head;
-	while (cursor)
-	{
-		print_fn(cursor->content);
-		cursor = cursor->next;
-	}
+	new->next = (*lst);
+	(*lst) = new;
 }

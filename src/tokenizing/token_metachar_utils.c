@@ -1,23 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.h                                             :+:      :+:    :+:   */
+/*   token_metachar_utils.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
+/*   By: david <user@student.42mail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/20 14:52:11 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/04/20 15:24:27 by dstumpf          ###   ########.fr       */
+/*   Created: 2026/05/14 17:05:21 by david             #+#    #+#             */
+/*   Updated: 2026/05/14 17:05:21 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MAIN_H
-# define MAIN_H
 
-typedef struct s_data
+//note for tokens: &&, ||, >> or << the actual numeric enum value/type variable inside the token
+//refers to 2 * token + 1 which is passed to new_token_node
+int	double_tok_type(char metachar)
 {
-//	t_ast	*ast;
-//	t_envp	*envp;
-	char	*input;
-}			t_data;
-
-#endif
+	return (metachar * 2 + 1);
+}

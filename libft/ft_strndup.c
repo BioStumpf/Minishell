@@ -1,27 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstprint.c                                      :+:      :+:    :+:   */
+/*   ft_strndup.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dstumpf <dstumpf@student.42vienna.com      +#+  +:+       +#+        */
+/*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/28 17:39:50 by dstumpf           #+#    #+#             */
-/*   Updated: 2025/11/28 17:39:54 by dstumpf          ###   ########.fr       */
+/*   Created: 2026/05/04 11:45:28 by knajmech          #+#    #+#             */
+/*   Updated: 2026/05/07 09:15:24 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_lstprint(t_list *lst, void (*print_fn)(void *content))
+char	*ft_strndup(const char *s, char delimitter)
 {
-	t_node	*cursor;
+	size_t	len;
+	char	*out;
 
-	if (!lst)
-		return ;
-	cursor = lst->head;
-	while (cursor)
-	{
-		print_fn(cursor->content);
-		cursor = cursor->next;
-	}
+	len = ft_strlen_char((char *) s, delimitter);
+	if (s[len] != delimitter)
+		return (NULL);
+	out = malloc(len + 1);
+	if (!out)
+		return (0);
+	ft_strlcpy(out, s, len + 1);
+	return (out);
 }

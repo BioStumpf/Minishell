@@ -1,27 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstprint.c                                      :+:      :+:    :+:   */
+/*   ft_newnode.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dstumpf <dstumpf@student.42vienna.com      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/28 17:39:50 by dstumpf           #+#    #+#             */
-/*   Updated: 2025/11/28 17:39:54 by dstumpf          ###   ########.fr       */
+/*   Created: 2025/10/10 10:04:02 by dstumpf           #+#    #+#             */
+/*   Updated: 2026/04/28 10:33:20 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../env.h"
 
-void	ft_lstprint(t_list *lst, void (*print_fn)(void *content))
+t_env_map	*ft_newnode(void *content)
 {
-	t_node	*cursor;
+	t_env_map	*new;
 
-	if (!lst)
-		return ;
-	cursor = lst->head;
-	while (cursor)
-	{
-		print_fn(cursor->content);
-		cursor = cursor->next;
-	}
+	new = malloc(sizeof(t_env_map));
+	if (!new)
+		return (NULL);
+	new->value = content;
+	new->next = NULL;
+	return (new);
 }

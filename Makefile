@@ -13,13 +13,19 @@ LIBFT_DIR := libft/
 SRCS_DIR := src/
 HEADER_DIR := headers/
 
-SRCS_main := main.c
-SRCS_david := parsing.c tokenize.c
-SRCS_kian := 
+SRCS_main := main.c error/error_handling.c
+SRCS_david := parsing_glue/parsing.c parsing_glue/to_delete_later.c parsing_glue/parser_cleanup.c \
+			  tokenizing/tokenize.c tokenizing/token_list_utils.c tokenizing/token_string_utils.c tokenizing/token_word_utils.c tokenizing/token_metachar_utils.c tokenizing/token_accessors.c \
+			  compounds/compound.c compounds/dynamic_compound_array.c compounds/comp_accessors.c compounds/comp_arg_accessors.c compounds/comp_array_accessors.c
+
+SRCS_kian := cmd/execution.c cmd/pathfinder.c cmd/pipex_utils.c cmd/redirections.c \
+			env/cleanup.c env/delete_env.c env/hash_search.c env/new_variables.c env/env.c\
+			builtins/which_builtin.c builtins/unset.c builtins/pworkdir.c builtins/export.c builtins/exit.c builtins/env_bi.c builtins/echo.c builtins/changedir.c
+
 SRCS := $(SRCS_main) $(SRCS_kian) $(SRCS_david)
 SRCS := $(addprefix $(SRCS_DIR), $(SRCS))
 OBJS := $(patsubst $(SRCS_DIR)%.c, $(OBJ_DIR)%.o, $(SRCS))
-DEPS := $(patsubst $(SRCS_DIR)%.c, $(DEP_DIR)%.d, $(SRCS)) 
+DEPS := $(patsubst $(SRCS_DIR)%.c, $(DEP_DIR)%.d, $(SRCS))
 LIBFT := $(addprefix $(LIBFT_DIR), libft.a)
 
 LIB_LINKS := $(LIBFT) -lreadline
@@ -31,26 +37,26 @@ DEP_FLAGS = -MMD -MP -MT $@ -MF $(DEP_DIR)$*.d
 all: $(NAME)
 
 $(NAME): $(LIBFT) $(OBJS) 
-	@echo 
-	@echo "$(GREEN)==$(BOLD)$(BLUE)Executable$(GREEN)==$(RESET)"
+	@printf "\n"
+	@printf "$(GREEN)==$(BOLD)$(BLUE)Executable$(GREEN)==$(RESET)\n"
 	$(CC) $(CFLAGS_NAME)
 
 $(LIBFT): FORCE
-	@echo "$(GREEN)==$(BOLD)$(BLUE)Libft/Objs$(GREEN)==$(RESET)"
+	@printf "$(GREEN)==$(BOLD)$(BLUE)Libft/Objs$(GREEN)==$(RESET)\n"
 	$(MAKE) --no-print-directory -sC $(LIBFT_DIR)
 
 FORCE:
-	@echo "$(GREEN)======================================$(RESET)"
-	@echo "$(BOLD)$(BLUE)       Compile Project          $(RESET)"
-	@echo "$(GREEN)======================================$(RESET)"
+	@printf "$(GREEN)======================================$(RESET)\n"
+	@printf "$(BOLD)$(BLUE)       Compile Project          $(RESET)\n"
+	@printf "$(GREEN)======================================$(RESET)\n"
 
 test:
 	@cc tests/base_test.c -Ilibft -Llibft -lft -lcriterion -o test
 	@./test
 	rm -rf test
-	
 
 $(OBJ_DIR)%.o: $(SRCS_DIR)%.c | $(OBJ_DIR) $(DEP_DIR)
+	@mkdir -p $(dir $@) $(dir $(DEP_DIR)$*.d)
 	$(CC) $(CFLAGS_OBJS) $(DEP_FLAGS)
 
 $(DEP_DIR):
@@ -60,27 +66,27 @@ $(OBJ_DIR):
 	mkdir -p $@
 
 localclean:
-	@echo "$(GREEN)======================================$(RESET)"
-	@echo "$(BOLD)$(BLUE)       LOCAL CLEANING          $(RESET)"
-	@echo "$(GREEN)======================================$(RESET)"
+	@printf "$(GREEN)======================================$(RESET)\n"
+	@printf "$(BOLD)$(BLUE)       LOCAL CLEANING          $(RESET)\n"
+	@printf "$(GREEN)======================================$(RESET)\n"
 	rm -rf $(OBJ_DIR)
 	rm -rf $(DEP_DIR)
-	@echo 
+	@printf "\n"
 
 clean: localclean
-	@echo "$(GREEN)======================================$(RESET)"
-	@echo "$(BOLD)$(BLUE)       CLEANING          $(RESET)"
-	@echo "$(GREEN)======================================$(RESET)"
+	@printf "$(GREEN)======================================$(RESET)\n"
+	@printf "$(BOLD)$(BLUE)       CLEANING          $(RESET)\n"
+	@printf "$(GREEN)======================================$(RESET)\n"
 	$(MAKE) --no-print-directory -sC $(LIBFT_DIR) clean
-	@echo 
+	@printf "\n"
 
 fclean: localclean
-	@echo "$(GREEN)======================================$(RESET)"
-	@echo "$(BOLD)$(BLUE)       FCLEANING          $(RESET)"
-	@echo "$(GREEN)======================================$(RESET)"
+	@printf "$(GREEN)======================================$(RESET)\n"
+	@printf "$(BOLD)$(BLUE)       FCLEANING          $(RESET)\n"
+	@printf "$(GREEN)======================================$(RESET)\n"
 	rm -rf $(NAME)
 	$(MAKE) --no-print-directory -sC $(LIBFT_DIR) fclean
-	@echo 
+	@printf "\n"
 
 re: fclean all
 

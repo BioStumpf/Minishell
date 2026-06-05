@@ -1,27 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstprint.c                                      :+:      :+:    :+:   */
+/*   ft_lstclear.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dstumpf <dstumpf@student.42vienna.com      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/28 17:39:50 by dstumpf           #+#    #+#             */
-/*   Updated: 2025/11/28 17:39:54 by dstumpf          ###   ########.fr       */
+/*   Created: 2025/10/10 11:28:46 by dstumpf           #+#    #+#             */
+/*   Updated: 2025/10/10 17:35:16 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_lstprint(t_list *lst, void (*print_fn)(void *content))
+static void	ft_lstclear_rec(t_list *lst_cursor, void (*del)(void *))
 {
-	t_node	*cursor;
-
-	if (!lst)
+	if (!lst_cursor)
 		return ;
-	cursor = lst->head;
-	while (cursor)
-	{
-		print_fn(cursor->content);
-		cursor = cursor->next;
-	}
+	ft_lstclear_rec(lst_cursor->next, del);
+	ft_lstdelone(lst_cursor, del);
+}
+
+void	ft_lstclear(t_list **lst, void (*del)(void *))
+{
+	if (!lst || !del)
+		return ;
+	ft_lstclear_rec(*lst, del);
+	*lst = NULL;
 }
