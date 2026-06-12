@@ -6,7 +6,7 @@
 /*   By: knajmech <knajmech@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/04 09:17:01 by knajmech          #+#    #+#             */
-/*   Updated: 2026/06/12 08:21:00 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/06/12 11:31:30 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	heredoc(t_data *data, t_ast *node)
 	while (1)
 	{
 		errno = 0;
-		given_line = readline(">");
+		given_line = readline("> ");
 		if (errno)
 			error_and_cleanup(data, "malloc", 0);
 		if (!ft_strncmp(given_line, node->cmd_argv[0],
@@ -43,3 +43,4 @@ void	heredoc(t_data *data, t_ast *node)
 	if (dup2(node->in_redir_fd, fd))
 		error_and_cleanup(data, "dup", 0);
 }
+

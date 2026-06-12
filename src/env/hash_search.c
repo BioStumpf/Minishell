@@ -6,7 +6,7 @@
 /*   By: knajmech <knajmech@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/04 10:03:18 by knajmech          #+#    #+#             */
-/*   Updated: 2026/06/04 07:27:08 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/06/12 09:10:32 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,16 @@ unsigned int	find_hash_key(char	*key)
 	return (key_index);
 }
 
-t_env	*hash_search(t_node *list, char *key)
+t_env	*hash_search(t_list *hash_arr, char *key)
 {
-	t_env	*key_check;
+	t_env			*key_check;
+	t_node			*list;
+	unsigned int	hash_key;
 
-	if (!list)
+	if (!hash_arr)
 		return (NULL);
+	hash_key = find_hash_key(key);
+	list = hash_arr[hash_key].head;
 	while (list)
 	{
 		key_check = list->content;

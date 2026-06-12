@@ -6,7 +6,7 @@
 /*   By: knajmech <knajmech@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/06 11:01:30 by knajmech          #+#    #+#             */
-/*   Updated: 2026/06/04 11:57:27 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/06/12 09:20:09 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	replace_or_add(t_list *map_env, t_env_tracker *tracker,
 	value[1] = ft_strdup(env_var[1]);
 	if (!value[0])
 		return (free(value[0]), free(value[1]), 0);
-	key_val_node = hash_search((map_env[key_index].head), value[0]);
+	key_val_node = hash_search(map_env, value[0]);
 	if (key_val_node)
 		return (key_val_node->value = value[1], 1);
 	key_val_node = make_kv_node(value[0], value[1]);
