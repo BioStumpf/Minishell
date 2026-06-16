@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/04 11:00:01 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/06/16 13:37:04 by david            ###   ########.fr       */
+/*   Updated: 2026/06/16 16:49:03 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ void	parse_input(t_data *dat);
 //////////////////
 //main function
 t_list				*tokenize(t_data *data);
+void				refine_redirs(t_list *lst);
 
 //helpers for word and metatokens
 int					double_tok_type(char metachar);
@@ -60,15 +61,18 @@ void				set_word(char **input, char *word, size_t word_len);
 
 //utilities for linked list
 t_node				*new_token_node(void);
-void				set_redir_tok(t_node *node, enum e_token ttype, int fd, char *file);
-void				set_word_tok(t_node *node, enum e_token ttype, char *word, bool space);
+void				set_word_tok(t_node *node, char *word, bool space);
+void				set_redir_tok(t_node *node, int fd, char *file);
 void				set_tok(t_node *node, enum e_token ttype);
+void				set_redir_fd(t_node *node, int fd);
+void				set_redir_file(t_node *node, char *file);
 
 //utilities for accessing linked list token attributes
 char				*tok_word(t_node *node);
 char				*tok_filename(t_node *node);
 int					tok_fd(t_node *node);
 enum e_token		tok_type(t_node *node);
+bool				tok_space(t_node *node);
 
 //string utilities
 char				is_double_metachar(char *input);

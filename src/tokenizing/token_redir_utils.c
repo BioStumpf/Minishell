@@ -6,7 +6,7 @@
 /*   By: david <dstumpf@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/15 13:45:26 by david             #+#    #+#             */
-/*   Updated: 2026/06/16 11:27:54 by david            ###   ########.fr       */
+/*   Updated: 2026/06/16 17:33:01 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,42 +15,46 @@
 #include "structs.h"
 #include <unistd.h>
 
-char	is_redir(char c)
-{
-	const char	*redirs;
-
-	redirs = "<>";
-	return (char_in_str(c, redirs));
-}
-
-bool	is_double_redir(char *input)
-{
-	char	cur;
-	char	next;
-
-	cur = *input;
-	next = input[1];
-	return (is_redir(cur) && is_redir(next));
-}
-
 //handles default cases (when there was no word infront the redirection)
-int	get_redir_fd(char *word, int ttype)
+static void	redir_fd(t_node *redir, t_node *fd, t_node *before_fd)
 {
-	if (!word)
+	if (fd && tok_type(fd) == WORD && !tok_space(fd)
+		&& is_numeric(tok_word(fd)))
 	{
-		if (ttype == REDIR_APPEND || ttype == REDIR_OUTFILE)
-			return (STDOUT_FILENO);
-		else
-		// if (ttype == REDIR_INFILE || ttype == REDIR_HEREDOC)
-			return (STDIN_FILENO);
+		before_fd->next = redir;
+		set_redir_fd(redir, ft_atoi(tok_word(fd)));
+		ft_lstdelone(fd, free_token);
 	}
-	if (is_numeric(word))
-		return (ft_atoi(word));
-	return (-1);
+	else if (tok_type(redir) == REDIR_APPEND || tok_type(redir) == REDIR_OUTFILE)
+		return (set_redir_fd(redir, STDOUT_FILENO));
+	else
+		return (set_redir_fd(redir, STDIN_FILENO));
 }
 
-char	*get_redir_file(char **input, t_data *dat)
+// static char	*get_redir_file(t_node *redir, t_node *file, t_node *after_file)
+// {
+// }
+
+static bool	is_redir(enum e_token ttype)
 {
-	skip_white_metachars(input);
-	return (set_word(input, dat));
+	return (ttype == REDIR_APPEND || ttype == REDIR_HEREDOC
+			|| ttype == REDIR_INFILE || ttype == REDIR_OUTFILE);
+}
+
+void	refine_redirs(t_list *lst)
+{
+	t_node	*cur;
+	t_node	*prev;
+
+	cur = lst->head;
+	prev = NULL;
+	while (cur && cur->next)
+	{
+		if (is_redir(tok_type(cur->next)))
+			redir_fd(cur->next, cur, prev);
+		// if (is_redir(tok_type(cur)))
+		// 	redir_file(cur, cur->next, cur->next->next);
+		prev = cur;
+		cur = cur->next;
+	}
 }

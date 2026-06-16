@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 15:15:50 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/06/16 13:45:51 by david            ###   ########.fr       */
+/*   Updated: 2026/06/16 17:33:30 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static void	word_token(char **input, t_node *new, t_data *dat)
 		return (set_error(dat, ERR_MALLOC), (void)0);
 	set_word(input, word, word_len);
 	space = is_whitespace_metachar(**input);
-	set_word_tok(new, WORD, word, space); 
+	set_word_tok(new, word, space); 
 }
 
 static void	find_next_token(char **input, t_node *new, t_data *dat)
@@ -83,5 +83,6 @@ t_list	*tokenize(t_data *dat)
 			return (token_cleanup(lst, OK, dat, node), NULL);
 		ft_lstadd_back(lst, node);
 	}
+	refine_redirs(lst);
 	return (lst);
 }
