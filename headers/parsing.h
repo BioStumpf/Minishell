@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/04 11:00:01 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/06/04 21:19:41 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/06/16 13:37:04 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,18 @@
 //tokenizer structs and enums
 ///////////////////////////////////////////
 //task: add to tokenizer the capability of directly associating the next word as 
+//union contains either redir or word to save memory. 
+//space boolean is to later be capable for redirections to find out about whether the word is associated with the redir after or not (1< file vs 1 < file note the first one belongs to the redir while the second one doesnt)
 typedef struct s_token
 {
 	enum e_token	type;
 	union
 	{
-		char	*word;
+		struct
+		{
+			bool	space;
+			char	*word;
+		} s_word;
 		struct
 		{
 			int		fd;
@@ -55,7 +61,7 @@ void				set_word(char **input, char *word, size_t word_len);
 //utilities for linked list
 t_node				*new_token_node(void);
 void				set_redir_tok(t_node *node, enum e_token ttype, int fd, char *file);
-void				set_word_tok(t_node *node, enum e_token ttype, char *word);
+void				set_word_tok(t_node *node, enum e_token ttype, char *word, bool space);
 void				set_tok(t_node *node, enum e_token ttype);
 
 //utilities for accessing linked list token attributes
@@ -69,6 +75,7 @@ char				is_double_metachar(char *input);
 char				is_single_metachar(char c);
 char				is_whitespace_metachar(char c);
 char				is_quote(char c);
+char				skip_whitespace(char **str);
 
 //to_delete_functions (just usefull for now)
 void				print_token(void *content); //this need to be removed

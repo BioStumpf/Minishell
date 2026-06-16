@@ -6,7 +6,7 @@
 /*   By: david <user@student.42mail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/30 16:54:01 by david             #+#    #+#             */
-/*   Updated: 2026/06/04 19:05:25 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/06/16 13:10:28 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,11 @@ void	set_redir_tok(t_node *node, enum e_token ttype, int fd, char *file)
 	((t_token *)node->content)->u_value.s_redir.filename = file;
 }
 
-void	set_word_tok(t_node *node, enum e_token ttype, char *word)
+void	set_word_tok(t_node *node, enum e_token ttype, char *word, bool space)
 {
 	((t_token *)node->content)->type = ttype;
-	((t_token *)node->content)->u_value.word = word;
+	((t_token *)node->content)->u_value.s_word.word = word;
+	((t_token *)node->content)->u_value.s_word.space = space;
 }
 
 void	set_tok(t_node *node, enum e_token ttype)

@@ -16,7 +16,7 @@
 
 void	free_token(void *token)
 {
-	free(((t_token *)token)->u_value.word);
+	free(((t_token *)token)->u_value.s_word.word);
 	free(token);
 }
 

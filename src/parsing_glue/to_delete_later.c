@@ -6,7 +6,7 @@
 /*   By: david <user@student.42mail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/30 17:02:23 by david             #+#    #+#             */
-/*   Updated: 2026/06/04 21:21:34 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/06/16 13:18:15 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,10 @@ void	print_token(void *content)
 	t_token *tok = (t_token *)content;
 	printf("Type: %s  ", token_map[tok->type]);
 	if (tok->type == WORD)
-		printf("Word: %s", tok->u_value.word);
+	{
+		printf("Word: %s", tok->u_value.s_word.word);
+		printf(" Space: %d", tok->u_value.s_word.space);
+	}
 	else if (tok->type == REDIR_APPEND || tok->type == REDIR_OUTFILE
 			|| tok->type == REDIR_HEREDOC || tok->type == REDIR_INFILE)
 	{

@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 15:15:50 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/06/04 19:08:52 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/06/16 13:45:51 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,30 +18,26 @@
 //if not double metachar but and and, we dont want to do anything because in our minishell this one does not have special meaning
 //whitespace metachar that we should skip (SPACE TAB \n)
 //or else a valid single metachar ( | < > ')' '(' )
-static int	meta_token(char **input, t_node *new)
+static bool	meta_token(char **input, t_node *new)
 {
 	if (is_double_metachar(*input))
 	{
 		set_tok(new, double_tok_type(**input));
 		(*input) = (*input) + 2;
-		return (2);
-	}
-	else if (is_whitespace_metachar(**input))
-	{
-		(*input)++;
-		return (1);
+		return (true);
 	}
 	else if (is_single_metachar(**input))
 	{
 		set_tok(new, **input);
 		(*input)++;
-		return (1);
+		return (true);
 	}
-	return (0);
+	return (false);
 }
 
 static void	word_token(char **input, t_node *new, t_data *dat)
 {
+	bool	space;
 	char	*word;
 	size_t	word_len;
 
@@ -52,22 +48,18 @@ static void	word_token(char **input, t_node *new, t_data *dat)
 	if (!word)
 		return (set_error(dat, ERR_MALLOC), (void)0);
 	set_word(input, word, word_len);
-	set_word_tok(new, WORD, word); 
+	space = is_whitespace_metachar(**input);
+	set_word_tok(new, WORD, word, space); 
 }
 
 static void	find_next_token(char **input, t_node *new, t_data *dat)
 {
-	int			token_bytes;
+	bool	is_metatok;
 
 	//what if char **input is nothing?
-	token_bytes = meta_token(input, new);
-	if (token_bytes == 0)
+	is_metatok = meta_token(input, new);
+	if (!is_metatok)
 		word_token(input, new, dat);
-}
-
-static bool	empty_node(t_node *node)
-{
-	return (((t_token *)node->content)->type == NONE);
 }
 
 t_list	*tokenize(t_data *dat)
@@ -81,7 +73,7 @@ t_list	*tokenize(t_data *dat)
 	node = NULL;
 	if (!lst)
 		return (token_cleanup(lst, ERR_MALLOC, dat, node), NULL);
-	while (*input)
+	while (skip_whitespace(&input))
 	{
 		node = new_token_node();
 		if (!node)
@@ -89,11 +81,6 @@ t_list	*tokenize(t_data *dat)
 		find_next_token(&input, node, dat);
 		if (!status_ok(dat))
 			return (token_cleanup(lst, OK, dat, node), NULL);
-		if (empty_node(node))
-		{
-			ft_lstdelone(node, free_token);
-			node = NULL;
-		}
 		ft_lstadd_back(lst, node);
 	}
 	return (lst);
