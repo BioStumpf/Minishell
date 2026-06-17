@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/04 11:02:46 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/06/17 16:29:25 by david            ###   ########.fr       */
+/*   Updated: 2026/06/17 18:25:41 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,8 @@ int main(int argc, char **argv, char **envp)
 		//clean_ast(dat.ast); //since we run infinetly, clean up the ast after each loop iteration
 		free(dat.input);
 		//set_last_return(&dat); //this is to fetch dat->return and set envp $? to this return
-		// return (free_all(&dat), 1);
-		if (fatal_error(&dat))
-			return (free_all(&dat), 1);
+		return (free_all(&dat), 1);
+		// if (fatal_error(&dat))
+			// return (free_all(&dat), 1);
 	}
 }

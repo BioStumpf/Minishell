@@ -6,7 +6,7 @@
 /*   By: david <user@student.42mail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/30 17:02:23 by david             #+#    #+#             */
-/*   Updated: 2026/06/16 13:18:15 by david            ###   ########.fr       */
+/*   Updated: 2026/06/17 18:02:40 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,9 +68,12 @@ void	print_compound(t_compound_arr *compounds)
 	{
 		j = 0;
 		comp = arr_get(compounds, i++);
-		printf("Compound type: %s\n", token_map[comp_type(comp)]);
-		while (j < arg_size(comp))
+		printf("Compound type: %s;   ", token_map[comp_type(comp)]);
+		while (comp_type(comp) == CMD && j < arg_size(comp))
 			printf("%s  ", arg_av(comp)[j++]); 
+		if (is_redir(comp_type(comp))) {
+			printf("Fd: %d;   File: %s", comp_fd(comp), comp_filename(comp));
+		}
 		printf("\n");
 	}
 }

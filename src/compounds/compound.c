@@ -6,7 +6,7 @@
 /*   By: david <user@student.42mail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/26 13:37:33 by david             #+#    #+#             */
-/*   Updated: 2026/06/04 20:04:03 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/06/17 18:17:09 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,12 @@ static bool	add_words(t_compound *comp, t_node **token)
 	return (true);
 }
 
+static void	add_redir(t_compound *comp, t_node *redir)
+{
+	comp->u_value.s_redir.fd = tok_fd(redir);
+	comp->u_value.s_redir.filename = tok_filename(redir);
+}
+
 static bool	make_compound_arr(t_compound_arr *ca, t_list *tokens)
 {
 	size_t	i;
@@ -64,16 +70,18 @@ static bool	make_compound_arr(t_compound_arr *ca, t_list *tokens)
 	cur = tokens->head;
 	while (i < ca->len)
 	{
-		if (tok_type(cur))
-		{
-			ca->arr[i].type = tok_type(cur);
-			cur = cur->next;
-		}
-		else
+		if (tok_type(cur) == WORD)
 		{
 			ca->arr[i].type = CMD;
 			if (!add_words(&ca->arr[i], &cur))
 				return (false);
+		}
+		else
+		{
+			if (is_redir(tok_type(cur)))
+				add_redir(&ca->arr[i], cur);
+			ca->arr[i].type = tok_type(cur);
+			cur = cur->next;
 		}
 		i++;
 	}
