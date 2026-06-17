@@ -56,7 +56,8 @@ enum e_err
 {
     OK,
     ERR_MALLOC,
-    PARSE_ERR_UNCLOSED_QUOTES
+    PARSE_ERR_UNCLOSED_QUOTES,
+    PARSE_ERR_REDIR
 };
 
 typedef struct s_data

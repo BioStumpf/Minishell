@@ -6,17 +6,21 @@
 /*   By: david <user@student.42mail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/07 14:57:40 by david             #+#    #+#             */
-/*   Updated: 2026/06/04 21:01:43 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/06/17 16:21:27 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "parsing.h"
 #include "err.h"
+#include "structs.h"
 
 void	free_token(void *token)
 {
-	free(((t_token *)token)->u_value.s_word.word);
+	if (((t_token *)token)->type == WORD)
+		free(((t_token *)token)->u_value.s_word.word);
+	else if (is_redir(((t_token *)token)->type))
+		free(((t_token *)token)->u_value.s_redir.filename);
 	free(token);
 }
 

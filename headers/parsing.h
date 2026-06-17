@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/04 11:00:01 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/06/16 16:49:03 by david            ###   ########.fr       */
+/*   Updated: 2026/06/17 15:56:30 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	parse_input(t_data *dat);
 //////////////////
 //main function
 t_list				*tokenize(t_data *data);
-void				refine_redirs(t_list *lst);
+void				refine_redirs(t_data *dat, t_list *lst);
 
 //helpers for word and metatokens
 int					double_tok_type(char metachar);
@@ -66,6 +66,7 @@ void				set_redir_tok(t_node *node, int fd, char *file);
 void				set_tok(t_node *node, enum e_token ttype);
 void				set_redir_fd(t_node *node, int fd);
 void				set_redir_file(t_node *node, char *file);
+bool				is_redir(enum e_token ttype);
 
 //utilities for accessing linked list token attributes
 char				*tok_word(t_node *node);
