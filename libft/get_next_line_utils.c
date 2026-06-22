@@ -6,11 +6,13 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/18 12:08:16 by dstumpf           #+#    #+#             */
-/*   Updated: 2025/11/26 15:21:14 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/06/22 12:35:05 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+#include "structs.h"
+#include "err.h"
 
 bool	init_line(t_lineinfo *line)
 {
@@ -47,8 +49,10 @@ char	*ft_realloc(t_fdlist *stash, t_lineinfo *line, size_t new_len)
 	return (new_line);
 }
 
-void	cpy_buff_to_line(t_fdlist *stash, t_lineinfo *line, int fd)
+int	cpy_buff_to_line(t_fdlist *stash, t_lineinfo *line, int fd)
 {
+	enum e_rr;
+
 	while (line->line)
 	{
 		if (stash->buff_i >= stash->buff_s)
@@ -57,14 +61,14 @@ void	cpy_buff_to_line(t_fdlist *stash, t_lineinfo *line, int fd)
 			stash->buff_s = read(fd, stash->buff, BUFFER_SIZE);
 		}
 		if (stash->buff_s <= 0)
-			break ;
+			return (ERR_READ);
 		if (line->line_i >= line->line_s)
 			line->line = ft_realloc(stash, line, line->line_s * 2);
 		if (!line->line)
-			break ;
+			return (ERR_MALLOC);
 		if (stash->buff_i < stash->buff_s && line->line)
 			(line->line)[(line->line_i)++] = (stash->buff)[stash->buff_i];
 		if ((stash->buff)[(stash->buff_i)++] == '\n')
-			break ;
+			return (OK);
 	}
 }

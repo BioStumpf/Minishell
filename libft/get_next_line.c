@@ -6,15 +6,26 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/25 15:03:48 by dstumpf           #+#    #+#             */
-/*   Updated: 2025/11/26 15:20:29 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/06/22 13:48:16 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+#include "err.h"
+#include "structs.h"
+
+void	set_val(enum e_err value)
+{
+	t_data	*data_address;
+
+	data_address = data_storage(NULL);
+	data_address->err = value;
+}
 
 char	*get_next_line(int fd)
 {
 	static t_fdlist	glob_stash[1024];
+	enum e_err		error_type;
 	t_fdlist		*stash;
 	t_lineinfo		line;
 
@@ -22,8 +33,12 @@ char	*get_next_line(int fd)
 		return (NULL);
 	stash = &glob_stash[fd];
 	if (!init_line(&line))
-		return (NULL);
-	cpy_buff_to_line(stash, &line, fd);
+		return (set_val(ERR_MALLOC), NULL);
+	error_type = cpy_buff_to_line(stash, &line, fd);
+	if (error_type)
+		return (set_val(error_type), NULL);
 	line.line = ft_realloc(stash, &line, line.line_i + 1);
+	if (line.line == NULL)
+		return (set_val(ERR_MALLOC), NULL);
 	return (line.line);
 }
