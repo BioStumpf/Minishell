@@ -6,7 +6,7 @@
 /*   By: david <user@student.42mail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/06 21:34:36 by david             #+#    #+#             */
-/*   Updated: 2026/05/17 18:22:38 by david            ###   ########.fr       */
+/*   Updated: 2026/06/22 14:18:56 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,18 @@ static int	print_error_get_return(enum e_err err)
 {
 	if (err == ERR_MALLOC)
 		return (ft_printf(2, "Malloc fail\n"), 1);
-	else if (err == PARSE_ERR_UNCLOSED_QUOTES)
-	 	return (ft_printf(2, "Parsing error, unclosed quotes\n"), 2);
+	else if (err == ERR_DUP)
+		return (ft_printf(2, "dup error\n"), 2);
+	else if (err == ERR_PIPE)
+		return (ft_printf(2, "pipe error\n"), 2);
+	else if (err == ERR_READ)
+		return (ft_printf(2, "read error\n"), 2);
+	else if (err == ERR_OPEN)
+		return (ft_printf(2, "open error\n"), 2);
+	else if (err == ERR_FORK)
+		return (ft_printf(2, "fork error\n"), 2);
+	else if (err == ERR_SIG)
+		return (ft_printf(2, "signal error\n"), 2);
 	else
 		return (0);
 }
