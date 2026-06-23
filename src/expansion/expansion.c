@@ -6,7 +6,7 @@
 /*   By: david <dstumpf@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/18 13:07:57 by david             #+#    #+#             */
-/*   Updated: 2026/06/23 16:36:12 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/06/23 21:53:52 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,11 +49,20 @@ static void	expand_arg(t_compound *comp, size_t idx)
 	s_quotes = false;
 	d_quotes = false;
 	arg = arg_av(comp)[idx];
-	
+	//char *current;
+	//t_arg *args = comp_args(comp);
+	//t_arg *new_args = comp_args(comp);
 	while (*arg)
 	{
-		set_quote_stat(*arg, &s_quotes, &d_quotes);
-		if (must_expand(arg) && !s_quotes) 
+		//current = fetch_string() -> will 1. count how long it is 2. malloc 3. fill it (checks quotes, checks $)
+		//current may be emtpy;
+		// if (must_expand(arg)) 
+			//expanded = expand_split(&arg);
+			//for i in len(expanded):
+				// current = ft_strjoin(current, expanded[i]);
+				//add_arg(new_args, i, new);
+				//current = ""; //set current to nothing again
+		//current.append(*arg);
 
 	}
 }
