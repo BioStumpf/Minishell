@@ -6,7 +6,7 @@
 /*   By: knajmech <knajmech@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/04 10:03:18 by knajmech          #+#    #+#             */
-/*   Updated: 2026/06/12 09:10:32 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/06/23 14:06:28 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,13 @@ t_env	*hash_search(t_list *hash_arr, char *key)
 	return (NULL);
 }
 
+char	*get_env_val(t_data *data, char *key)
+{
+	t_env	*key_and_val;
+
+	key_and_val = hash_search(data->env_mp->env_ptr, key);
+	return (key_and_val->value);
+}
 /*void	hash_find(t_data *data, char *var)
 {
 	assert (var != NULL && data->env_mp->env_ptr != NULL);

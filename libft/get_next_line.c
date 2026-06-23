@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/25 15:03:48 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/06/22 13:48:16 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/06/23 13:56:33 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	set_val(enum e_err value)
 	t_data	*data_address;
 
 	data_address = data_storage(NULL);
-	data_address->err = value;
+	set_error(data_address, value);
 }
 
 char	*get_next_line(int fd)

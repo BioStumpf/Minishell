@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/18 12:08:16 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/06/22 12:35:05 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/06/23 13:57:31 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,8 @@ char	*ft_realloc(t_fdlist *stash, t_lineinfo *line, size_t new_len)
 	return (new_line);
 }
 
-int	cpy_buff_to_line(t_fdlist *stash, t_lineinfo *line, int fd)
+enum e_err	cpy_buff_to_line(t_fdlist *stash, t_lineinfo *line, int fd)
 {
-	enum e_rr;
-
 	while (line->line)
 	{
 		if (stash->buff_i >= stash->buff_s)
