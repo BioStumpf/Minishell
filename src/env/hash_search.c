@@ -6,13 +6,13 @@
 /*   By: knajmech <knajmech@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/04 10:03:18 by knajmech          #+#    #+#             */
-/*   Updated: 2026/06/04 07:27:08 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/06/24 14:35:59 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../headers/env.h"
 
-unsigned int	find_hash_key(char	*key)
+unsigned int	find_hash_key(char *key)
 {
 	unsigned int	hash;
 	unsigned int	key_index;
@@ -32,12 +32,16 @@ unsigned int	find_hash_key(char	*key)
 	return (key_index);
 }
 
-t_env	*hash_search(t_node *list, char *key)
+t_env	*hash_search(t_list *hash_arr, char *key)
 {
-	t_env	*key_check;
+	t_env			*key_check;
+	t_node			*list;
+	unsigned int	hash_key;
 
-	if (!list)
+	if (!hash_arr)
 		return (NULL);
+	hash_key = find_hash_key(key);
+	list = hash_arr[hash_key].head;
 	while (list)
 	{
 		key_check = list->content;
@@ -49,6 +53,13 @@ t_env	*hash_search(t_node *list, char *key)
 	return (NULL);
 }
 
+char	*get_env_val(t_data *data, char *key)
+{
+	t_env	*key_and_val;
+
+	key_and_val = hash_search(data->env_mp->env_ptr, key);
+	return (key_and_val->value);
+}
 /*void	hash_find(t_data *data, char *var)
 {
 	assert (var != NULL && data->env_mp->env_ptr != NULL);

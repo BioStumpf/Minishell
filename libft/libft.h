@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 14:04:55 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/05/15 11:10:23 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/06/24 14:50:19 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ char	*ft_strdup(const char *s);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
 char	*ft_strjoin(char const *s1, char const *s2);
 char	*ft_strtrim(char const *s1, char const *set);
-char	**ft_split(char const *s, char c);
+char	**ft_split(char const *s, char *sep);
 char	*ft_itoa(int n);
 char	*ft_strmapi(const char *s, char (*f)(unsigned int, char));
 void	ft_striteri(char *s, void (*f)(unsigned int, char*));
@@ -78,6 +78,7 @@ void	ft_lstmid_rm(t_list *lst, t_node *to_rm, t_node *prev, void (*del)(void *))
 t_list	*ft_lstnew(void);
 t_node	*ft_nodenew(void *content);
 void	ft_lstprint(t_list *lst, void (*print_fn)(void *content));
+bool	in_charset(char c, const char *charset);
 size_t	count_words(const char *s, const char *sep);
 size_t	count_nums(const char *s);
 int		ft_atoi_multi(char **nptr);
