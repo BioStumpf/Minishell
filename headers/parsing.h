@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/04 11:00:01 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/06/17 15:56:30 by david            ###   ########.fr       */
+/*   Updated: 2026/06/25 12:31:29 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,5 +150,20 @@ void				free_compound(t_compound_arr *ca, enum e_err status, t_data *dat);
 //to_delete_functions (just usefull for now)
 void				print_token(void *content); //this need to be removed
 void				print_compound(t_compound_arr *compounds);
+
+///////////////////////////////////////////
+// expansion
+///////////////////////////////////////////
+typedef struct	s_quotes
+{
+	bool	sngl;
+	bool	dbl;
+}			t_quotes;
+
+typedef struct	s_split
+{
+	size_t	len;
+	char	**splt;
+}			t_split;
 
 #endif

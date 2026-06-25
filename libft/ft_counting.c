@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 12:00:47 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/06/24 15:11:10 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/06/25 14:12:06 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@ size_t	count_words(const char *s, const char *sep)
 {
 	size_t	word_count;
 
-	if (!sep || !*sep)
-		return (1);
+	if (!s || !*s)
+		return (0);
 	word_count = 0;
 	while (*s)
 	{
