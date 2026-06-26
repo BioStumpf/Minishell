@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/04 11:00:01 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/06/25 12:31:29 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/06/26 15:02:39 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,16 +154,24 @@ void				print_compound(t_compound_arr *compounds);
 ///////////////////////////////////////////
 // expansion
 ///////////////////////////////////////////
+//structs
 typedef struct	s_quotes
 {
 	bool	sngl;
 	bool	dbl;
 }			t_quotes;
 
+//wrap this inside t_arg cause then you can expand it too
 typedef struct	s_split
 {
+	bool	leading_sep;
+	bool	trailing_sep;
 	size_t	len;
 	char	**splt;
 }			t_split;
+
+//functions
+t_split				*expand_split(char *s, char *sep);
+void				free_exp_splt(t_split *splt, size_t len);
 
 #endif

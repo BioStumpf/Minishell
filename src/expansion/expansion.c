@@ -6,7 +6,7 @@
 /*   By: david <dstumpf@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/18 13:07:57 by david             #+#    #+#             */
-/*   Updated: 2026/06/25 12:23:04 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/06/26 15:24:49 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ static bool	is_expand_char(char c)
 {
 	return (c == '$');
 }
-
 
 static bool	skip_char(char *arg, t_quotes *quotes)
 {
@@ -90,7 +89,7 @@ static void	copy_arg(char *dest, char *src, size_t len, t_quotes *quotes)
 	dest[i] = '\0';
 }
 
-static char	*fetch_arg(char **arg, t_quotes *quotes)
+static char	*fetch_non_expand(char **arg, t_quotes *quotes)
 {
 	size_t		len;
 	char		*out;
@@ -123,12 +122,12 @@ static char	*get_expansion_var(char **arg)
 	return (var);
 }
 
-static char	**expand_split(t_data *dat, char **arg, t_quotes *quotes)
+static t_split	*fetch_expansion(t_data *dat, char **arg, t_quotes *quotes)
 {
 	char	*to_expand;
 	char	*expanded;
 	char	*ifs;
-	char	**splitted;
+	t_split	*splitted;
 
 	if (!**arg)
 		return (NULL);
@@ -141,19 +140,27 @@ static char	**expand_split(t_data *dat, char **arg, t_quotes *quotes)
 	expanded = get_env_val(dat, to_expand);
 	if (!expanded || !*expanded)
 		return (free(to_expand), NULL);
-	splitted = ft_split(expanded, ifs); //make special split because we need to not completely ignore whitespaces, we need blanks in front and back to indicate 
+	splitted = expand_split(expanded, ifs); //make special split because we need to not completely ignore whitespaces, we need blanks in front and back to indicate 
 	if (!splitted)
 		set_error(dat, ERR_MALLOC);
 	return (splitted);
 }
 
+static bool	merge_expansion(t_arg *args, size_t idx
+		char *current, t_split *expanded)
+{
+	if (expanded->len)
+}
+
 static bool	expand_arg(t_data *dat, t_compound *comp, size_t idx)
 {
-	char		**expanded;
 	char		*arg;
 	char		*current;
+	t_arg		*args;
 	t_quotes	quotes;
+	t_split		*expanded;
 
+	args = comp_args(comp);
 	arg = arg_av(comp)[idx];
 	quotes.dbl = false;
 	quotes.sngl = false;
@@ -161,12 +168,13 @@ static bool	expand_arg(t_data *dat, t_compound *comp, size_t idx)
 	//t_arg *new_args = comp_args(comp);
 	while (*arg)
 	{
-		current = fetch_arg(&arg, &quotes); //-> will 1. count how long it is 2. malloc 3. fill it (checks quotes, checks $)
+		current = fetch_non_expand(&arg, &quotes); //-> will 1. count how long it is 2. malloc 3. fill it (checks quotes, checks $)
 		if (!status_ok(dat))
 			return (false);
-		expanded = expand_split(dat, &arg, &quotes); //this doesnt change quote status, it just needs to know if it should do word splitting or not
+		expanded = fetch_expansion(dat, &arg, &quotes); //this doesnt change quote status, it just needs to know if it should do word splitting or not
 		if (!status_ok(dat))
 			return (false);
+		merge_expansion(args, current, expanded);
 		//
 		//current may be emtpy;
 		// if (must_expand(arg)) 
