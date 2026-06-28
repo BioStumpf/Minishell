@@ -13,6 +13,7 @@
 #include "libft.h"
 #include "parsing.h"
 #include <stdlib.h>
+#include <err.h>
 // #include <stdbool.h>
 
 static size_t	count_compounds(t_list *tokens)
@@ -96,7 +97,7 @@ t_compound_arr	*compound_group(t_data *dat, t_list *tokens)
 	(void)dat;
 	t_compound_arr	*ca;
 
-	if (!tokens)
+	if (!tokens || !status_ok(dat))
 		return (NULL);
 	ca = malloc(sizeof(t_compound_arr));
 	if (!ca)

@@ -6,7 +6,7 @@
 /*   By: david <dstumpf@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/18 13:07:57 by david             #+#    #+#             */
-/*   Updated: 2026/06/26 15:24:49 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/06/27 15:23:06 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,7 +133,7 @@ static t_split	*fetch_expansion(t_data *dat, char **arg, t_quotes *quotes)
 		return (NULL);
 	ifs = get_env_val(dat, "IFS");
 	if (quotes->dbl)
-		ifs = "\0";
+		ifs = "";
 	else if (!ifs) //its unset
 		ifs = " \t\n";
 	to_expand = get_expansion_var(arg); // allocated
@@ -146,46 +146,18 @@ static t_split	*fetch_expansion(t_data *dat, char **arg, t_quotes *quotes)
 	return (splitted);
 }
 
-static bool	merge_expansion(t_arg *args, size_t idx
-		char *current, t_split *expanded)
-{
-	if (expanded->len)
-}
-
 static bool	expand_arg(t_data *dat, t_compound *comp, size_t idx)
 {
-	char		*arg;
-	char		*current;
+	t_expand	expansions;
 	t_arg		*args;
-	t_quotes	quotes;
-	t_split		*expanded;
 
 	args = comp_args(comp);
-	arg = arg_av(comp)[idx];
-	quotes.dbl = false;
-	quotes.sngl = false;
-	//t_arg *args = comp_args(comp);
-	//t_arg *new_args = comp_args(comp);
-	while (*arg)
-	{
-		current = fetch_non_expand(&arg, &quotes); //-> will 1. count how long it is 2. malloc 3. fill it (checks quotes, checks $)
-		if (!status_ok(dat))
-			return (false);
-		expanded = fetch_expansion(dat, &arg, &quotes); //this doesnt change quote status, it just needs to know if it should do word splitting or not
-		if (!status_ok(dat))
-			return (false);
-		merge_expansion(args, current, expanded);
-		//
-		//current may be emtpy;
-		// if (must_expand(arg)) 
-			//expanded = expand_split(&arg);
-			//for i in len(expanded):
-				// current = ft_strjoin(current, expanded[i]);
-				//add_arg(new_args, i, new);
-				//current = ""; //set current to nothing again
-		//current.append(*arg);
-
-	}
+	if (!find_expansions(expansions, args->av[idx]))
+		return (set_error(dat, ERR_MALLOC), false);
+	if (!remove_dollar_quotes(expansions, args, idx))
+		return (set_error(dat, ERR_MALLOC), false);
+	if (!word_split(expansions, args, idx))
+		return (set_error(dat, ERR_MALLOC), false);
 	return (true);
 }
 

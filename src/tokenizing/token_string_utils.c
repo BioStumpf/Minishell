@@ -6,7 +6,7 @@
 /*   By: david <user@student.42mail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/30 17:04:19 by david             #+#    #+#             */
-/*   Updated: 2026/05/17 17:35:06 by david            ###   ########.fr       */
+/*   Updated: 2026/06/27 14:29:43 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,11 +52,10 @@ char	is_double_metachar(char *input)
 	double_metachars = "|&<>";
 	return (char_in_str(current, double_metachars) && current == next);
 }
-
-char	is_quote(char c)
-{
-	const char	*quote;
-
-	quote = "\"\'";
-	return (char_in_str(c, quote));
-}
+// char	is_quote(char c)
+// {
+// 	const char	*quote;
+//
+// 	quote = "\"\'";
+// 	return (char_in_str(c, quote));
+// }
