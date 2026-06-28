@@ -6,7 +6,7 @@
 /*   By: david <user@student.42mail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/14 17:06:36 by david             #+#    #+#             */
-/*   Updated: 2026/06/27 14:30:35 by david            ###   ########.fr       */
+/*   Updated: 2026/06/28 19:45:28 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,14 @@ static	bool	in_quotes(t_quotes *quotes)
 	return (quotes->sngl || quotes->dbl);
 }
 
+void	handle_quotes(t_quotes *quotes, char c)
+{
+	if (c == '\"' && !quotes->sngl)
+		quotes->dbl = !quotes->dbl;
+	else if (c == '\'' && !quotes->dbl)
+		quotes->sngl = !quotes->sngl;
+}
+
 size_t	get_word_len(char *input, t_data *dat)
 {
 	t_quotes	quotes;
@@ -35,10 +43,7 @@ size_t	get_word_len(char *input, t_data *dat)
 	quotes.sngl = false;
 	while (input[i] && (in_quotes(&quotes) || !is_metachar(input + i)))
 	{
-		if (input[i] == '\"' && !quotes.sngl)
-			quotes.dbl = !quotes.dbl;
-		else if (input[i] == '\'' && !quotes.dbl)
-			quotes.sngl = !quotes.sngl;
+		handle_quotes(&quotes, input[i]);
 		i++;
 	}
 	if (in_quotes(&quotes))

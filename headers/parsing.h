@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/04 11:00:01 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/06/27 15:28:07 by david            ###   ########.fr       */
+/*   Updated: 2026/06/28 19:55:38 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,12 @@ typedef struct s_token
 		} s_redir;
 	} u_value;
 }	t_token;
+
+typedef struct	s_quotes
+{
+	bool	sngl;
+	bool	dbl;
+}			t_quotes;
 
 //////////////////
 //functions
@@ -79,6 +85,7 @@ bool				tok_space(t_node *node);
 char				is_double_metachar(char *input);
 char				is_single_metachar(char c);
 char				is_whitespace_metachar(char c);
+void				handle_quotes(t_quotes *quotes, char c);
 char				is_quote(char c);
 char				skip_whitespace(char **str);
 
@@ -155,17 +162,11 @@ void				print_compound(t_compound_arr *compounds);
 // expansion
 ///////////////////////////////////////////
 //structs
-typedef struct	s_quotes
-{
-	bool	sngl;
-	bool	dbl;
-}			t_quotes;
-
 typedef struct	s_exp
 {
 	bool	quoted;
-	size_t	len;
 	size_t	start;
+	size_t	len;
 }			t_exp;
 
 typedef struct	s_exp_vec
@@ -185,6 +186,11 @@ typedef struct	s_exp_vec
 // }			t_split;
 
 //functions
+bool				exp_quote(t_exp_vec *vec, size_t idx);
+size_t				exp_start(t_exp_vec *vec, size_t idx);
+size_t				exp_len(t_exp_vec *vec, size_t idx);
+bool				init_exp_vec(t_exp_vec *vec);
+void				*add_exp(t_exp_vec *vec, size_t idx, t_exp *exp);
 // t_split				*expand_split(char *s, char *sep);
 // void				free_exp_splt(t_split *splt, size_t len);
 

@@ -6,12 +6,13 @@
 /*   By: david <dstumpf@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/27 15:24:10 by david             #+#    #+#             */
-/*   Updated: 2026/06/27 15:48:34 by david            ###   ########.fr       */
+/*   Updated: 2026/06/28 19:27:43 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 #include "libft.h"
+#include <stdio.h>
 #include <stdlib.h>
 
 bool	init_exp_vec(t_exp_vec *vec)
@@ -59,3 +60,19 @@ void	*add_exp(t_exp_vec *vec, size_t idx, t_exp *exp)
 	vec->size++;
 	return (vec);
 }
+// int main(){
+// 	t_exp_vec vec = {0, 0, 0};
+// 	add_exp(&vec, 0, &(t_exp){true, 1, 5});
+// 	add_exp(&vec, 1, &(t_exp){false, 2, 10});
+// 	add_exp(&vec, 2, &(t_exp){false, 3, 0});
+// 	add_exp(&vec, 3, &(t_exp){true, 3, 5});
+// 	add_exp(&vec, 4, &(t_exp){false, 4, 10});
+// 	add_exp(&vec, 5, &(t_exp){false, 5, 0});
+// 	add_exp(&vec, 6, &(t_exp){true, 6, 5});
+// 	add_exp(&vec, 7, &(t_exp){false, 7, 10});
+// 	add_exp(&vec, 8, &(t_exp){false, 8, 0});
+// 	for (size_t i = 0; i < vec.size; i++){
+// 		printf("quoted: %d;   start: %zu;   len: %zu\n", exp_quote(&vec, i), exp_start(&vec, i), exp_len(&vec, i));
+// 	}
+// 	free(vec.expansions);
+// }

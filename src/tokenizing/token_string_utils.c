@@ -52,10 +52,11 @@ char	is_double_metachar(char *input)
 	double_metachars = "|&<>";
 	return (char_in_str(current, double_metachars) && current == next);
 }
-// char	is_quote(char c)
-// {
-// 	const char	*quote;
-//
-// 	quote = "\"\'";
-// 	return (char_in_str(c, quote));
-// }
+
+char	is_quote(char c)
+{
+	const char	*quote;
+
+	quote = "\"\'";
+	return (char_in_str(c, quote));
+}
