@@ -6,30 +6,17 @@
 /*   By: david <dstumpf@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/18 13:07:57 by david             #+#    #+#             */
-/*   Updated: 2026/06/28 20:52:17 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/06/29 17:57:35 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-// #include "libft.h"
 #include "libft.h"
 #include "parsing.h"
-// #include "env.h"
+#include "env.h"
 #include "structs.h"
 #include "err.h"
+#include <stddef.h>
 #include <strings.h>
-
-void	set_exp_info(t_exp *exp, char *arg, size_t *idx, bool quoted)
-{
-	(*idx)++;
-	exp->start = *idx;
-	exp->quoted = quoted;
-	while (arg[*idx] && !is_quote(arg[*idx] && arg[*idx] != '$'))
-		(*idx)++;
-	exp->len = *idx - exp->start;
-	// $var
-	// $?
-	// $$
-}
 
 static bool	is_expand_signal(char *arg, bool sngl_quotes)
 {
@@ -38,33 +25,162 @@ static bool	is_expand_signal(char *arg, bool sngl_quotes)
 
 	cur = arg[0];
 	next = arg[1];
-	return (cur == '$' && !sngl_quotes &&
+	return (cur == '$' && !sngl_quotes && next &&
 		!is_quote(next) && !is_whitespace_metachar(next));
+}
+
+static void	set_exp_info(t_exp *exp, char *arg, size_t *idx, bool quoted)
+{
+	(*idx)++;
+	exp->start = *idx;
+	exp->quoted = quoted;
+	while (arg[*idx] && arg[*idx] != '$')
+		(*idx)++;
+	if (exp->start == *idx)
+		while (arg[*idx] == '$')
+			(*idx)++;
+	exp->len = *idx - exp->start;
+	// $var$$ 
+	// $?
+	// $$
+	// $$$
+	// "hi"$var$var first $ = -3 second = -4
+	// hivarvar
+}
+
+static void	update_expansion_info(t_exp *exp, size_t to_remove)
+{
+	exp->start -= to_remove;
 }
 
 static bool	find_expansions(t_exp_vec *exps, char *arg)
 {
 	t_quotes	quotes;
 	size_t		i;
-	size_t		num_exps;
+	size_t		chars_to_remove;
 	t_exp		exp_info;
 
-	quotes.dbl = false;
-	quotes.sngl = false;
+	bzero(&quotes, sizeof(t_quotes));
 	i = 0;
-	num_exps = 0;
+	chars_to_remove = 0;
 	while (arg[i])
 	{
-		handle_quotes(&quotes, arg[i]);
+		if (update_quote_status(&quotes, arg[i]))
+			chars_to_remove++;
 		if (is_expand_signal(&arg[i], quotes.sngl))
 		{
+			chars_to_remove++;
 			set_exp_info(&exp_info, arg, &i, quotes.dbl);
-			if (!add_exp(exps, num_exps++, &exp_info))
+			update_expansion_info(&exp_info, chars_to_remove);
+			if (!add_exp(exps, exps->size, &exp_info))
 				return (false);
 			continue ;
 		}
 		i++;
 	}
+	return (true);
+}
+
+static size_t	no_quote_size(char *arg)
+{
+	t_quotes	quotes;
+	size_t		size;
+
+	bzero(&quotes, sizeof(t_quotes));
+	size = 0;
+	while (*arg)
+	{
+		if (update_quote_status(&quotes, *arg))
+			arg++;
+		else if (is_expand_signal(arg, quotes.sngl))
+		{
+			arg++;
+			while (arg[0] == '$' && arg[1] == '$')
+			{
+				arg++;
+				size++;
+			}
+		}
+		else
+		{
+			arg++;
+			size++;
+		}
+	}
+	return (size);
+}
+
+static char	*get_no_quote(size_t arg_size, char *arg)
+{
+	t_quotes	quotes;
+	size_t		i;
+	char		*out;
+
+	bzero(&quotes, sizeof(t_quotes));
+	out = malloc((arg_size + 1) * sizeof(char));
+	i = 0;
+	if (!out)
+		return (NULL);
+	while (*arg)
+	{
+		if (update_quote_status(&quotes, *arg))
+			arg++;
+		else if (is_expand_signal(arg, quotes.sngl))
+		{
+			arg++;
+			while (arg[0] == '$' && arg[1] == '$')
+				out[i++] = *arg++;
+		}
+		else
+			out[i++] = *arg++;
+	}
+	out[i] = '\0';
+	return (out);
+}
+
+static bool	remove_dollar_quotes(t_exp_vec *exps, t_arg *args, size_t idx)
+{
+	size_t		new_arg_size;
+	char		*new_arg;
+
+	new_arg_size = no_quote_size(args->av[idx]);
+	new_arg = get_no_quote(new_arg_size, args->av[idx]);
+	if (!new_arg)
+		return (free(exps), false);
+	args->av[idx] = new_arg;
+	return (true);
+}
+
+static bool	insert_expansions(t_data *dat, t_exp_vec *exps,
+	t_arg *args, size_t idx)
+{
+	size_t	i;
+	size_t	expanded_len;
+	char	*expanded;
+	char	*arg;
+
+	i = 0;
+	arg = args->av[idx];
+	expanded_len = post_expansion_len(arg, dat, exps); 
+	expanded = merge_expansions(expanded_len, arg, dat, exps);
+	if (!expanded)
+		return (free(exps), false);
+
+	// while (*arg)
+	// {
+	// 	expanded_tmp = expanded;
+	// 	start = exp_start(exps, i);
+	// 	stop = start + exp_len(exps, i);
+	// 	tmp = arg[stop];
+	// 	arg[stop] = '\0';
+	// 	expansion_var = get_env_val(dat, &arg[start]);
+	// 	arg[stop] = tmp;
+	// 	arg[start] = '\0';
+	// 	expanded = ft_strjoin(expanded_tmp, expansion_var);
+	// 	free(expanded_tmp);
+	// }
+	// free(args->av[idx]);
+	args->av[idx] = expanded;
 	return (true);
 }
 

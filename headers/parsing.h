@@ -85,7 +85,7 @@ bool				tok_space(t_node *node);
 char				is_double_metachar(char *input);
 char				is_single_metachar(char c);
 char				is_whitespace_metachar(char c);
-void				handle_quotes(t_quotes *quotes, char c);
+bool				update_quote_status(t_quotes *quotes, char c);
 char				is_quote(char c);
 char				skip_whitespace(char **str);
 
