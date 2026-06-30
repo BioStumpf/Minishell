@@ -85,7 +85,7 @@ bool				tok_space(t_node *node);
 char				is_double_metachar(char *input);
 char				is_single_metachar(char c);
 char				is_whitespace_metachar(char c);
-bool				update_quote_status(t_quotes *quotes, char c);
+bool				update_quote_status(t_quotes *quotes, char *str);
 char				is_quote(char c);
 char				skip_whitespace(char **str);
 
@@ -186,6 +186,7 @@ typedef struct	s_exp_vec
 // }			t_split;
 
 //functions
+void				expand(t_data *dat, t_compound_arr *ca);
 bool				exp_quote(t_exp_vec *vec, size_t idx);
 size_t				exp_start(t_exp_vec *vec, size_t idx);
 size_t				exp_len(t_exp_vec *vec, size_t idx);

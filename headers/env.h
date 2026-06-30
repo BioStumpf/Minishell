@@ -19,6 +19,7 @@
 # include "../libft/libft.h"
 # define CAPACITY 67
 
+int				process_env(t_data *data, char **env);
 void			unset_variable(t_list *map_env, char *key);
 t_env			*make_kv_node(char *key, char *val);
 t_env			*ft_newnode(void *value);

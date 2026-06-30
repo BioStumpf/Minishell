@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/04 11:02:46 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/06/17 18:25:41 by david            ###   ########.fr       */
+/*   Updated: 2026/06/30 10:11:20 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 #include <err.h>
+#include <env.h>
 
 void	free_all(t_data *dat)
 {
@@ -30,7 +31,8 @@ int main(int argc, char **argv, char **envp)
 	ft_bzero(&dat, sizeof(t_data));
 	(void)argc;
 	(void)argv;
-	(void)envp; //remove this since we dont need to cast it, for now we dont use it so i void it
+	process_env(&dat, envp);
+	// (void)envp; //remove this since we dont need to cast it, for now we dont use it so i void it
 	//init_dat(&dat, envp); //copy envp into our own environment/envp (we should not change the original one)
 	while (1)
 	{

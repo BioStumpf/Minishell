@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 14:14:19 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/06/27 13:11:47 by david            ###   ########.fr       */
+/*   Updated: 2026/06/30 09:44:53 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,9 @@ void	parse_input(t_data *dat)
 	compound_tokens = compound_group(dat, tokens);
 	// ft_printf(1, "number of compounds: %d\n", compound_tokens->len);
 	ft_lstclear(tokens, free_token);
+	// print_compound(compound_tokens);
+	expand(dat, compound_tokens);
 	print_compound(compound_tokens);
 	free_compound(compound_tokens, OK, dat);
-	//expand(dat, compound_tokens);
 	//dat->ast = parse_tokens(dat, compound_tokens);
 }
