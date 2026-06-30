@@ -1,37 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pworkdir.c                                         :+:      :+:    :+:   */
+/*   cleanup_error.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/05/11 08:47:22 by knajmech          #+#    #+#             */
-/*   Updated: 2026/06/12 09:52:50 by knajmech         ###   ########.fr       */
+/*   Created: 2026/06/22 14:22:15 by knajmech          #+#    #+#             */
+/*   Updated: 2026/06/22 15:02:36 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
-#include "structs.h"
 #include "env.h"
+#include "structs.h"
 
-void	save_cwd(t_data *data)
+void	cleanup(t_data *data)
 {
-	char	*currdir;
+	int		i;
+	t_list	*map_env;
+	t_node	*node;
 
-	currdir = getcwd(NULL, 0);
-	if (currdir == NULL)
-		error_and_cleanup(data, "getcwd", 0);
-	data->cwd = currdir;
-}
-
-int	pworkdir(t_data *data)
-{
-	char	*currdir;
-
-	currdir = getcwd(NULL, 0);
-	if (currdir == NULL)
-		error_and_cleanup(data, "getcwd", 0);
-	printf("%s\n", currdir);
-	free(currdir);
-	return (1);
+	if (data->env_mp)
+	{
+		map_env = data->env_mp->env_ptr;
+		i = 0;
+		while (i < CAPACITY)
+		{
+			node = map_env[i].head;
+			while (node)
+				node = delete_node(node);
+			map_env[i].head = NULL;
+			map_env[i].tail = NULL;
+			i++;
+		}
+	}
+	exit (data->ret_code);
 }

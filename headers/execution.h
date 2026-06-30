@@ -6,7 +6,7 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/27 09:07:15 by knajmech          #+#    #+#             */
-/*   Updated: 2026/06/04 10:59:18 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/06/30 17:48:38 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,18 @@
 # include "structs.h"
 // # include "builtins.h"
 
+int		launch_childp(t_ast *direction, int *fds, int std_fd,
+				t_pipe_manager *pipe_info);
+int		exec_pipe(t_ast *node, t_pipe_manager *pipe_info);
+int		exec_and(t_ast *node, t_pipe_manager *pipe_info);
+int		exec_or(t_ast *node, t_pipe_manager *pipe_info);
+int		execute(t_ast *node, t_pipe_manager *pipe_info);
+void	heredoc(t_data *data, t_ast *node);
 void	redirections(t_data *data, t_ast *redir, char **cmd);
 char	**free_out(char **out, size_t len);
 void	pathfinder(t_pipe_manager *pipe_info, char **path_parts, char **args);
 char	**split_path_env(t_data *data);
+int		exec_builtin(t_ast *node, t_pipe_manager *pipe_info);
+int		exec_extern(t_ast *node, t_pipe_manager *pipe_info);
 
 #endif

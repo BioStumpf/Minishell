@@ -6,7 +6,7 @@
 /*   By: david <user@student.42mail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/06 21:34:36 by david             #+#    #+#             */
-/*   Updated: 2026/06/17 15:54:03 by david            ###   ########.fr       */
+/*   Updated: 2026/06/30 17:34:02 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,18 @@ static int	print_error_get_return(enum e_err err)
 	 	return (ft_printf(2, "Parsing error, unclosed quotes\n"), 2);
 	else if (err == PARSE_ERR_REDIR)
 	 	return (ft_printf(2, "Parsing error, redirection invalid\n"), 2);
+	else if (err == ERR_DUP)
+		return (ft_printf(2, "dup error\n"), 2);
+	else if (err == ERR_PIPE)
+		return (ft_printf(2, "pipe error\n"), 2);
+	else if (err == ERR_READ)
+		return (ft_printf(2, "read error\n"), 2);
+	else if (err == ERR_OPEN)
+		return (ft_printf(2, "open error\n"), 2);
+	else if (err == ERR_FORK)
+		return (ft_printf(2, "fork error\n"), 2);
+	else if (err == ERR_SIG)
+		return (ft_printf(2, "signal error\n"), 2);
 	else
 		return (0);
 }

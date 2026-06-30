@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/04 16:18:11 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/06/24 15:32:41 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/06/02 11:36:22 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,13 +100,13 @@ char	**ft_split(char const *s, char c)
 	return (list);
 }*/
 
-static void	find_word(const char *s, char *sep, unsigned int *start, size_t *len)
+static void	find_word(const char *s, char c, unsigned int *start, size_t *len)
 {
 	*start += *len;
 	*len = 0;
-	while (s[*start] && in_charset(s[*start], sep))
+	while (s[*start] && s[*start] == c)
 		(*start)++;
-	while (s[*start + *len] && !in_charset(s[*start + *len], sep))
+	while (s[*start + *len] && s[*start + *len] != c)
 		(*len)++;
 }
 
@@ -117,7 +117,7 @@ static void	free_out(char **out, size_t len)
 	free(out);
 }
 
-static int	fill_array(const char *s, char *sep, char **out, size_t wc)
+static int	fill_array(const char *s, char c, char **out, size_t wc)
 {
 	size_t			i;
 	size_t			len;
@@ -128,7 +128,7 @@ static int	fill_array(const char *s, char *sep, char **out, size_t wc)
 	len = 0;
 	while (i < wc)
 	{
-		find_word(s, sep, &start, &len);
+		find_word(s, c, &start, &len);
 		out[i] = ft_substr(s, start, len);
 		if (!out[i])
 		{
@@ -141,18 +141,18 @@ static int	fill_array(const char *s, char *sep, char **out, size_t wc)
 	return (1);
 }
 
-char	**ft_split(char const *s, char *sep)
+char	**ft_split(char const *s, char c)
 {
 	char			**out;
 	size_t			wc;
 
-	wc = count_words(s, sep);
-	if (!s || !*s || wc == 0)
+	wc = count_words(s, &c);
+	if (!*s || wc == 0)
 		wc = 0;
 	out = malloc(sizeof(char *) * (wc + 1));
 	if (!out)
 		return (0);
-	if (!fill_array(s, sep, out, wc))
+	if (!fill_array(s, c, out, wc))
 		return (0);
 	return (out);
 }
