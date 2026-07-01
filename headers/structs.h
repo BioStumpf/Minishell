@@ -76,6 +76,7 @@ typedef struct s_data
 	char			*newdir;
 	enum e_err		err;
 	int				ret_code;
+	char			*ret_str;
 	t_env_tracker	*env_mp;
 }				t_data;
 

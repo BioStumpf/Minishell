@@ -6,7 +6,7 @@
 /*   By: david <dstumpf@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/01 11:35:41 by david             #+#    #+#             */
-/*   Updated: 2026/07/01 11:57:33 by david            ###   ########.fr       */
+/*   Updated: 2026/07/03 12:51:46 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,16 @@
 void	free_all(t_data *dat)
 {
 	// rl_clear_history();
-	(void)dat;
 	error_and_cleanup(dat, NULL, 0);
+	free(dat->ret_str);
+}
+
+static void	set_return_str(t_data *dat)
+{
+	free(dat->ret_str);
+	dat->ret_str = ft_itoa(dat->ret_code);
+	if (!dat->ret_str)
+		set_error(dat, ERR_MALLOC);
 }
 
 //NOTES:
@@ -47,21 +55,28 @@ int main(int argc, char **argv, char **envp)
 	(void)argc;
 	(void)argv;
 	process_env(&dat, envp);
-	// (void)envp; //remove this since we dont need to cast it, for now we dont use it so i void it
-	//init_dat(&dat, envp); //copy envp into our own environment/envp (we should not change the original one)
+	if (fatal_error(&dat))
+		return (1);
+	set_return_str(&dat);
+	if (fatal_error(&dat))
+		return (free_all(&dat), 1);
 	while (1)
 	{
 		set_error(&dat, OK);
-		// dat.input = "\"Hi\"";
+		// dat.input = "1<$var | echo $var\"hi\""; //echo hihello world
+		// dat.input = "$var"; //echo hihello world
+		// dat.input = "echo var"; //echo hihello world
+		// dat.input = "<< \"lim\" | && $$$?$var ||| echo hi$var"; //echo hihello world
 		dat.input = readline("minishell$ "); //here ensure that it does not always print minishell but also tha path right???? I am unsure though) i.e. instead of minishell as argument for readline use envp's pwd concatenated with minishell
 		if (!dat.input)
 			set_error(&dat, ERR_MALLOC);
 		parse_input(&dat);
 		// execute(&dat) //kian part
 		//clean_ast(dat.ast); //since we run infinetly, clean up the ast after each loop iteration
-		// free(dat.input);
+		free(dat.input);
+		set_return_str(&dat);
 		return (free_all(&dat), 1);
 		// if (fatal_error(&dat))
-		// 	return (free_all(&dat), 1);
+		// 	return (free_all(&dat), dat.ret_code);
 	}
 }

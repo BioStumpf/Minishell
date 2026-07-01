@@ -28,7 +28,7 @@ int	fd_assign(enum e_token type, char *file_name, t_data *data, t_ast *redir)
 		heredoc(data, redir);
 		fd = redir->in_redir_fd;
 	}
-	else if (type == REDIR_APPEND)
+	else 
 		fd = open(file_name, O_CREAT | O_APPEND);
 	if (fd == -1)
 		error_and_cleanup(data, "open", 0);
