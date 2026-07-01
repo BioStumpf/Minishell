@@ -57,8 +57,6 @@ char	*get_env_val(t_data *data, char *key)
 {
 	t_env	*key_and_val;
 
-	if (!data->env_mp)
-		return (NULL);
 	key_and_val = hash_search(data->env_mp->env_ptr, key);
 	if (!key_and_val)
 		return (NULL);

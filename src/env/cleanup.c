@@ -6,11 +6,10 @@
 /*   By: knajmech <knajmech@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/27 07:31:26 by knajmech          #+#    #+#             */
-/*   Updated: 2026/06/04 11:52:04 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/07/01 11:54:19 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <errno.h>
 #include <execution.h>
 #include "env.h"
 
@@ -20,6 +19,7 @@ void	error_and_cleanup(t_data *data, char *error_desc, int status)
 	t_node			*node;
 	int				i;
 
+	(void)status;
 	if (data->env_mp)
 	{
 		map_env = data->env_mp->env_ptr;
@@ -36,5 +36,5 @@ void	error_and_cleanup(t_data *data, char *error_desc, int status)
 	}
 	if (error_desc)
 		perror(error_desc);
-	exit (status);
+	// exit (status);
 }

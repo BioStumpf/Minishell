@@ -3,6 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
+/*   By: david <dstumpf@student.42vienna.com>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/07/01 11:35:41 by david             #+#    #+#             */
+/*   Updated: 2026/07/01 11:57:33 by david            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/04 11:02:46 by dstumpf           #+#    #+#             */
@@ -22,7 +32,7 @@ void	free_all(t_data *dat)
 {
 	// rl_clear_history();
 	(void)dat;
-	// error_and_cleanup(dat, NULL, 0);
+	error_and_cleanup(dat, NULL, 0);
 }
 
 //NOTES:
@@ -42,12 +52,12 @@ int main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		set_error(&dat, OK);
-		dat.input = "\"Hi\"";
-		// dat.input = readline("minishell$ "); //here ensure that it does not always print minishell but also tha path right???? I am unsure though) i.e. instead of minishell as argument for readline use envp's pwd concatenated with minishell
+		// dat.input = "\"Hi\"";
+		dat.input = readline("minishell$ "); //here ensure that it does not always print minishell but also tha path right???? I am unsure though) i.e. instead of minishell as argument for readline use envp's pwd concatenated with minishell
 		if (!dat.input)
 			set_error(&dat, ERR_MALLOC);
 		parse_input(&dat);
-		//execute_input(&dat) //kian part
+		// execute(&dat) //kian part
 		//clean_ast(dat.ast); //since we run infinetly, clean up the ast after each loop iteration
 		// free(dat.input);
 		return (free_all(&dat), 1);
