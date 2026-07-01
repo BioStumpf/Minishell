@@ -6,7 +6,7 @@
 /*   By: david <user@student.42mail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/26 18:24:02 by david             #+#    #+#             */
-/*   Updated: 2026/06/04 15:36:03 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/07/01 17:31:47 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,15 @@ void	free_args(t_arg *args)
 	size_t	i;
 
 	i = 0;
+	if (!args->av)
+		return ;
 	while (i < args->size)
 	{
 		free(args->av[i]);
 		i++;
 	}
 	free(args->av);
+	args->av = NULL;
 }
 
 static void	*grow_arr(t_arg *args)
@@ -74,5 +77,16 @@ void	*add_arg(t_arg *args, size_t idx, char *arg)
 	ft_memmove(dest, src, to_move * sizeof(char *));
 	args->av[idx] = new_arg; 
 	args->size++;
+	return (args);
+}
+
+void	*replace_arg(t_arg *args, size_t idx, char *arg)
+{
+	char	*new_arg;
+
+	new_arg = ft_strdup(arg);
+	if (!new_arg)
+		return (free_args(args), NULL);
+	args->av[idx] = new_arg; 
 	return (args);
 }

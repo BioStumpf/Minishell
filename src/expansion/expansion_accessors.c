@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/28 19:28:19 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/06/28 19:52:34 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/07/03 14:04:00 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,4 +25,9 @@ size_t	exp_start(t_exp_vec *vec, size_t idx)
 size_t	exp_len(t_exp_vec *vec, size_t idx)
 {
 	return (vec->expansions[idx].len);
+}
+
+t_exp	*get_exp(t_exp_vec *vec, size_t idx)
+{
+	return (&vec->expansions[idx]);
 }
