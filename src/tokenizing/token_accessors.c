@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/04 19:11:00 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/06/04 20:50:35 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/06/16 13:06:09 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,5 +29,10 @@ char	*tok_filename(t_node *node)
 
 char	*tok_word(t_node *node)
 {
-	return (((t_token *)node->content)->u_value.word);
+	return (((t_token *)node->content)->u_value.s_word.word);
+}
+
+bool	tok_space(t_node *node)
+{
+	return (((t_token *)node->content)->u_value.s_word.space);
 }

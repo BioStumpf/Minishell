@@ -1,37 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pworkdir.c                                         :+:      :+:    :+:   */
+/*   data_storage.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/05/11 08:47:22 by knajmech          #+#    #+#             */
-/*   Updated: 2026/06/12 09:52:50 by knajmech         ###   ########.fr       */
+/*   Created: 2026/06/22 11:26:15 by knajmech          #+#    #+#             */
+/*   Updated: 2026/06/22 11:35:45 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "execution.h"
 #include "structs.h"
-#include "env.h"
+#include "execution.h"
 
-void	save_cwd(t_data *data)
+t_data	*data_storage(t_data	*data)
 {
-	char	*currdir;
+	static t_data	*data_storage;
 
-	currdir = getcwd(NULL, 0);
-	if (currdir == NULL)
-		error_and_cleanup(data, "getcwd", 0);
-	data->cwd = currdir;
-}
-
-int	pworkdir(t_data *data)
-{
-	char	*currdir;
-
-	currdir = getcwd(NULL, 0);
-	if (currdir == NULL)
-		error_and_cleanup(data, "getcwd", 0);
-	printf("%s\n", currdir);
-	free(currdir);
-	return (1);
+	if (data == NULL)
+		return (data_storage);
+	else
+		data_storage = data;
 }

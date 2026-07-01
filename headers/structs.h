@@ -6,7 +6,7 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/06 13:52:42 by knajmech          #+#    #+#             */
-/*   Updated: 2026/06/04 11:01:50 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/06/30 17:39:08 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ enum e_token
 typedef struct s_ast
 {
 	enum e_token	type;
-	int				in_redir_fd;
+	int				in_redir_fd;//turn into a ptr-ptr
 	char			*out_redir_file;
 	char			**cmd_argv;
 	struct s_ast	*left;
@@ -56,7 +56,14 @@ enum e_err
 {
     OK,
     ERR_MALLOC,
-    PARSE_ERR_UNCLOSED_QUOTES
+    PARSE_ERR_UNCLOSED_QUOTES,
+    PARSE_ERR_REDIR,
+	ERR_DUP,
+	ERR_OPEN,
+	ERR_READ,
+	ERR_SIG,
+	ERR_PIPE,
+	ERR_FORK,
 };
 
 typedef struct s_data

@@ -15,12 +15,13 @@ HEADER_DIR := headers/
 
 SRCS_main := main.c error/error_handling.c
 SRCS_david := parsing_glue/parsing.c parsing_glue/to_delete_later.c parsing_glue/parser_cleanup.c \
-			  tokenizing/tokenize.c tokenizing/token_list_utils.c tokenizing/token_string_utils.c tokenizing/token_word_utils.c tokenizing/token_metachar_utils.c tokenizing/token_accessors.c \
-			  compounds/compound.c compounds/dynamic_compound_array.c compounds/comp_accessors.c compounds/comp_arg_accessors.c compounds/comp_array_accessors.c
+			  tokenizing/tokenize.c tokenizing/token_list_utils.c tokenizing/token_string_utils.c tokenizing/token_word_utils.c tokenizing/token_metachar_utils.c tokenizing/token_accessors.c tokenizing/token_redir_utils.c\
+			  compounds/compound.c compounds/dynamic_compound_array.c compounds/comp_accessors.c compounds/comp_arg_accessors.c compounds/comp_array_accessors.c \
+			  expansion/expansion.c expansion/expansion_accessors.c expansion/expansion_vector.c
 
-SRCS_kian := cmd/execution.c cmd/pathfinder.c cmd/pipex_utils.c cmd/redirections.c \
-			env/cleanup.c env/delete_env.c env/hash_search.c env/new_variables.c env/env.c\
-			builtins/which_builtin.c builtins/unset.c builtins/pworkdir.c builtins/export.c builtins/exit.c builtins/env_bi.c builtins/echo.c builtins/changedir.c
+SRCS_kian := env/cleanup.c env/delete_env.c env/hash_search.c env/new_variables.c env/env.c \
+builtins/which_builtin.c builtins/unset.c builtins/pworkdir.c builtins/export.c builtins/exit.c builtins/env_bi.c builtins/echo.c builtins/changedir.c \
+cmd/execution.c cmd/pathfinder.c cmd/pipex_utils.c cmd/redirections.c cmd/and_or.c cmd/pipe.c cmd/heredoc.c cmd/extern_builtin.c
 
 SRCS := $(SRCS_main) $(SRCS_kian) $(SRCS_david)
 SRCS := $(addprefix $(SRCS_DIR), $(SRCS))

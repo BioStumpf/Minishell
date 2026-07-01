@@ -1,27 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   err.h                                              :+:      :+:    :+:   */
+/*   expansion_accessors.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/06/04 10:55:51 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/06/30 17:47:10 by david            ###   ########.fr       */
+/*   Created: 2026/06/28 19:28:19 by dstumpf           #+#    #+#             */
+/*   Updated: 2026/06/28 19:52:34 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdbool.h>
-#include "structs.h"
+#include "parsing.h"
 
-#ifndef ERR_H
-# define ERR_H
+bool	exp_quote(t_exp_vec *vec, size_t idx)
+{
+	return (vec->expansions[idx].quoted);
+}
 
-# define NOWORD NULL
+size_t	exp_start(t_exp_vec *vec, size_t idx)
+{
+	return (vec->expansions[idx].start);
+}
 
-//error handling
-void				set_error(t_data *dat, enum e_err status);
-bool				status_ok(t_data *dat);
-bool				fatal_error(t_data *dat);
-t_data				*data_storage(t_data *data);
-
-#endif
+size_t	exp_len(t_exp_vec *vec, size_t idx)
+{
+	return (vec->expansions[idx].len);
+}

@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/04 11:00:01 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/06/04 21:19:41 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/06/28 19:55:38 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,18 @@
 //tokenizer structs and enums
 ///////////////////////////////////////////
 //task: add to tokenizer the capability of directly associating the next word as 
+//union contains either redir or word to save memory. 
+//space boolean is to later be capable for redirections to find out about whether the word is associated with the redir after or not (1< file vs 1 < file note the first one belongs to the redir while the second one doesnt)
 typedef struct s_token
 {
 	enum e_token	type;
 	union
 	{
-		char	*word;
+		struct
+		{
+			bool	space;
+			char	*word;
+		} s_word;
 		struct
 		{
 			int		fd;
@@ -33,6 +39,12 @@ typedef struct s_token
 		} s_redir;
 	} u_value;
 }	t_token;
+
+typedef struct	s_quotes
+{
+	bool	sngl;
+	bool	dbl;
+}			t_quotes;
 
 //////////////////
 //functions
@@ -45,6 +57,7 @@ void	parse_input(t_data *dat);
 //////////////////
 //main function
 t_list				*tokenize(t_data *data);
+void				refine_redirs(t_data *dat, t_list *lst);
 
 //helpers for word and metatokens
 int					double_tok_type(char metachar);
@@ -54,21 +67,27 @@ void				set_word(char **input, char *word, size_t word_len);
 
 //utilities for linked list
 t_node				*new_token_node(void);
-void				set_redir_tok(t_node *node, enum e_token ttype, int fd, char *file);
-void				set_word_tok(t_node *node, enum e_token ttype, char *word);
+void				set_word_tok(t_node *node, char *word, bool space);
+void				set_redir_tok(t_node *node, int fd, char *file);
 void				set_tok(t_node *node, enum e_token ttype);
+void				set_redir_fd(t_node *node, int fd);
+void				set_redir_file(t_node *node, char *file);
+bool				is_redir(enum e_token ttype);
 
 //utilities for accessing linked list token attributes
 char				*tok_word(t_node *node);
 char				*tok_filename(t_node *node);
 int					tok_fd(t_node *node);
 enum e_token		tok_type(t_node *node);
+bool				tok_space(t_node *node);
 
 //string utilities
 char				is_double_metachar(char *input);
 char				is_single_metachar(char c);
 char				is_whitespace_metachar(char c);
+bool				update_quote_status(t_quotes *quotes, char *str);
 char				is_quote(char c);
+char				skip_whitespace(char **str);
 
 //to_delete_functions (just usefull for now)
 void				print_token(void *content); //this need to be removed
@@ -138,5 +157,42 @@ void				free_compound(t_compound_arr *ca, enum e_err status, t_data *dat);
 //to_delete_functions (just usefull for now)
 void				print_token(void *content); //this need to be removed
 void				print_compound(t_compound_arr *compounds);
+
+///////////////////////////////////////////
+// expansion
+///////////////////////////////////////////
+//structs
+typedef struct	s_exp
+{
+	bool	quoted;
+	size_t	start;
+	size_t	len;
+}			t_exp;
+
+typedef struct	s_exp_vec
+{
+	size_t	capacity;
+	size_t	size;
+	t_exp	*expansions;
+}			t_exp_vec;
+
+//wrap this inside t_arg cause then you can expand it too
+// typedef struct	s_split
+// {
+// 	bool	leading_sep;
+// 	bool	trailing_sep;
+// 	size_t	len;
+// 	char	**splt;
+// }			t_split;
+
+//functions
+void				expand(t_data *dat, t_compound_arr *ca);
+bool				exp_quote(t_exp_vec *vec, size_t idx);
+size_t				exp_start(t_exp_vec *vec, size_t idx);
+size_t				exp_len(t_exp_vec *vec, size_t idx);
+bool				init_exp_vec(t_exp_vec *vec);
+void				*add_exp(t_exp_vec *vec, size_t idx, t_exp *exp);
+// t_split				*expand_split(char *s, char *sep);
+// void				free_exp_splt(t_split *splt, size_t len);
 
 #endif
