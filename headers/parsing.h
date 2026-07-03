@@ -247,4 +247,41 @@ t_ast_buff		ast_init(size_t size);
 t_ast			*new_ast_node(t_ast_buff *buf, t_compound *comp);
 
 
+///////////////////////////////////////////
+// expansion
+///////////////////////////////////////////
+//structs
+typedef struct	s_exp
+{
+	bool	quoted;
+	size_t	start;
+	size_t	len;
+}			t_exp;
+
+typedef struct	s_exp_vec
+{
+	size_t	capacity;
+	size_t	size;
+	t_exp	*expansions;
+}			t_exp_vec;
+
+//wrap this inside t_arg cause then you can expand it too
+// typedef struct	s_split
+// {
+// 	bool	leading_sep;
+// 	bool	trailing_sep;
+// 	size_t	len;
+// 	char	**splt;
+// }			t_split;
+
+//functions
+void				expand(t_data *dat, t_compound_arr *ca);
+bool				exp_quote(t_exp_vec *vec, size_t idx);
+size_t				exp_start(t_exp_vec *vec, size_t idx);
+size_t				exp_len(t_exp_vec *vec, size_t idx);
+bool				init_exp_vec(t_exp_vec *vec);
+void				*add_exp(t_exp_vec *vec, size_t idx, t_exp *exp);
+// t_split				*expand_split(char *s, char *sep);
+// void				free_exp_splt(t_split *splt, size_t len);
+
 #endif
