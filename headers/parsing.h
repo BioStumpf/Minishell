@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/04 11:00:01 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/07/03 15:13:16 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/07/03 16:19:19 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,6 +122,7 @@ typedef struct s_compound
 		t_arg	args;
 		struct
 		{
+			bool	quoted;
 			int		fd;
 			char	*filename;
 		} s_redir;
@@ -226,5 +227,24 @@ bool			split_signal(t_word_split *ws, t_exp *exp);
 char			*get_ifs(t_data *dat);
 //main  
 bool			word_split(t_data *d, t_exp_vec *e, t_arg *n, char *splt);
+
+///////////////////////////////////////////
+//build syntax tree
+///////////////////////////////////////////
+//tree utils
+//accessors
+char			**get_av(t_ast *node);
+size_t			get_fd(t_ast *node);
+bool			get_quoted(t_ast *node);
+char			*get_operand(t_ast *node);
+void			set_quoted(t_ast *node, bool quoted);
+void			set_operand(t_ast *node, char *s);
+void			set_fd(t_ast *node, size_t fd);
+void			set_av(t_ast *node, char **av);
+
+//setting up ast buffer and nodes
+t_ast_buff		ast_init(size_t size);
+t_ast			*new_ast_node(t_ast_buff *buf, t_compound *comp);
+
 
 #endif
