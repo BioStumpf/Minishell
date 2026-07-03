@@ -72,7 +72,7 @@ void	print_compound(t_compound_arr *compounds)
 		while (comp_type(comp) == CMD && j < arg_size(comp))
 			printf("[%s] ", arg_av(comp)[j++]); 
 		if (is_redir(comp_type(comp))) {
-			printf("Fd: %d;   File: %s", comp_fd(comp), comp_filename(comp));
+			printf("Fd: %d;   File: %s;   quoted: %d", comp_fd(comp), comp_filename(comp), comp->u_value.s_redir.quoted);
 		}
 		printf("\n");
 	}

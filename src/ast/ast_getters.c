@@ -1,25 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   err.h                                              :+:      :+:    :+:   */
+/*   ast_accessors.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/06/04 10:55:51 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/06/30 17:47:10 by david            ###   ########.fr       */
+/*   Created: 2026/07/03 15:49:58 by dstumpf           #+#    #+#             */
+/*   Updated: 2026/07/03 15:53:50 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdbool.h>
-#include "structs.h"
+#include "parsing.h"
 
-#ifndef ERR_H
-# define ERR_H
+char	**get_av(t_ast *node)
+{
+	return (node->u_value.av);
+}
 
-//error handling
-void				set_error(t_data *dat, enum e_err status);
-bool				status_ok(t_data *dat);
-bool				fatal_error(t_data *dat);
-t_data				*data_storage(t_data *data);
+size_t	get_fd(t_ast *node)
+{
+	return (node->u_value.s_redir.fd);
+}
 
-#endif
+bool	get_quoted(t_ast *node)
+{
+	return (node->u_value.s_redir.quoted);
+}
+
+char	*get_operand(t_ast *node)
+{
+	return (node->u_value.s_redir.operand);
+}
