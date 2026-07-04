@@ -6,12 +6,13 @@
 /*   By: david <dstumpf@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/18 13:07:57 by david             #+#    #+#             */
-/*   Updated: 2026/07/03 17:04:26 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/07/04 14:17:01 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 #include "err.h"
+#include "structs.h"
 
 static void	expand_cmd(t_data *dat, t_compound *comp)
 {
@@ -35,6 +36,8 @@ static void	expand_cmd(t_data *dat, t_compound *comp)
 		free(expanded_str);
 		i++;
 	}
+	if (!add_arg(&new, new.size, NULL))
+		return (set_error(dat, ERR_MALLOC));
 	free_args(comp_args(comp));
 	*comp_args(comp) = new;
 }

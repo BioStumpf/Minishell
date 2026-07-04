@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/04 19:26:03 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/06/04 20:00:06 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/07/04 14:59:18 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,4 +30,9 @@ char	*comp_filename(t_compound *comp)
 t_arg	*comp_args(t_compound *comp)
 {
 	return (&comp->u_value.args);
+}
+
+t_compound	*get_comp(t_compound_arr *ca, size_t i)
+{
+	return (&ca->arr[i]);
 }

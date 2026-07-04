@@ -17,7 +17,7 @@ char	**get_av(t_ast *node)
 	return (node->u_value.av);
 }
 
-size_t	get_fd(t_ast *node)
+int	get_fd(t_ast *node)
 {
 	return (node->u_value.s_redir.fd);
 }

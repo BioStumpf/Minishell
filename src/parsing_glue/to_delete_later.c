@@ -6,7 +6,7 @@
 /*   By: david <user@student.42mail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/30 17:02:23 by david             #+#    #+#             */
-/*   Updated: 2026/06/30 10:26:15 by david            ###   ########.fr       */
+/*   Updated: 2026/07/04 16:58:02 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,10 +70,58 @@ void	print_compound(t_compound_arr *compounds)
 		comp = arr_get(compounds, i++);
 		printf("Compound type: %s;   ", token_map[comp_type(comp)]);
 		while (comp_type(comp) == CMD && j < arg_size(comp))
+		// while (comp_type(comp) == CMD && arg_av(comp)[j])
 			printf("[%s] ", arg_av(comp)[j++]); 
 		if (is_redir(comp_type(comp))) {
-			printf("Fd: %d;   File: %s;   quoted: %d", comp_fd(comp), comp_filename(comp), comp->u_value.s_redir.quoted);
+			printf("Fd: %d;File: %s;quoted: %d", comp_fd(comp), comp_filename(comp), comp->u_value.s_redir.quoted);
 		}
 		printf("\n");
 	}
 }
+
+void	print_tree_node(t_ast *node)
+{
+	if (!node)
+		return ;
+	char *token_map[253];
+	token_map[CMD] = "CMD";
+	token_map[WORD] = "WORD";
+	token_map[PIPE] = "PIPE";
+	token_map[AND] = "AND";
+	token_map[OR] = "OR";
+	token_map[REDIR_INFILE] = "REDIR_INFILE";
+	token_map[REDIR_OUTFILE] = "REDIR_OUTFILE";
+	token_map[REDIR_HEREDOC] = "REDIR_HEREDOC";
+	token_map[REDIR_APPEND] = "REDIR_APPEND";
+	token_map[LEFT_PARA] = "LEFT_PARA";
+	token_map[RIGHT_PARA] = "RIGHT_PARA";
+	printf("node type: %s; ", token_map[node->type]);
+	size_t i = 0;
+	while (node->type == CMD && get_av(node)[i])
+		printf("[%s] ", get_av(node)[i++]); 
+	if (is_redir(node->type)) {
+		printf("Fd: %d;File: %s;quoted: %d", get_fd(node), get_operand(node), get_quoted(node));
+	}
+	printf("\n");
+}
+
+void print_tree(t_ast *root, int depth) {
+    if (root == NULL)
+        return;
+
+    // Print right subtree first
+    print_tree(root->left, depth + 1);
+
+    // Indentation
+    for (int i = 0; i < depth; i++) {
+        printf("    ");
+	}
+
+    // Print current node
+	print_tree_node(root);
+
+    // Print left subtree
+    print_tree(root->right, depth + 1);
+}
+
+
