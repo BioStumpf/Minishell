@@ -6,7 +6,7 @@
 /*   By: david <dstumpf@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/01 11:35:41 by david             #+#    #+#             */
-/*   Updated: 2026/07/03 12:51:46 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/07/04 17:25:10 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ int main(int argc, char **argv, char **envp)
 			set_error(&dat, ERR_MALLOC);
 		parse_input(&dat);
 		// execute(&dat) //kian part
-		//clean_ast(dat.ast); //since we run infinetly, clean up the ast after each loop iteration
+		clean_ast(&dat.ast); //since we run infinetly, clean up the ast after each loop iteration
 		free(dat.input);
 		set_return_str(&dat);
 		return (free_all(&dat), 1);
