@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/04 11:00:01 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/07/03 16:19:19 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/07/04 16:33:13 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,9 +96,6 @@ bool			update_quote_status(t_quotes *quotes, char *str);
 char			is_quote(char c);
 char			skip_whitespace(char **str);
 
-//to_delete_functions (just usefull for now)
-void			print_token(void *content); //this need to be removed
-									//
 //cleanup
 void			free_token(void *token);
 void			token_cleanup(t_list *l, enum e_err st, t_data *d, t_node *n);
@@ -141,6 +138,7 @@ enum e_token	comp_type(t_compound *comp);
 int				comp_fd(t_compound *comp);
 char			*comp_filename(t_compound *comp);
 t_arg			*comp_args(t_compound *comp);
+t_compound		*get_comp(t_compound_arr *ca, size_t i);
 size_t			arg_size(t_compound *comp);
 size_t			arg_capacity(t_compound *comp);
 char			**arg_av(t_compound *comp);
@@ -150,16 +148,11 @@ t_compound		*arr_get(t_compound_arr *comps, size_t idx);
 //dynamic argument array
 bool			init_args(t_arg *args);
 void			*add_arg(t_arg *args, size_t idx, char *arg);
-void			*replace_arg(t_arg *args, size_t idx, char *arg);
 void			free_args(t_arg *args);
 
 //compound forming and freeing
 t_compound_arr	*compound_group(t_data *dat, t_list *tokens);
 void			free_compound(t_compound_arr *c, enum e_err s, t_data *d);
-
-//to_delete_functions (just usefull for now)
-void			print_token(void *content); //this need to be removed
-void			print_compound(t_compound_arr *compounds);
 
 ///////////////////////////////////////////
 // expansion
@@ -234,7 +227,7 @@ bool			word_split(t_data *d, t_exp_vec *e, t_arg *n, char *splt);
 //tree utils
 //accessors
 char			**get_av(t_ast *node);
-size_t			get_fd(t_ast *node);
+int				get_fd(t_ast *node);
 bool			get_quoted(t_ast *node);
 char			*get_operand(t_ast *node);
 void			set_quoted(t_ast *node, bool quoted);
@@ -243,8 +236,16 @@ void			set_fd(t_ast *node, size_t fd);
 void			set_av(t_ast *node, char **av);
 
 //setting up ast buffer and nodes
+void			clean_ast(t_ast_buff *ast);
 t_ast_buff		ast_init(size_t size);
 t_ast			*new_ast_node(t_ast_buff *buf, t_compound *comp);
 
+//recursive decent functions
+void			built_ast(t_data *dat, t_compound_arr *ca);
+
+//to_delete_functions (just usefull for now)
+void			print_token(void *content); //this need to be removed
+void			print_tree(t_ast *root, int depth);
+void			print_compound(t_compound_arr *compounds);
 
 #endif
