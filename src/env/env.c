@@ -6,7 +6,7 @@
 /*   By: knajmech <knajmech@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 09:36:17 by knajmech          #+#    #+#             */
-/*   Updated: 2026/06/04 08:59:46 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/07/01 09:09:04 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,8 @@ int process_env(t_data *data, char **env)
 
 	if (tracker.capacity == 0)
 	{
+		if (!env)
+			return (1);
 		initialise_env(&tracker); 
 		if (!fill_env(tracker.env_ptr, &tracker, env))
 			error_and_cleanup(data, "malloc", 0);
