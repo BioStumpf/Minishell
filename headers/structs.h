@@ -6,7 +6,7 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/06 13:52:42 by knajmech          #+#    #+#             */
-/*   Updated: 2026/07/04 14:14:31 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/07/05 12:14:04 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,10 @@ enum e_err
 	ERR_MALLOC,
 	PARSE_ERR_UNCLOSED_QUOTES,
 	PARSE_ERR_REDIR,
+	PARSE_ERR_PIPE,
+	PARSE_ERR_OR,
+	PARSE_ERR_AND,
+	PARSE_ERR_PARA,
 	ERR_DUP,
 	ERR_OPEN,
 	ERR_READ,

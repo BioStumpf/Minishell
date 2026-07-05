@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/04 11:00:01 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/07/04 16:33:13 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/07/05 20:11:01 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -240,8 +240,20 @@ void			clean_ast(t_ast_buff *ast);
 t_ast_buff		ast_init(size_t size);
 t_ast			*new_ast_node(t_ast_buff *buf, t_compound *comp);
 
+//recursive decent helper functions
+bool			is_left_par(t_compound_arr *ca, size_t i);
+bool			is_right_par(t_compound_arr *ca, size_t i);
+bool			is_cmd(t_compound_arr *ca, size_t i);
+bool			is_or(t_compound_arr *ca, size_t i);
+bool			is_and(t_compound_arr *ca, size_t i);
+bool			is_pipe(t_compound_arr *ca, size_t i);
+t_ast			*last_redir(t_ast *node);
+t_ast			*parse_redir(t_data *dat, t_compound_arr *ca, size_t *i);
+bool			is_ast_redir(t_compound_arr *ca, size_t i);
+
 //recursive decent functions
 void			built_ast(t_data *dat, t_compound_arr *ca);
+t_ast			*parse_ast(t_data *dat, t_compound_arr *ca, size_t *i);
 
 //to_delete_functions (just usefull for now)
 void			print_token(void *content); //this need to be removed
