@@ -6,12 +6,27 @@
 /*   By: david <user@student.42mail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/06 21:34:36 by david             #+#    #+#             */
-/*   Updated: 2026/06/30 17:34:02 by david            ###   ########.fr       */
+/*   Updated: 2026/07/05 16:10:44 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "structs.h"
 #include "ft_printf.h"
+
+static int	token_error(enum e_token err)
+{
+	if (err == AND)
+	 	return (ft_printf(2, "Parsing error near '&&'\n"), 2);
+	else if (err == PIPE)
+	 	return (ft_printf(2, "Parsing error near '|'\n"), 2);
+	else if (err == LEFT_PARA)
+	 	return (ft_printf(2, "Parsing error near '('\n"), 2);
+	else if (err == RIGHT_PARA)
+	 	return (ft_printf(2, "Parsing error near ')'\n"), 2);
+	else if (err == OR)
+	 	return (ft_printf(2, "Parsing error near '||'\n"), 2);
+	return (0);
+}
 
 static int	print_error_get_return(enum e_err err)
 {
@@ -34,7 +49,7 @@ static int	print_error_get_return(enum e_err err)
 	else if (err == ERR_SIG)
 		return (ft_printf(2, "signal error\n"), 2);
 	else
-		return (0);
+		return (token_error((enum e_token)err));
 }
 
 void	set_error(t_data *dat, enum e_err status)
