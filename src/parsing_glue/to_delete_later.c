@@ -6,7 +6,7 @@
 /*   By: david <user@student.42mail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/30 17:02:23 by david             #+#    #+#             */
-/*   Updated: 2026/07/04 16:58:02 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/07/05 11:56:05 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,12 +95,12 @@ void	print_tree_node(t_ast *node)
 	token_map[REDIR_APPEND] = "REDIR_APPEND";
 	token_map[LEFT_PARA] = "LEFT_PARA";
 	token_map[RIGHT_PARA] = "RIGHT_PARA";
-	printf("node type: %s; ", token_map[node->type]);
+	printf("%s; ", token_map[node->type]);
 	size_t i = 0;
 	while (node->type == CMD && get_av(node)[i])
 		printf("[%s] ", get_av(node)[i++]); 
 	if (is_redir(node->type)) {
-		printf("Fd: %d;File: %s;quoted: %d", get_fd(node), get_operand(node), get_quoted(node));
+		printf("FD:%d FILE:%s QUOTED:%d", get_fd(node), get_operand(node), get_quoted(node));
 	}
 	printf("\n");
 }
