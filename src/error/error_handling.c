@@ -6,7 +6,7 @@
 /*   By: david <user@student.42mail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/06 21:34:36 by david             #+#    #+#             */
-/*   Updated: 2026/07/05 16:10:44 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/07/06 11:34:56 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,15 @@
 static int	token_error(enum e_token err)
 {
 	if (err == AND)
-	 	return (ft_printf(2, "Parsing error near '&&'\n"), 2);
+		return (ft_printf(2, "Parsing error near '&&'\n"), 2);
 	else if (err == PIPE)
-	 	return (ft_printf(2, "Parsing error near '|'\n"), 2);
+		return (ft_printf(2, "Parsing error near '|'\n"), 2);
 	else if (err == LEFT_PARA)
-	 	return (ft_printf(2, "Parsing error near '('\n"), 2);
+		return (ft_printf(2, "Parsing error near '('\n"), 2);
 	else if (err == RIGHT_PARA)
-	 	return (ft_printf(2, "Parsing error near ')'\n"), 2);
+		return (ft_printf(2, "Parsing error near ')'\n"), 2);
 	else if (err == OR)
-	 	return (ft_printf(2, "Parsing error near '||'\n"), 2);
+		return (ft_printf(2, "Parsing error near '||'\n"), 2);
 	return (0);
 }
 
@@ -33,9 +33,9 @@ static int	print_error_get_return(enum e_err err)
 	if (err == ERR_MALLOC)
 		return (ft_printf(2, "Malloc fail\n"), 1);
 	else if (err == PARSE_ERR_UNCLOSED_QUOTES)
-	 	return (ft_printf(2, "Parsing error, unclosed quotes\n"), 2);
+		return (ft_printf(2, "Parsing error, unclosed quotes\n"), 2);
 	else if (err == PARSE_ERR_REDIR)
-	 	return (ft_printf(2, "Parsing error, redirection invalid\n"), 2);
+		return (ft_printf(2, "Parsing error, redirection invalid\n"), 2);
 	else if (err == ERR_DUP)
 		return (ft_printf(2, "dup error\n"), 2);
 	else if (err == ERR_PIPE)

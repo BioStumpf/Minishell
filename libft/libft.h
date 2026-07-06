@@ -75,7 +75,7 @@ void	ft_lstadd_back(t_list *lst, t_node *new);
 void	ft_lstadd_front(t_list *lst, t_node *new);
 void	ft_lstclear(t_list *lst, void (*del)(void *));
 void	ft_lstdelone(t_node *node, void (*del)(void *));
-void	ft_lstmid_rm(t_list *lst, t_node *to_rm, t_node *prev, void (*del)(void *));
+void	ft_lstmid_rm(t_list *l, t_node *rm, t_node *pre, void (*d)(void *));
 t_list	*ft_lstnew(void);
 t_node	*ft_nodenew(void *content);
 void	ft_lstprint(t_list *lst, void (*print_fn)(void *content));

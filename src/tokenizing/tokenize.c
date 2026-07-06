@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 15:15:50 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/06/16 17:33:30 by david            ###   ########.fr       */
+/*   Updated: 2026/07/06 10:40:41 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,10 @@
 #include "parsing.h"
 #include "err.h"
 
-//after knowing the current char is a metachar, check if its a double (&& || >> <<)
-//if not double metachar but and and, we dont want to do anything because in our minishell this one does not have special meaning
+//after knowing the current char is a metachar,
+//check if its a double (&& || >> <<)
+//if not double metachar but and, we dont want to do anything
+//because in our minishell this one does not have special meaning
 //whitespace metachar that we should skip (SPACE TAB \n)
 //or else a valid single metachar ( | < > ')' '(' )
 static bool	meta_token(char **input, t_node *new)
@@ -49,14 +51,13 @@ static void	word_token(char **input, t_node *new, t_data *dat)
 		return (set_error(dat, ERR_MALLOC), (void)0);
 	set_word(input, word, word_len);
 	space = is_whitespace_metachar(**input);
-	set_word_tok(new, word, space); 
+	set_word_tok(new, word, space);
 }
 
 static void	find_next_token(char **input, t_node *new, t_data *dat)
 {
 	bool	is_metatok;
 
-	//what if char **input is nothing?
 	is_metatok = meta_token(input, new);
 	if (!is_metatok)
 		word_token(input, new, dat);
