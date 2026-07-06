@@ -12,7 +12,6 @@
 
 #include "parsing.h"
 #include "libft.h"
-#include "err.h"
 #include "structs.h"
 
 void	parse_input(t_data *dat)

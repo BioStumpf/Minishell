@@ -3,26 +3,46 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
+/*   By: david <dstumpf@student.42vienna.com>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/07/14 15:16:05 by david             #+#    #+#             */
+/*   Updated: 2026/07/14 15:16:25 by david            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/04 11:02:46 by dstumpf           #+#    #+#             */
 /*   Updated: 2026/06/30 16:01:45 by david            ###   ########.fr       */
+/*   By: david <dstumpf@student.42vienna.com>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/07/06 12:55:41 by david             #+#    #+#             */
+/*   Updated: 2026/07/06 13:21:48 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "ft_printf.h"
+#include "readline_sigs.h"
+#include <readline/readline.h>
 #include <stdio.h>
 #include "libft.h"
 #include "parsing.h"
 #include "execution.h"
-#include <readline/readline.h>
-#include <readline/history.h>
 #include <err.h>
 #include <env.h>
 
 void	free_all(t_data *dat)
 {
+	rl_clear_history();
 	error_and_cleanup(dat, NULL, 0);
 	free(dat->ret_str);
+	if (!dat->input)
+		ft_printf(2, "exit\n");
 }
 
 static void	set_return_str(t_data *dat)
@@ -49,15 +69,13 @@ int	main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		set_error(&dat, OK);
-		dat.input = readline("minishell$ ");
-		if (!dat.input)
-			set_error(&dat, ERR_MALLOC);
+		read_input(&dat);
 		parse_input(&dat);
 		coordinate_exec(&dat);
 		clean_ast(&dat.ast);
 		free(dat.input);
 		set_return_str(&dat);
-		if (fatal_error(&dat))
+		if (fatal_error(&dat) || !dat.input)
 			return (free_all(&dat), dat.ret_code);
 	}
 }
