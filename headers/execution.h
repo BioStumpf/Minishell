@@ -29,8 +29,7 @@
 # include "structs.h"
 // # include "builtins.h"
 
-int		launch_childp(t_ast *direction, int *fds, int std_fd,
-				t_pipe_manager *pipe_info);
+int		launch_childp(t_ast *dir, int *fds, int std_fd, t_pipe_manager *p_info);
 int		exec_pipe(t_ast *node, t_pipe_manager *pipe_info);
 int		exec_and(t_ast *node, t_pipe_manager *pipe_info);
 int		exec_or(t_ast *node, t_pipe_manager *pipe_info);

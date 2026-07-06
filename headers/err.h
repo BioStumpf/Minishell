@@ -6,15 +6,15 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/04 10:55:51 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/06/30 17:47:10 by david            ###   ########.fr       */
+/*   Updated: 2026/07/06 12:10:34 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdbool.h>
-#include "structs.h"
-
 #ifndef ERR_H
 # define ERR_H
+
+# include <stdbool.h>
+# include "structs.h"
 
 //error handling
 void				set_error(t_data *dat, enum e_err status);

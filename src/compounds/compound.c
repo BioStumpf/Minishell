@@ -6,7 +6,7 @@
 /*   By: david <user@student.42mail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/26 13:37:33 by david             #+#    #+#             */
-/*   Updated: 2026/06/18 12:13:57 by david            ###   ########.fr       */
+/*   Updated: 2026/07/06 12:06:49 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static size_t	count_compounds(t_list *tokens)
 	in_cmd = false;
 	while (cur)
 	{
-		if (tok_type(cur) != WORD) 
+		if (tok_type(cur) != WORD)
 		{
 			in_cmd = false;
 			count++;
@@ -46,7 +46,7 @@ static bool	add_words(t_compound *comp, t_node **token)
 {
 	void	*s;
 
-	while (*token && tok_type(*token) == WORD) 
+	while (*token && tok_type(*token) == WORD)
 	{
 		s = add_arg(comp_args(comp), arg_size(comp), tok_word(*token));
 		if (!s)
@@ -94,7 +94,6 @@ static bool	make_compound_arr(t_compound_arr *ca, t_list *tokens)
 
 t_compound_arr	*compound_group(t_data *dat, t_list *tokens)
 {
-	(void)dat;
 	t_compound_arr	*ca;
 
 	if (!tokens || !status_ok(dat))

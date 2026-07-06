@@ -6,7 +6,7 @@
 /*   By: david <dstumpf@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/15 13:45:26 by david             #+#    #+#             */
-/*   Updated: 2026/06/17 15:59:30 by david            ###   ########.fr       */
+/*   Updated: 2026/07/06 10:38:15 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@ static void	redir_fd(t_list *lst, t_node *redir, t_node *fd, t_node *before_fd)
 		set_redir_fd(redir, ft_atoi(tok_word(fd)));
 		ft_lstmid_rm(lst, fd, before_fd, free_token);
 	}
-	else if (tok_type(redir) == REDIR_APPEND || tok_type(redir) == REDIR_OUTFILE)
+	else if (tok_type(redir) == REDIR_APPEND
+		|| tok_type(redir) == REDIR_OUTFILE)
 		return (set_redir_fd(redir, STDOUT_FILENO));
 	else
 		return (set_redir_fd(redir, STDIN_FILENO));
@@ -43,7 +44,7 @@ static bool	redir_file(t_list *lst, t_node *redir, t_node *file)
 bool	is_redir(enum e_token ttype)
 {
 	return (ttype == REDIR_APPEND || ttype == REDIR_HEREDOC
-			|| ttype == REDIR_INFILE || ttype == REDIR_OUTFILE);
+		|| ttype == REDIR_INFILE || ttype == REDIR_OUTFILE);
 }
 
 void	refine_redirs(t_data *dat, t_list *lst)

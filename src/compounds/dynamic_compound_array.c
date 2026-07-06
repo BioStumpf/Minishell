@@ -75,7 +75,7 @@ void	*add_arg(t_arg *args, size_t idx, char *arg)
 	if (!new_arg && arg)
 		return (free_args(args), NULL);
 	ft_memmove(dest, src, to_move * sizeof(char *));
-	args->av[idx] = new_arg; 
+	args->av[idx] = new_arg;
 	args->size++;
 	return (args);
 }

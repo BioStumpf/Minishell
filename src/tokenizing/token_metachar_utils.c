@@ -12,7 +12,8 @@
 
 #include "parsing.h"
 
-//note for tokens: &&, ||, >> or << the actual numeric enum value/type variable inside the token
+//note for tokens: &&, ||, >> or <<
+//the actual numeric enum value/type variable inside the token
 //refers to 2 * token + 1 which is passed to new_token_node
 int	double_tok_type(char metachar)
 {
