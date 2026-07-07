@@ -18,7 +18,8 @@
 void	sigquit_execute(int sig);
 void	sigint_execute(int sig);
 void	sigint_readline(int sig);
-void	read_input(t_data *dat);
+void	read_terminal(t_data *dat);
+void	read_stdin(t_data *dat);
 void	setup_signals(void (*sigquit)(int sig), void (*sigint)(int sig));
 
 #endif

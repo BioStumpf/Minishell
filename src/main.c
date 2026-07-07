@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "ft_printf.h"
+#include "libft.h"
 #include "readline_sigs.h"
 #include <readline/readline.h>
 #include "parsing.h"
@@ -21,11 +22,22 @@
 
 volatile sig_atomic_t	g_ret = 0;
 
-void	free_all(t_data *dat)
+static void	init(t_data *dat, int ac, char **av)
+{
+	(void)ac;
+	(void)av;
+	ft_bzero(dat, sizeof(t_data));
+	if (isatty(STDIN_FILENO))
+		dat->read_input = read_terminal;
+	else
+		dat->read_input = read_stdin;
+}
+
+static void	free_all(t_data *dat)
 {
 	rl_clear_history();
 	error_and_cleanup(dat, NULL, 0);
-	if (!dat->input)
+	if (!dat->input && dat->read_input == read_terminal)
 		ft_printf(2, "exit\n");
 }
 
@@ -52,26 +64,19 @@ void	fake_sleep(void)
 	wait(NULL);
 }
 
-// fake_sleep();
 int	main(int argc, char **argv, char **envp)
 {
 	t_data	dat;
 
-	ft_bzero(&dat, sizeof(t_data));
-	(void)argc;
-	(void)argv;
+	init(&dat, argc, argv);
 	process_env(&dat, envp);
-	if (fatal_error(&dat))
-		return (1);
 	if (fatal_error(&dat))
 		return (free_all(&dat), 1);
 	while (1)
 	{
 		dat.ret = g_ret;
 		set_error(&dat, OK);
-		setup_signals(SIG_IGN, sigint_readline);
-		read_input(&dat);
-		setup_signals(sigquit_execute, sigint_execute);
+		dat.read_input(&dat);
 		parse_input(&dat);
 		coordinate_exec(&dat);
 		clean_ast(&dat.ast);
