@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/04 10:55:51 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/07/06 12:10:34 by david            ###   ########.fr       */
+/*   Updated: 2026/07/07 15:02:13 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,9 @@
 
 # include <stdbool.h>
 # include "structs.h"
+# include <signal.h>
+
+extern volatile sig_atomic_t	g_ret;
 
 //error handling
 void				set_error(t_data *dat, enum e_err status);

@@ -13,7 +13,7 @@ LIBFT_DIR := libft/
 SRCS_DIR := src/
 HEADER_DIR := headers/
 
-SRCS_main := main.c error/error_handling.c readline_signals/readline.c
+SRCS_main := main.c error/error_handling.c readline_signals/readline.c readline_signals/sighandler.c
 SRCS_david := parsing_glue/parsing.c parsing_glue/to_delete_later.c parsing_glue/parser_cleanup.c \
 			  tokenizing/tokenize.c tokenizing/token_list_utils.c tokenizing/token_string_utils.c tokenizing/token_word_utils.c tokenizing/token_metachar_utils.c tokenizing/token_accessors.c tokenizing/token_redir_utils.c tokenizing/token_setters.c \
 			  compounds/compound.c compounds/dynamic_compound_array.c compounds/comp_accessors.c compounds/comp_arg_accessors.c compounds/comp_array_accessors.c \
@@ -53,18 +53,7 @@ FORCE:
 	@printf "$(GREEN)======================================$(RESET)\n"
 
 norm-parse:
-	find . \
-	\( -path "./tests" -o -path "./src/builtins" -o -path "./src/cmd" -o -path "./src/env" -o -path "./src/expansion" \) -prune -o \
-	\( -name "*.c" -o -name "*.h" \) \
-	! -name "test.c" ! -name "to_delete_later.c" \
-	-exec norminette {} +
-
-norm:
-	find . \
-	-path "./tests" -prune -o \
-	\( -name "*.c" -o -name "*.h" \) \
-	! -name "test.c" ! -name "to_delete_later.c" \
-	-exec norminette {} +
+	./norm.sh
 
 test:
 	@cc tests/base_test.c -Ilibft -Llibft -lft -lcriterion -o test

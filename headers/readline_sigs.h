@@ -6,7 +6,7 @@
 /*   By: david <dstumpf@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/06 13:14:41 by david             #+#    #+#             */
-/*   Updated: 2026/07/06 13:16:33 by david            ###   ########.fr       */
+/*   Updated: 2026/07/07 14:43:12 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,10 @@
 
 # include "structs.h"
 
+void	sigquit_execute(int sig);
+void	sigint_execute(int sig);
+void	sigint_readline(int sig);
 void	read_input(t_data *dat);
+void	setup_signals(void (*sigquit)(int sig), void (*sigint)(int sig));
 
 #endif

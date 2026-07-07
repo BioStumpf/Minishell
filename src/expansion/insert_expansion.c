@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/03 14:13:00 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/07/03 14:14:10 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/07/07 15:11:06 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static char	*get_exp_value(t_data *dat, t_exp *exp, char *str)
 	start = exp->start;
 	stop = start + exp->len;
 	if (str[start] == '?')
-		return (dat->ret_str);
+		return (ft_itoa_buff(dat->ret, dat->ret_str, 4));
 	tmp = str[stop];
 	str[stop] = '\0';
 	value = get_env_val(dat, &str[start]);

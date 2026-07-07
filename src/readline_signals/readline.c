@@ -10,9 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "structs.h"
-# include <readline/readline.h>
-# include <readline/history.h>
+#include "structs.h"
+#include <readline/readline.h>
+#include <readline/history.h>
 
 void	read_input(t_data *dat)
 {
