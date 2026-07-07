@@ -6,13 +6,14 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/22 14:22:15 by knajmech          #+#    #+#             */
-/*   Updated: 2026/06/22 15:02:36 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/07/07 11:29:10 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "execution.h"
+// #include "execution.h"
 #include "env.h"
 #include "structs.h"
+#include "err.h"
 
 void	cleanup(t_data *data)
 {
@@ -34,5 +35,5 @@ void	cleanup(t_data *data)
 			i++;
 		}
 	}
-	exit (data->ret_code);
+	exit (g_ret);
 }

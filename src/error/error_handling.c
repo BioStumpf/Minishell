@@ -6,12 +6,13 @@
 /*   By: david <user@student.42mail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/06 21:34:36 by david             #+#    #+#             */
-/*   Updated: 2026/07/06 11:34:56 by david            ###   ########.fr       */
+/*   Updated: 2026/07/07 15:01:43 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "structs.h"
 #include "ft_printf.h"
+#include "err.h"
 
 static int	token_error(enum e_token err)
 {
@@ -37,17 +38,15 @@ static int	print_error_get_return(enum e_err err)
 	else if (err == PARSE_ERR_REDIR)
 		return (ft_printf(2, "Parsing error, redirection invalid\n"), 2);
 	else if (err == ERR_DUP)
-		return (ft_printf(2, "dup error\n"), 2);
+		return (ft_printf(2, "dup error\n"), 1);
 	else if (err == ERR_PIPE)
-		return (ft_printf(2, "pipe error\n"), 2);
+		return (ft_printf(2, "pipe error\n"), 1);
 	else if (err == ERR_READ)
-		return (ft_printf(2, "read error\n"), 2);
+		return (ft_printf(2, "read error\n"), 1);
 	else if (err == ERR_OPEN)
-		return (ft_printf(2, "open error\n"), 2);
+		return (ft_printf(2, "open error\n"), 1);
 	else if (err == ERR_FORK)
-		return (ft_printf(2, "fork error\n"), 2);
-	else if (err == ERR_SIG)
-		return (ft_printf(2, "signal error\n"), 2);
+		return (ft_printf(2, "fork error\n"), 1);
 	else
 		return (token_error((enum e_token)err));
 }
@@ -55,7 +54,7 @@ static int	print_error_get_return(enum e_err err)
 void	set_error(t_data *dat, enum e_err status)
 {
 	dat->err = status;
-	dat->ret_code = print_error_get_return(dat->err);
+	g_ret = print_error_get_return(dat->err);
 }
 
 bool	status_ok(t_data *dat)

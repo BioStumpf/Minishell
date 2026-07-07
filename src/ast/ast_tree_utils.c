@@ -6,11 +6,13 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/03 16:05:58 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/07/06 13:24:44 by david            ###   ########.fr       */
+/*   Updated: 2026/07/07 15:20:35 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
 #include "parsing.h"
+#include "structs.h"
 
 static void	free_av(char **av)
 {
@@ -37,8 +39,7 @@ void	clean_ast(t_ast_buff *ast)
 			free(get_operand(node));
 	}
 	free(ast->buf);
-	ast->buf = NULL;
-	ast->idx = 0;
+	ft_bzero(ast, sizeof(t_ast_buff));
 }
 
 t_ast_buff	ast_init(size_t size)
