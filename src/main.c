@@ -6,7 +6,7 @@
 /*   By: david <dstumpf@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/14 15:16:05 by david             #+#    #+#             */
-/*   Updated: 2026/07/14 15:18:58 by david            ###   ########.fr       */
+/*   Updated: 2026/07/14 15:19:40 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ void	fake_sleep(void)
 	wait(NULL);
 }
 
+// fake_sleep();
 int	main(int argc, char **argv, char **envp)
 {
 	t_data	dat;
