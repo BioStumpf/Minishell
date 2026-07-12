@@ -29,19 +29,19 @@ static char	**mallocing(char *s, char **list, int *i, int *k)
 		if (s[*i] == ':' && (s[*i + 1] == ':' || s[*i + 1] == '\0'))
 		{
 			list[*k] = ft_strdup("./");
-			i++;
-			k++;
+			*i += 1;
+			*k += 1;
 		}
 		else if (s[*i] != ':' && s[*i + 1] != ':')
 		{
 			list[*k] = ft_substr(s, *i, ft_strlen_char(&s[*i], ':'));
-			k++;
+			*k += 1;
 			while (s[*i] && s[*i] != ':')
 				(*i)++;
 		}
 		else
 			(*i)++;
-		if (!list[*k])
+		if (!list[*k - 1])
 			return (free_out(list, *k));
 	}
 	list[*k] = 0;

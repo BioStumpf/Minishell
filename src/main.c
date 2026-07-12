@@ -13,6 +13,7 @@
 #include <stdio.h>
 #include "libft.h"
 #include "parsing.h"
+#include "execution.h"
 #include <readline/readline.h>
 #include <readline/history.h>
 #include <err.h>
@@ -39,8 +40,13 @@ int main(int argc, char **argv, char **envp)
 		if (!dat.input)
 			set_error(&dat, ERR_MALLOC);
 		parse_input(&dat);
+<<<<<<< Updated upstream
 		//execute_input(dat) //kian part
 		//clean_ast(dat.ast); //since we run infinetly, clean up the ast after each loop iteration
+=======
+		coordinate_exec(&dat); //kian part
+		clean_ast(&dat.ast); //since we run infinetly, clean up the ast after each loop iteration
+>>>>>>> Stashed changes
 		free(dat.input);
 		//set_last_return(&dat); //this is to fetch dat->return and set envp $? to this return
 		// return (free_all(&dat), 1);

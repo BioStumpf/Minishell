@@ -34,7 +34,7 @@ char	*check_access(t_pipe_manager *pipe_info, char *ptc, char *cmd)
 		{
 			pipe_info->cmd_found = 1;
 			if (!access(full_path, X_OK))
-				return (pipe_info->pathwcmd);
+				return (pipe_info->pathwcmd = full_path, pipe_info->pathwcmd);
 		}
 	}
 	return (NULL);

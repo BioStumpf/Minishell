@@ -31,6 +31,10 @@ void	parse_input(t_data *dat)
 	ft_lstclear(tokens, free_token);
 	print_compound(compound_tokens);
 	free_compound(compound_tokens, OK, dat);
+<<<<<<< Updated upstream
 	//expand(dat, compound_tokens);
 	//dat->ast = parse_tokens(dat, compound_tokens);
+=======
+	//print_tree(dat->ast.root, 0);
+>>>>>>> Stashed changes
 }

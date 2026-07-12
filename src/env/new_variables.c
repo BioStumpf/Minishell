@@ -13,6 +13,7 @@
 #include "env.h"
 #include "structs.h"
 #include "execution.h"
+#include <stdio.h>
 
 char	**env_ptrptr(t_data *dat, t_list *env_list, char **env)
 {
@@ -31,11 +32,12 @@ char	**env_ptrptr(t_data *dat, t_list *env_list, char **env)
 		{
 			key_and_val = (t_env *)node_list->content;
 			assert(node_list && key_and_val);
-			env[i] = ft_strjoin(key_and_val->key_w_equal, key_and_val->value);
-			if (!env[i])
+			assert(key_and_val->key_w_equal);
+			env[k] = ft_strjoin(key_and_val->key_w_equal, key_and_val->value);
+			if (!env[k])
 				return (free_out(env, k), error_and_cleanup(dat, "mall", 0), NULL);
 			k++;
-			node_list = node_list->content;
+			node_list = node_list->next;
 		}
 		i++;
 	}

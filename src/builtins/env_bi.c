@@ -39,7 +39,7 @@ void	env_var(t_data *data)
 
 	env_arr = data->env_mp->env_ptr;
 	i = 0;
-	while (i <= data->env_mp->capacity)
+	while (i < data->env_mp->capacity)
 	{
 		if (env_arr[i].head)
 			print_list(env_arr[i].head, env_arr[i].len);

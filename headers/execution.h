@@ -28,8 +28,13 @@
 # include <unistd.h>
 # include "structs.h"
 // # include "builtins.h"
+<<<<<<< Updated upstream
 int		launch_childp(t_ast *direction, int *fds, int std_fd,
 				t_pipe_manager *pipe_info);
+=======
+
+int		launch_childp(t_ast *dir, int *fds, int std_fd,	t_pipe_manager *pipe_info);
+>>>>>>> Stashed changes
 int		exec_pipe(t_ast *node, t_pipe_manager *pipe_info);
 int		exec_and(t_ast *node, t_pipe_manager *pipe_info);
 int		exec_or(t_ast *node, t_pipe_manager *pipe_info);
@@ -41,5 +46,6 @@ void	pathfinder(t_pipe_manager *pipe_info, char **path_parts, char **args);
 char	**split_path_env(t_data *data);
 int		exec_builtin(t_ast *node, t_pipe_manager *pipe_info);
 int		exec_extern(t_ast *node, t_pipe_manager *pipe_info);
+void	coordinate_exec(t_data *data);
 
 #endif

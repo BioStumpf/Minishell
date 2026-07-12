@@ -12,6 +12,7 @@
 
 #include "../../headers/env.h"
 #include <assert.h>
+#include <stdio.h>
 
 t_env	*make_kv_node(char *key, char *val)
 {
@@ -25,7 +26,8 @@ t_env	*make_kv_node(char *key, char *val)
 	node->key = key;
 	node->key_w_equal = ft_strjoin(key, "=");
 	if (!node->key_w_equal)
-		return NULL;
+		return (NULL);
+	assert(ft_strlen(node->key_w_equal));
 	node->value = val;
 	return (node);
 }
