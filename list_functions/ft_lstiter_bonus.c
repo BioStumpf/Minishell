@@ -1,24 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstiter.c                                       :+:      :+:    :+:   */
+/*   ft_lstprint.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dstumpf <dstumpf@student.42vienna.com      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/10 11:54:49 by dstumpf           #+#    #+#             */
-/*   Updated: 2025/10/10 12:03:44 by dstumpf          ###   ########.fr       */
+/*   Created: 2025/11/28 17:39:50 by dstumpf           #+#    #+#             */
+/*   Updated: 2025/11/28 17:39:54 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_lstiter(t_list *lst, void (*f)(void *))
+void	ft_lstprint(t_list *lst, void (*print_fn)(void *content))
 {
-	if (!f)
+	t_node	*cursor;
+
+	if (!lst)
 		return ;
-	while (lst)
+	cursor = lst->head;
+	while (cursor)
 	{
-		f(lst->content);
-		lst = lst->next;
+		print_fn(cursor->content);
+		cursor = cursor->next;
 	}
 }

@@ -2,9 +2,9 @@
 -Wall
 -Wextra
 -Werror
--I./includes
--I./libft
--L./libft
+-I./headers/
+-I./libft/
+-L./libft/
 -lft
--DDEBUG
+-DDEBUGDDEBUG
 

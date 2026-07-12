@@ -16,6 +16,11 @@ void	ft_lstprint(t_list *lst, void (*print_fn)(void *content))
 {
 	t_node	*cursor;
 
+<<<<<<< HEAD
+=======
+	if (!lst)
+		return ;
+>>>>>>> 9416c658e3301417b663f3d8b7ce3077880516fc
 	cursor = lst->head;
 	while (cursor)
 	{
