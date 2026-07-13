@@ -6,107 +6,12 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/04 16:18:11 by dstumpf           #+#    #+#             */
-<<<<<<< HEAD
 /*   Updated: 2026/01/12 19:24:40 by dstumpf          ###   ########.fr       */
-=======
-/*   Updated: 2026/06/02 11:36:22 by knajmech         ###   ########.fr       */
->>>>>>> 9416c658e3301417b663f3d8b7ce3077880516fc
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-<<<<<<< HEAD
-=======
-/*static int	word_count(const char *s, char c)
-{
-	int	i;
-	int	count;
-
-	i = 0;
-	count = 0;
-	if (!s)
-		return (0);
-	while (s[i])
-	{
-		if (s[i] != c)
-		{
-			count++;
-			while (s[i] && s[i] != c)
-				i++;
-		}
-		else
-			i++;
-	}
-	return (count);
-}
-
-static int	word_len(const char *s, char delimitter)
-{
-	int	i;
-
-	i = 0;
-	if (!s)
-		return (0);
-	while (s[i] && s[i] != delimitter)
-		i++;
-	return (i);
-}
-
-static char	**freedom(char **list, int times)
-{
-	while (times >= 0)
-	{
-		free(list[times]);
-		list[times] = 0;
-		times--;
-	}
-	free(list);
-	list = 0;
-	return (0);
-}
-
-static char	**mallocing(char const *s, char **list, char c)
-{
-	int	i;
-	int	k;
-
-	k = 0;
-	i = 0;
-	if (!list)
-		return (0);
-	while (s[i])
-	{
-		if (s[i] != c)
-		{
-			list[k] = ft_substr(s, i, word_len(&s[i], c));
-			if (!list[k])
-				return (freedom(list, k));
-			k++;
-			while (s[i] != c && (s[i]))
-				i++;
-		}
-		else
-			i++;
-	}
-	list[k] = 0;
-	return (list);
-}
-
-char	**ft_split(char const *s, char c)
-{
-	char	**list;
-
-	if (!s)
-		return (0);
-	list = malloc(sizeof(char *) * (word_count(s, c) + 1));
-	if (!list)
-		return (0);
-	list = mallocing(s, list, c);
-	return (list);
-}*/
-
->>>>>>> 9416c658e3301417b663f3d8b7ce3077880516fc
 static void	find_word(const char *s, char c, unsigned int *start, size_t *len)
 {
 	*start += *len;
