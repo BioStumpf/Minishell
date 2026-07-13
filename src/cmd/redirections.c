@@ -6,10 +6,11 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/03 09:24:30 by knajmech          #+#    #+#             */
-/*   Updated: 2026/06/12 11:55:40 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/07/03 16:40:21 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "parsing.h"
 #include "structs.h"
 #include "env.h"
 #include "execution.h"
@@ -26,9 +27,9 @@ int	fd_assign(enum e_token type, char *file_name, t_data *data, t_ast *redir)
 	else if (type == REDIR_HEREDOC)
 	{
 		heredoc(data, redir);
-		fd = redir->in_redir_fd;
+		fd = get_fd(redir);
 	}
-	else if (type == REDIR_APPEND)
+	else 
 		fd = open(file_name, O_CREAT | O_APPEND);
 	if (fd == -1)
 		error_and_cleanup(data, "open", 0);
@@ -45,12 +46,12 @@ void	redirections(t_data *data, t_ast *redir, char **cmd)
 		which_builtin(data, cmd, is_builtin(cmd[0]));
 		return ;
 	}
-	saved_fd = dup(redir->in_redir_fd);
-	file_fd = fd_assign(redir->type, redir->out_redir_file, data, redir);
-	dup2(file_fd, redir->in_redir_fd);
+	saved_fd = dup(get_fd(redir));
+	file_fd = fd_assign(redir->type, get_operand(redir), data, redir);
+	dup2(file_fd, get_fd(redir));
 	close(file_fd);
 	redirections(data, redir->left, cmd);
-	dup2(saved_fd, redir->in_redir_fd);
+	dup2(saved_fd, get_fd(redir));
 	close(saved_fd);
 }
 

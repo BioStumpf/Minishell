@@ -6,14 +6,16 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 12:00:47 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/01/12 19:55:18 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/06/25 14:12:06 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static bool	in_charset(char c, const char *charset)
+bool	in_charset(char c, const char *charset)
 {
+	if (!charset)
+		return (false);
 	while (*charset)
 	{
 		if (c == *charset)
@@ -27,6 +29,8 @@ size_t	count_words(const char *s, const char *sep)
 {
 	size_t	word_count;
 
+	if (!s || !*s)
+		return (0);
 	word_count = 0;
 	while (*s)
 	{

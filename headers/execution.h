@@ -6,7 +6,7 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/27 09:07:15 by knajmech          #+#    #+#             */
-/*   Updated: 2026/06/12 12:20:56 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/06/30 17:48:38 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,8 @@
 # include <unistd.h>
 # include "structs.h"
 // # include "builtins.h"
-<<<<<<< Updated upstream
-int		launch_childp(t_ast *direction, int *fds, int std_fd,
-				t_pipe_manager *pipe_info);
-=======
 
-int		launch_childp(t_ast *dir, int *fds, int std_fd,	t_pipe_manager *pipe_info);
->>>>>>> Stashed changes
+int		launch_childp(t_ast *dir, int *fds, int std_fd, t_pipe_manager *p_info);
 int		exec_pipe(t_ast *node, t_pipe_manager *pipe_info);
 int		exec_and(t_ast *node, t_pipe_manager *pipe_info);
 int		exec_or(t_ast *node, t_pipe_manager *pipe_info);

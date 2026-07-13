@@ -6,19 +6,16 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/06 13:52:42 by knajmech          #+#    #+#             */
-/*   Updated: 2026/06/22 10:34:09 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/07/05 12:14:04 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef STRUCTS_H
 # define STRUCTS_H
 
-//parsing macro definition for tokenizer
-# define NOWORD NULL
-
 # include "../libft/libft.h"
 
-typedef struct s_env_tracker t_env_tracker;
+typedef struct s_env_tracker	t_env_tracker;
 
 enum e_token
 {
@@ -39,9 +36,16 @@ enum e_token
 typedef struct s_ast
 {
 	enum e_token	type;
-	int				in_redir_fd;//turn into a ptr-ptr
-	char			*out_redir_file;
-	char			**cmd_argv;
+	union
+	{
+		char		**av;
+		struct
+		{
+			bool	quoted;
+			int		fd;
+			char	*operand;
+		} s_redir;
+	} u_value;
 	struct s_ast	*left;
 	struct s_ast	*right;
 }					t_ast;
@@ -49,25 +53,30 @@ typedef struct s_ast
 typedef struct s_ast_buff
 {
 	size_t	idx;
-	t_ast	*start; //root
+	t_ast	*buf;
+	t_ast	*root;
 }			t_ast_buff;
 
 enum e_err
 {
 	OK,
 	ERR_MALLOC,
+	PARSE_ERR_UNCLOSED_QUOTES,
+	PARSE_ERR_REDIR,
+	PARSE_ERR_PIPE,
+	PARSE_ERR_OR,
+	PARSE_ERR_AND,
+	PARSE_ERR_PARA,
 	ERR_DUP,
 	ERR_OPEN,
 	ERR_READ,
 	ERR_SIG,
 	ERR_PIPE,
 	ERR_FORK,
-	PARSE_ERR_UNCLOSED_QUOTES
 };
 
 typedef struct s_data
 {
-	t_ast_buff		ast;
 	char			*input;
 	char			**new_variable;
 	char			*find_var;
@@ -75,7 +84,9 @@ typedef struct s_data
 	char			*newdir;
 	enum e_err		err;
 	int				ret_code;
+	char			*ret_str;
 	t_env_tracker	*env_mp;
+	t_ast_buff		ast;
 }				t_data;
 
 typedef struct s_pipe_manager

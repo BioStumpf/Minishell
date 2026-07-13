@@ -44,7 +44,7 @@ int	hash_function(t_list *map_env, t_env_tracker *tracker,
 	value[1] = ft_strdup(ft_strchr(env_var, '=') + 1);
 	if (!value[0] || !value[1])
 		return (free(value[0]), free(value[1]), 0);
-	key_val_node = hash_search((map_env[key_index].head), value[0]);
+	key_val_node = hash_search(map_env, value[0]);
 	if (key_val_node)
 		return (free(value[0]), key_val_node->value = value[1], 1);
 	key_val_node = make_kv_node(value[0], value[1]);

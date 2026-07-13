@@ -1,38 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   comp_accessors.c                                   :+:      :+:    :+:   */
+/*   ast_accessors.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/06/04 19:26:03 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/07/04 14:59:18 by dstumpf          ###   ########.fr       */
+/*   Created: 2026/07/03 15:49:58 by dstumpf           #+#    #+#             */
+/*   Updated: 2026/07/03 15:53:50 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 
-enum e_token	comp_type(t_compound *comp)
+char	**get_av(t_ast *node)
 {
-	return (comp->type);
+	return (node->u_value.av);
 }
 
-int	comp_fd(t_compound *comp)
+int	get_fd(t_ast *node)
 {
-	return (comp->u_value.s_redir.fd);
+	return (node->u_value.s_redir.fd);
 }
 
-char	*comp_filename(t_compound *comp)
+bool	get_quoted(t_ast *node)
 {
-	return (comp->u_value.s_redir.filename);
+	return (node->u_value.s_redir.quoted);
 }
 
-t_arg	*comp_args(t_compound *comp)
+char	*get_operand(t_ast *node)
 {
-	return (&comp->u_value.args);
-}
-
-t_compound	*get_comp(t_compound_arr *ca, size_t i)
-{
-	return (&ca->arr[i]);
+	return (node->u_value.s_redir.operand);
 }

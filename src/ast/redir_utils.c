@@ -1,38 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   comp_accessors.c                                   :+:      :+:    :+:   */
+/*   redir_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/06/04 19:26:03 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/07/04 14:59:18 by dstumpf          ###   ########.fr       */
+/*   Created: 2026/07/05 20:06:33 by dstumpf           #+#    #+#             */
+/*   Updated: 2026/07/05 20:07:40 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 
-enum e_token	comp_type(t_compound *comp)
+t_ast	*parse_redir(t_data *dat, t_compound_arr *ca, size_t *i)
 {
-	return (comp->type);
+	t_ast	*redir;
+	t_ast	*tmp;
+
+	if (!is_ast_redir(ca, *i))
+		return (NULL);
+	redir = new_ast_node(&dat->ast, get_comp(ca, (*i)++));
+	tmp = redir;
+	while (is_ast_redir(ca, *i))
+	{
+		tmp->left = new_ast_node(&dat->ast, get_comp(ca, (*i)++));
+		tmp = tmp->left;
+	}
+	return (redir);
 }
 
-int	comp_fd(t_compound *comp)
+t_ast	*last_redir(t_ast *node)
 {
-	return (comp->u_value.s_redir.fd);
-}
-
-char	*comp_filename(t_compound *comp)
-{
-	return (comp->u_value.s_redir.filename);
-}
-
-t_arg	*comp_args(t_compound *comp)
-{
-	return (&comp->u_value.args);
-}
-
-t_compound	*get_comp(t_compound_arr *ca, size_t i)
-{
-	return (&ca->arr[i]);
+	while (node && node->left)
+		node = node->left;
+	return (node);
 }

@@ -81,7 +81,7 @@ char **split_path_env(t_data *data)
 	int		k;
 
 	key_and_val =
-		hash_search(data->env_mp->env_ptr[find_hash_key("PATH")].head, "PATH");
+		hash_search(data->env_mp->env_ptr, "PATH");
 	if (key_and_val == NULL || key_and_val->value == NULL)
 		return (0);
 	path_parts = split_the_path(key_and_val->value);
