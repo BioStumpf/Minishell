@@ -67,5 +67,5 @@ int	main(int argc, char **argv, char **envp)
 //signals
 //compound echo "$" doesnt print $ in the end
 // execute(&dat) //kian part
- //kian part\
+//kian part\
 //since we run infinetly, clean up the ast after each loop iteration
