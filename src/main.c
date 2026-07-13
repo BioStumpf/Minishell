@@ -43,12 +43,6 @@ static void	set_return_str(t_data *dat)
 		set_error(dat, ERR_MALLOC);
 }
 
-//NOTES:
-//readline history
-//readline prompt?? does it have to be minishell what about directory?
-//signals
-//compound echo "$" doesnt print $ in the end
-// execute(&dat) //kian part
 int	main(int argc, char **argv, char **envp)
 {
 	t_data	dat;
@@ -69,11 +63,19 @@ int	main(int argc, char **argv, char **envp)
 		if (!dat.input)
 			set_error(&dat, ERR_MALLOC);
 		parse_input(&dat);
-		coordinate_exec(&dat); //kian part
-		clean_ast(&dat.ast); //since we run infinetly, clean up the ast after each loop iteration
+		coordinate_exec(&dat);
+		clean_ast(&dat.ast);
 		free(dat.input);
 		set_return_str(&dat);
 		if (fatal_error(&dat))
 			return (free_all(&dat), dat.ret_code);
 	}
 }
+//NOTES:
+//readline history
+//readline prompt?? does it have to be minishell what about directory?
+//signals
+//compound echo "$" doesnt print $ in the end
+// execute(&dat) //kian part
+ //kian part\
+//since we run infinetly, clean up the ast after each loop iteration
