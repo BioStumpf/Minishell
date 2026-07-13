@@ -14,12 +14,6 @@
 #include "libft.h"
 #include "err.h"
 #include "structs.h"
-// #include "ft_printf.h"
-	// ft_lstprint(tokens, print_token);
-	// ft_printf(1, "number of compounds: %d\n", compound_tokens->len);
-	// print_compound(compound_tokens);
-	// print_compound(compound_tokens);
-	// free_compound(compound_tokens, OK, dat);
 
 void	parse_input(t_data *dat)
 {
@@ -36,3 +30,10 @@ void	parse_input(t_data *dat)
 	free_compound(compound_tokens, OK, dat);
 	//print_tree(dat->ast.root, 0);
 }
+
+// #include "ft_printf.h"
+	// ft_lstprint(tokens, print_token);
+	// ft_printf(1, "number of compounds: %d\n", compound_tokens->len);
+	// print_compound(compound_tokens);
+	// print_compound(compound_tokens);
+	// free_compound(compound_tokens, OK, dat);
