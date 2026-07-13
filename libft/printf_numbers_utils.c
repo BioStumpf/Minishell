@@ -57,4 +57,3 @@ int	print_pointer(t_ulong num)
 		return (-1);
 	return (ft_putnbr_base(num, 16, 'x') + 2);
 }
-
