@@ -66,3 +66,5 @@ int	ft_printf(int fd, const char *str, ...)
 	va_end(args);
 	return (tot_bytes);
 }
+
+
