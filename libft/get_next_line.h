@@ -6,11 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/18 11:51:16 by dstumpf           #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2025/11/26 15:20:57 by dstumpf          ###   ########.fr       */
-=======
-/*   Updated: 2026/06/22 12:33:53 by knajmech         ###   ########.fr       */
->>>>>>> 9416c658e3301417b663f3d8b7ce3077880516fc
+/*   Updated: 2026/07/13 10:50:44 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,16 +35,9 @@ typedef struct s_lineinfo
 	size_t	line_s;
 }			t_lineinfo;
 
-<<<<<<< HEAD
 char	*get_next_line(int fd);
 void	cpy_buff_to_line(t_fdlist *stash, t_lineinfo *line, int fd);
 char	*ft_realloc(t_fdlist *stash, t_lineinfo *line, size_t new_len);
 bool	init_line(t_lineinfo *line);
-=======
-char		*get_next_line(int fd);
-int			cpy_buff_to_line(t_fdlist *stash, t_lineinfo *line, int fd);
-char		*ft_realloc(t_fdlist *stash, t_lineinfo *line, size_t new_len);
-bool		init_line(t_lineinfo *line);
->>>>>>> 9416c658e3301417b663f3d8b7ce3077880516fc
 
 #endif
