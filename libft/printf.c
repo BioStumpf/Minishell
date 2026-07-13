@@ -37,7 +37,7 @@ static void	init_fd(int val)
 
 int	gfd(void)
 {
-	 return (*get_fd());
+	return (*get_fd());
 }
 
 int	ft_printf(int fd, const char *str, ...)
@@ -66,4 +66,4 @@ int	ft_printf(int fd, const char *str, ...)
 	va_end(args);
 	return (tot_bytes);
 }
-
+//comment
