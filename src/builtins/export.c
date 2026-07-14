@@ -6,7 +6,7 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/12 09:27:50 by knajmech          #+#    #+#             */
-/*   Updated: 2026/06/04 12:00:18 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/07/14 11:36:00 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	export_var(t_data *data)
 
 	env_arr = data->env_mp->env_ptr;
 	i = 0;
-	while (i <= data->env_mp->capacity)
+	while (i < data->env_mp->capacity)
 	{
 		if (env_arr[i].head)
 			print_expolist(env_arr[i].head);

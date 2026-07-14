@@ -6,13 +6,14 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/12 09:10:22 by knajmech          #+#    #+#             */
-/*   Updated: 2026/06/04 12:01:17 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/07/14 11:36:20 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "structs.h"
 #include "execution.h"
 #include "env.h"
+
 void	print_list(t_node	*env_list, int len)
 {
 	t_env	*node;
