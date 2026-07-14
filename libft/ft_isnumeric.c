@@ -12,7 +12,7 @@
 
 #include "libft.h"
 
-bool	is_numeric(char *input)
+bool	ft_is_numeric(char *input)
 {
 	while (*input)
 	{
