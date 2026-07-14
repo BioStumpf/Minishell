@@ -6,13 +6,14 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/11 10:00:28 by knajmech          #+#    #+#             */
-/*   Updated: 2026/06/12 09:50:19 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/07/14 14:33:41 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "structs.h"
 #include "builtins.h"
 #include "env.h"
+#include <stdio.h>
 
 void	env_oldpwd_swap(t_data *data)
 {
@@ -39,6 +40,8 @@ int	change_dir(t_data *data)
 	char	*curdir;
 	char	*tmp;
 
+	data->newdir = data->;
+	printf("%s\n", data->newdir);
 	env_oldpwd_swap(data);
 	if (ft_strchr(data->newdir, '/'))
 	{
