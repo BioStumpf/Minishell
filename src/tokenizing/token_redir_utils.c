@@ -20,7 +20,7 @@
 static void	redir_fd(t_list *lst, t_node *redir, t_node *fd, t_node *before_fd)
 {
 	if (fd && tok_type(fd) == WORD && !tok_space(fd)
-		&& is_numeric(tok_word(fd)))
+		&& ft_is_numeric(tok_word(fd)))
 	{
 		set_redir_fd(redir, ft_atoi(tok_word(fd)));
 		ft_lstmid_rm(lst, fd, before_fd, free_token);
