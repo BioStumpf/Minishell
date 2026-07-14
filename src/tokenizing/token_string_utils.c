@@ -6,13 +6,14 @@
 /*   By: david <user@student.42mail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/30 17:04:19 by david             #+#    #+#             */
-/*   Updated: 2026/05/17 17:35:06 by david            ###   ########.fr       */
+/*   Updated: 2026/07/01 15:19:54 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stddef.h>
+#include "parsing.h"
 
-static char	char_in_str(char c, const char *str)
+char	char_in_str(char c, const char *str)
 {
 	size_t		i;
 
@@ -37,7 +38,7 @@ char	is_whitespace_metachar(char c)
 {
 	const char	*no_token;
 
-	no_token = " \t\n";
+	no_token = SPCE;
 	return (char_in_str(c, no_token));
 }
 

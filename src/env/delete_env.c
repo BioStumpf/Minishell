@@ -22,6 +22,7 @@ t_node	*delete_node(t_node *node)
 	env = node->content;
 	free(env->key);
 	free(env->value);
+	free(env->key_w_equal);
 	free((t_env *) node->content);
 	free(node);
 	return (node_next);

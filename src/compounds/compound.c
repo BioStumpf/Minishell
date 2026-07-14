@@ -6,13 +6,14 @@
 /*   By: david <user@student.42mail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/26 13:37:33 by david             #+#    #+#             */
-/*   Updated: 2026/06/04 20:04:03 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/07/06 12:06:49 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "parsing.h"
 #include <stdlib.h>
+#include <err.h>
 // #include <stdbool.h>
 
 static size_t	count_compounds(t_list *tokens)
@@ -26,7 +27,7 @@ static size_t	count_compounds(t_list *tokens)
 	in_cmd = false;
 	while (cur)
 	{
-		if (tok_type(cur) != WORD) 
+		if (tok_type(cur) != WORD)
 		{
 			in_cmd = false;
 			count++;
@@ -45,7 +46,7 @@ static bool	add_words(t_compound *comp, t_node **token)
 {
 	void	*s;
 
-	while (*token && tok_type(*token) == WORD) 
+	while (*token && tok_type(*token) == WORD)
 	{
 		s = add_arg(comp_args(comp), arg_size(comp), tok_word(*token));
 		if (!s)
@@ -55,37 +56,47 @@ static bool	add_words(t_compound *comp, t_node **token)
 	return (true);
 }
 
+static char	*add_redir(t_compound *comp, t_node *redir)
+{
+	comp->u_value.s_redir.fd = tok_fd(redir);
+	comp->u_value.s_redir.filename = ft_strdup(tok_filename(redir));
+	return (comp_filename(comp));
+}
+
 static bool	make_compound_arr(t_compound_arr *ca, t_list *tokens)
 {
 	size_t	i;
 	t_node	*cur;
 
-	i = 0;
+	i = -1;
 	cur = tokens->head;
-	while (i < ca->len)
+	while (++i < ca->len)
 	{
-		if (tok_type(cur))
-		{
-			ca->arr[i].type = tok_type(cur);
-			cur = cur->next;
-		}
-		else
+		if (tok_type(cur) == WORD)
 		{
 			ca->arr[i].type = CMD;
 			if (!add_words(&ca->arr[i], &cur))
 				return (false);
 		}
-		i++;
+		else
+		{
+			if (is_redir(tok_type(cur)))
+			{
+				if (!add_redir(&ca->arr[i], cur))
+					return (false);
+			}
+			ca->arr[i].type = tok_type(cur);
+			cur = cur->next;
+		}
 	}
 	return (true);
 }
 
 t_compound_arr	*compound_group(t_data *dat, t_list *tokens)
 {
-	(void)dat;
 	t_compound_arr	*ca;
 
-	if (!tokens)
+	if (!tokens || !status_ok(dat))
 		return (NULL);
 	ca = malloc(sizeof(t_compound_arr));
 	if (!ca)

@@ -1,38 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   comp_accessors.c                                   :+:      :+:    :+:   */
+/*   check_tok_types.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/06/04 19:26:03 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/07/04 14:59:18 by dstumpf          ###   ########.fr       */
+/*   Created: 2026/07/05 20:08:12 by dstumpf           #+#    #+#             */
+/*   Updated: 2026/07/05 20:08:48 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 
-enum e_token	comp_type(t_compound *comp)
+bool	is_or(t_compound_arr *ca, size_t i)
 {
-	return (comp->type);
+	return (i < ca->len && comp_type(get_comp(ca, i)) == OR);
 }
 
-int	comp_fd(t_compound *comp)
+bool	is_and(t_compound_arr *ca, size_t i)
 {
-	return (comp->u_value.s_redir.fd);
+	return (i < ca->len && comp_type(get_comp(ca, i)) == AND);
 }
 
-char	*comp_filename(t_compound *comp)
+bool	is_pipe(t_compound_arr *ca, size_t i)
 {
-	return (comp->u_value.s_redir.filename);
-}
-
-t_arg	*comp_args(t_compound *comp)
-{
-	return (&comp->u_value.args);
-}
-
-t_compound	*get_comp(t_compound_arr *ca, size_t i)
-{
-	return (&ca->arr[i]);
+	return (i < ca->len && comp_type(get_comp(ca, i)) == PIPE);
 }

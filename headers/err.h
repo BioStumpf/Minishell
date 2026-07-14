@@ -10,17 +10,14 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdbool.h>
-#include "structs.h"
-
 #ifndef ERR_H
 # define ERR_H
 
-# define NOWORD NULL
+# include <stdbool.h>
+# include "structs.h"
 
 //error handling
-// void				set_error(enum e_err status, char c);
-enum e_err			set_error(t_data *dat, enum e_err status);
+void				set_error(t_data *dat, enum e_err status);
 bool				status_ok(t_data *dat);
 bool				fatal_error(t_data *dat);
 t_data				*data_storage(t_data *data);

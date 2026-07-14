@@ -1,38 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   comp_accessors.c                                   :+:      :+:    :+:   */
+/*   expansion_accessors.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/06/04 19:26:03 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/07/04 14:59:18 by dstumpf          ###   ########.fr       */
+/*   Created: 2026/06/28 19:28:19 by dstumpf           #+#    #+#             */
+/*   Updated: 2026/07/03 14:04:00 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 
-enum e_token	comp_type(t_compound *comp)
+bool	exp_quote(t_exp_vec *vec, size_t idx)
 {
-	return (comp->type);
+	return (vec->expansions[idx].quoted);
 }
 
-int	comp_fd(t_compound *comp)
+size_t	exp_start(t_exp_vec *vec, size_t idx)
 {
-	return (comp->u_value.s_redir.fd);
+	return (vec->expansions[idx].start);
 }
 
-char	*comp_filename(t_compound *comp)
+size_t	exp_len(t_exp_vec *vec, size_t idx)
 {
-	return (comp->u_value.s_redir.filename);
+	return (vec->expansions[idx].len);
 }
 
-t_arg	*comp_args(t_compound *comp)
+t_exp	*get_exp(t_exp_vec *vec, size_t idx)
 {
-	return (&comp->u_value.args);
-}
-
-t_compound	*get_comp(t_compound_arr *ca, size_t i)
-{
-	return (&ca->arr[i]);
+	return (&vec->expansions[idx]);
 }

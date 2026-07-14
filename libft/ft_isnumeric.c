@@ -1,25 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   ft_isnumeric.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dstumpf <dstumpf@student.42vienna.com      +#+  +:+       +#+        */
+/*   By: david <dstumpf@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/30 14:27:04 by dstumpf           #+#    #+#             */
-/*   Updated: 2025/09/30 14:28:17 by dstumpf          ###   ########.fr       */
+/*   Created: 2026/06/15 13:40:23 by david             #+#    #+#             */
+/*   Updated: 2026/06/15 18:19:39 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-size_t	ft_strlen(const char *s)
+bool	is_numeric(char *input)
 {
-	size_t	len;
-
-	if (!s)
-		return (0);
-	len = 0;
-	while (s[len])
-		len++;
-	return (len);
+	while (*input)
+	{
+		if (!ft_isdigit(*input))
+			return (false);
+		input++;
+	}
+	return (true);
 }

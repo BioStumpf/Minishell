@@ -33,14 +33,14 @@ void	heredoc(t_data *data, t_ast *node)
 		given_line = readline("> ");
 		if (errno)
 			error_and_cleanup(data, "malloc", 0);
-		if (!ft_strncmp(given_line, node->cmd_argv[0],
-					ft_strlen(node->cmd_argv[0])))
+		if (!ft_strncmp(given_line, get_av(node)[0],
+					ft_strlen(get_av(node)[0])))
 			break ;
 		ft_putstr_fd(given_line, fd);
 		free(given_line);
 	}
 	free(given_line);
-	if (dup2(node->in_redir_fd, fd))
+	if (dup2(get_fd(node), fd))
 		error_and_cleanup(data, "dup", 0);
 }
 
