@@ -31,5 +31,4 @@ int				insert_new(t_list *env_ptr, t_env_tracker *tracker,
 t_node			*delete_node(t_node *node);
 char			**env_ptrptr(t_data *data, t_list *env_list, char **env);
 
-
 #endif
