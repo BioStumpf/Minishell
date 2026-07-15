@@ -3,21 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   which_builtin.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/07/03 16:36:16 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/07/03 16:37:07 by dstumpf          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   which_builtin.c                                    :+:      :+:    :+:   */ /*                                                    +:+ +:+         +:+     */
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/05/08 12:05:48 by knajmech          #+#    #+#             */
-/*   Updated: 2026/06/04 11:58:15 by knajmech         ###   ########.fr       */
+/*   Created: 2026/07/15 09:46:08 by knajmech          #+#    #+#             */
+/*   Updated: 2026/07/15 10:22:06 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +42,7 @@ int	which_builtin(t_data *data, char **cmd_argv, int builtin_call)
 	if (builtin_call == ECHO)
 		return (echo_print(cmd_argv));
 	else if (builtin_call == CD)
-		return (change_dir(data));
+		return (data->newdir = cmd_argv[1], change_dir(data));
 	else if (builtin_call == PWD)
 		return (pworkdir(data));
 	else if (builtin_call == EXPO)
@@ -61,7 +50,7 @@ int	which_builtin(t_data *data, char **cmd_argv, int builtin_call)
 	else if (builtin_call == UNSET)
 	{
 		data->env_mp->elem_num--;
-		return (unset_var(data->env_mp->env_ptr, data->input), 0);
+		return (unset_var(data->env_mp->env_ptr, cmd_argv[1]), 0);
 	}
 	else if (builtin_call == ENV)
 		return (env_var(data), 0);

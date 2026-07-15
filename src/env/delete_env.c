@@ -6,7 +6,7 @@
 /*   By: knajmech <knajmech@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/10 09:46:59 by knajmech          #+#    #+#             */
-/*   Updated: 2026/06/04 11:52:35 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/07/15 13:52:59 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,25 +16,25 @@
 t_node	*delete_node(t_node *node)
 {
 	t_env	*env;
-	t_node	*node_next;
 
-	node_next = node->next;
 	env = node->content;
 	free(env->key);
 	free(env->value);
 	free(env->key_w_equal);
-	free((t_env *) node->content);
-	free(node);
-	return (node_next);
+	//free((t_env *) node->content);
+	//free(node);
+	return (node);
 }
 
 void	unset_variable(t_list *map_env, char *key)
 {
 	t_node			*node;
+	t_node			*prev_node;
 	t_env			*env;
 	unsigned int	hash_key;
 	int				len;
 
+	prev_node = 0;
 	assert(key != NULL);
 	hash_key = find_hash_key(key);
 	node = map_env[hash_key].head;
@@ -46,12 +46,13 @@ void	unset_variable(t_list *map_env, char *key)
 		env = node->content;
 		if (!ft_strncmp(env->key, key, len + 1))
 		{
-			map_env[hash_key].tail = ft_nodeadd_back(&map_env[hash_key].head,
-					delete_node(node), map_env[hash_key].tail);
-			map_env[hash_key].len--;
+			ft_lstmid_rm(&map_env[hash_key], delete_node(node), prev_node, free);
+			/*map_env[hash_key].tail = ft_nodeadd_back(&map_env[hash_key].head,
+					delete_node(node), map_env[hash_key].tail);*/
 			assert(map_env[hash_key].len != ULLONG_MAX);
 			return ;
 		}
+		prev_node = node;
 		node = node->next;
 	}
 	return ;
