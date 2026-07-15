@@ -6,7 +6,7 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/11 10:00:28 by knajmech          #+#    #+#             */
-/*   Updated: 2026/07/14 14:33:41 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/07/15 10:10:01 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,26 @@
 #include "env.h"
 #include <stdio.h>
 
+void	env_pwd_swap(t_data *data)
+{
+	t_env	*key_and_val;
+	char	*k_v[2];
+
+	key_and_val = hash_search(data->env_mp->env_ptr, "PWD");
+	if (!key_and_val)
+	{
+		k_v[0] = "PWD";
+		k_v[1] = getcwd(NULL, 0);
+		if (!insert_new(data->env_mp->env_ptr, data->env_mp, k_v))
+			error_and_cleanup(data, "malloc", 0);
+		free(k_v[1]);
+	}
+	else
+	{
+		free(key_and_val->value);
+		key_and_val->value = getcwd(NULL, 0);
+	}
+}
 void	env_oldpwd_swap(t_data *data)
 {
 	t_env	*key_and_val;
@@ -40,14 +60,12 @@ int	change_dir(t_data *data)
 	char	*curdir;
 	char	*tmp;
 
-	data->newdir = data->;
-	printf("%s\n", data->newdir);
 	env_oldpwd_swap(data);
 	if (ft_strchr(data->newdir, '/'))
 	{
 		chdir(data->newdir);
 		data->cwd = data->newdir;
-		data->newdir = NULL;
+		env_pwd_swap(data);
 		return (1);
 	}
 	curdir = ft_strjoin(data->cwd, "/");
@@ -60,5 +78,6 @@ int	change_dir(t_data *data)
 	chdir(curdir);
 	free(tmp);
 	data->cwd = curdir;
+	env_pwd_swap(data);
 	return (1);
 }
