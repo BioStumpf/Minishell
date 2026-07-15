@@ -6,11 +6,12 @@
 /*   By: knajmech <knajmech@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 09:36:17 by knajmech          #+#    #+#             */
-/*   Updated: 2026/07/14 11:28:43 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/07/15 09:54:31 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../headers/env.h"
+#include "env.h"
+#include "builtins.h"
 #include <assert.h>
 #include <stdio.h>
 
@@ -94,6 +95,7 @@ int process_env(t_data *data, char **env)
 		if (!env)
 			return (1);
 		initialise_env(&tracker); 
+		save_cwd(data);
 		if (!fill_env(tracker.env_ptr, &tracker, env))
 			error_and_cleanup(data, "malloc", 0);
 		data->env_mp = &tracker;
