@@ -6,7 +6,7 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/12 09:27:50 by knajmech          #+#    #+#             */
-/*   Updated: 2026/07/14 11:36:00 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/07/16 14:35:07 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,13 +34,22 @@ void	print_expolist(t_node	*env_list)
 	}
 }
 
-void	export_var(t_data *data)
+void	export_var(t_data *data, char **argv)
 {
 	t_list	*env_arr;
+	char	**list;
 	int		i;
 
 	env_arr = data->env_mp->env_ptr;
 	i = 0;
+	if (data->env_mp->elem_num > 0 && argv[1])
+	{
+		list = ft_split(argv[1], '=');
+		if (ft_count_2d(list) <= 2)
+			insert_new(env_arr, data->env_mp, list);
+		free_out(list, ft_count_2d(list));
+		return ;
+	}
 	while (i < data->env_mp->capacity)
 	{
 		if (env_arr[i].head)

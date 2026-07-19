@@ -6,7 +6,7 @@
 /*   By: knajmech <knajmech@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/06 11:01:30 by knajmech          #+#    #+#             */
-/*   Updated: 2026/06/12 09:20:09 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/07/17 12:22:35 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ char	**env_ptrptr(t_data *dat, t_list *env_list, char **env)
 		}
 		i++;
 	}
-	env[i] = 0;
+	env[k] = 0;
 	return (env);
 }
 
