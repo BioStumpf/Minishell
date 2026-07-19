@@ -6,7 +6,7 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/15 09:46:08 by knajmech          #+#    #+#             */
-/*   Updated: 2026/07/15 10:22:06 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/07/16 12:43:39 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	which_builtin(t_data *data, char **cmd_argv, int builtin_call)
 	else if (builtin_call == PWD)
 		return (pworkdir(data));
 	else if (builtin_call == EXPO)
-		return (export_var(data), 0);
+		return (export_var(data, cmd_argv), 0);
 	else if (builtin_call == UNSET)
 	{
 		data->env_mp->elem_num--;
