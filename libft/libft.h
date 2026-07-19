@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 14:04:55 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/06/24 14:50:19 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/07/16 14:20:59 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,5 +88,6 @@ int		ft_strlen_char(char *str, char delimitter);
 char	*ft_strndup(const char *s, char delimitter);
 t_node	*ft_nodeadd_back(t_node **lst, t_node *new, t_node *tail);
 t_node	*ft_nodelast(t_node *lst);
+size_t	ft_count_2d(char **argv);
 
 #endif
