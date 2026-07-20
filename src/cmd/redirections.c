@@ -6,7 +6,7 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/03 09:24:30 by knajmech          #+#    #+#             */
-/*   Updated: 2026/07/19 14:38:43 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/07/20 10:23:24 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,27 @@ int	fd_assign(enum e_token type, char *file_name, t_data *data, t_ast *redir)
 	return (fd);
 }
 
-void	redirections(t_data *data, t_ast *redir, char **cmd)
+void	redirect_extern(t_data *data, t_ast *redir, t_ast *p_dir)
+{
+	int	saved_fd;
+	int	file_fd;
+
+	if (!redir)
+	{
+		exec_extern(p_dir, data->pipe_info);
+		return ;
+		error_and_cleanup(data, "execve", data->ret_code);
+	}
+	saved_fd = dup(get_fd(redir));
+	file_fd = fd_assign(redir->type, get_operand(redir), data, redir);
+	dup2(file_fd, get_fd(redir));
+	close(file_fd);
+	redirect_extern(data, redir->left, redir);
+	dup2(saved_fd, get_fd(redir));
+	close(saved_fd);
+}
+
+void	redirect_builtin(t_data *data, t_ast *redir, char **cmd)
 {
 	int	saved_fd;
 	int	file_fd;
@@ -50,7 +70,7 @@ void	redirections(t_data *data, t_ast *redir, char **cmd)
 	file_fd = fd_assign(redir->type, get_operand(redir), data, redir);
 	dup2(file_fd, get_fd(redir));
 	close(file_fd);
-	redirections(data, redir->left, cmd);
+	redirect_builtin(data, redir->left, cmd);
 	dup2(saved_fd, get_fd(redir));
 	close(saved_fd);
 }

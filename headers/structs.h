@@ -6,7 +6,7 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/06 13:52:42 by knajmech          #+#    #+#             */
-/*   Updated: 2026/07/05 12:14:04 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/07/20 10:09:13 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include "../libft/libft.h"
 
 typedef struct s_env_tracker	t_env_tracker;
+typedef struct s_pipe_manager	t_pipe_manager;
 
 enum e_token
 {
@@ -85,6 +86,7 @@ typedef struct s_data
 	enum e_err		err;
 	int				ret_code;
 	char			*ret_str;
+	t_pipe_manager	*pipe_info;
 	t_env_tracker	*env_mp;
 	t_ast_buff		ast;
 }				t_data;
@@ -95,6 +97,7 @@ typedef struct s_pipe_manager
 	bool	in_pipeline;
 	char	*pathwcmd;
 	pid_t	child[2];
+	t_ast	*cmd_node;
 	t_data	*data;
 }				t_pipe_manager;
 

@@ -6,7 +6,7 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/12 12:08:14 by knajmech          #+#    #+#             */
-/*   Updated: 2026/07/19 15:11:11 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/07/20 08:12:16 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,11 +49,17 @@ int	exec_pipe(t_ast *node, t_pipe_manager *pipe_info)
 		error_and_cleanup(pipe_info->data, "pipe", 0);
 	pipe_info->child[0] = fork();
 	if (pipe_info->child[0] <= 0)
+	{
 		launch_childp(node->left, fds, STDOUT_FILENO, pipe_info);
-	else
-		pipe_info->child[1] = fork();
+		exit(0);
+	}
+	pipe_info->child[1] = fork();
 	if (pipe_info->child[1] <= 0)
+	{
 		status = launch_childp(node->right, fds, STDIN_FILENO, pipe_info);
+		exit(0);
+	}
+	pipe_info->data->pipe_info = pipe_info;
 	close(fds[0]);
 	close(fds[1]);
 	if (pipe_info->child[0])

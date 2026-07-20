@@ -6,13 +6,14 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/03 07:24:21 by knajmech          #+#    #+#             */
-/*   Updated: 2026/06/04 11:48:26 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/07/20 10:18:35 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "env.h"
 #include "structs.h"
+#include "parsing.h"
 
 char	*check_access(t_pipe_manager *pipe_info, char *ptc, char *cmd)
 {
@@ -54,7 +55,7 @@ char	*path_fixer(char *path_to_fix)
 	return (fixed_path);
 }
 
-void	pathfinder(t_pipe_manager *pipe_info, char **path_parts, char **args)
+void	pathfinder(t_pipe_manager *pipe_info, char **path_parts)
 {
 	int		i;
 	char	*path_to_check;
@@ -65,7 +66,9 @@ void	pathfinder(t_pipe_manager *pipe_info, char **path_parts, char **args)
 		path_to_check = path_fixer(path_parts[i]);
 		if (!path_to_check)
 			error_and_cleanup(pipe_info->data, "malloc", 0);
-		if (check_access(pipe_info, path_to_check, args[0]))
+		assert(path_to_check);
+		if (check_access(pipe_info, path_to_check,
+					get_av(pipe_info->cmd_node)[0]))
 			return ;
 		free(path_to_check);
 		i++;
