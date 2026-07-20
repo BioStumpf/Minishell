@@ -6,7 +6,7 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/06 13:52:42 by knajmech          #+#    #+#             */
-/*   Updated: 2026/07/20 10:09:13 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/07/20 16:36:50 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ enum e_err
 	ERR_SIG,
 	ERR_PIPE,
 	ERR_FORK,
+	EXIT_CALL
 };
 
 typedef struct s_data
@@ -84,7 +85,6 @@ typedef struct s_data
 	char			*find_var;
 	char			*cwd;
 	char			*newdir;
-	enum e_err		err;
 	int				ret_code;
 	char			*ret_str;
 	t_pipe_manager	*pipe_info;

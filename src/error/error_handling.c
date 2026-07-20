@@ -6,13 +6,14 @@
 /*   By: david <user@student.42mail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/06 21:34:36 by david             #+#    #+#             */
-/*   Updated: 2026/07/07 15:01:43 by david            ###   ########.fr       */
+/*   Updated: 2026/07/20 16:37:31 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "structs.h"
 #include "ft_printf.h"
 #include "err.h"
+#include "parsing.h"
 
 static int	token_error(enum e_token err)
 {
@@ -38,15 +39,17 @@ static int	print_error_get_return(enum e_err err)
 	else if (err == PARSE_ERR_REDIR)
 		return (ft_printf(2, "Parsing error, redirection invalid\n"), 2);
 	else if (err == ERR_DUP)
-		return (ft_printf(2, "dup error\n"), 1);
+		return (ft_printf(2, "dup error\n"), 2);
 	else if (err == ERR_PIPE)
-		return (ft_printf(2, "pipe error\n"), 1);
+		return (ft_printf(2, "pipe error\n"), 2);
 	else if (err == ERR_READ)
-		return (ft_printf(2, "read error\n"), 1);
+		return (ft_printf(2, "read error\n"), 2);
 	else if (err == ERR_OPEN)
-		return (ft_printf(2, "open error\n"), 1);
+		return (ft_printf(2, "open error\n"), 2);
 	else if (err == ERR_FORK)
-		return (ft_printf(2, "fork error\n"), 1);
+		return (ft_printf(2, "fork error\n"), 2);
+	else if (err == EXIT_CALL)
+		return (0);
 	else
 		return (token_error((enum e_token)err));
 }
@@ -64,5 +67,10 @@ bool	status_ok(t_data *dat)
 
 bool	fatal_error(t_data *dat)
 {
-	return (dat->err == ERR_MALLOC);
+	if (dat->err == ERR_MALLOC)
+	{
+		clean_ast(&dat->ast);
+		free(dat->input);
+	}
+	return (dat->err == ERR_MALLOC || dat->err == EXIT_CALL);
 }
