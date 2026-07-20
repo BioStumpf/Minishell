@@ -6,7 +6,7 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/06 13:52:42 by knajmech          #+#    #+#             */
-/*   Updated: 2026/07/20 16:36:50 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/07/20 16:58:53 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ typedef struct s_data
 	char			*newdir;
 	int				ret_code;
 	char			*ret_str;
+	enum e_err		err;
 	t_pipe_manager	*pipe_info;
 	t_env_tracker	*env_mp;
 	t_ast_buff		ast;
