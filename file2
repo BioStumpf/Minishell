@@ -1,0 +1,11 @@
+Makefile
+dep
+file1
+file2
+headers
+libft
+minishell
+obj
+src
+test.c
+tests

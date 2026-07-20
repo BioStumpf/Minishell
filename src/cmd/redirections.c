@@ -6,7 +6,7 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/03 09:24:30 by knajmech          #+#    #+#             */
-/*   Updated: 2026/07/20 10:23:24 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/07/20 12:38:01 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,10 @@ void	redirect_extern(t_data *data, t_ast *redir, t_ast *p_dir)
 	int	saved_fd;
 	int	file_fd;
 
+	(void)p_dir;
 	if (!redir)
 	{
-		exec_extern(p_dir, data->pipe_info);
+		exec_extern(data->pipe_info->cmd_node, data->pipe_info);
 		return ;
 		error_and_cleanup(data, "execve", data->ret_code);
 	}
