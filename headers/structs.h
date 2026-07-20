@@ -78,6 +78,8 @@ enum e_err
 
 typedef struct s_data
 {
+	int				ret;
+	enum e_err		err;
 	char			*input;
 	char			**new_variable;
 	char			*find_var;
@@ -89,7 +91,9 @@ typedef struct s_data
 	t_pipe_manager	*pipe_info;
 	t_env_tracker	*env_mp;
 	t_ast_buff		ast;
-}				t_data;
+	t_env_tracker	*env_mp;
+	void			(*read_input)(struct s_data *dat);
+}					t_data;
 
 typedef struct s_pipe_manager
 {

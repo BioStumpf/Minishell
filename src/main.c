@@ -3,62 +3,86 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
+/*   By: david <dstumpf@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/06/04 11:02:46 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/06/30 16:01:45 by david            ###   ########.fr       */
+/*   Created: 2026/07/14 15:16:05 by david             #+#    #+#             */
+/*   Updated: 2026/07/14 15:19:40 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
+#include "ft_printf.h"
 #include "libft.h"
+#include "readline_sigs.h"
+#include <readline/readline.h>
 #include "parsing.h"
 #include "execution.h"
-#include <readline/readline.h>
-#include <readline/history.h>
 #include <err.h>
 #include <env.h>
+#include <sys/wait.h>
 
-void	free_all(t_data *dat)
+volatile sig_atomic_t	g_ret = 0;
+
+static void	init(t_data *dat, int ac, char **av)
 {
-	error_and_cleanup(dat, NULL, 0);
-	free(dat->ret_str);
+	(void)ac;
+	(void)av;
+	ft_bzero(dat, sizeof(t_data));
+	if (isatty(STDIN_FILENO))
+		dat->read_input = read_terminal;
+	else
+		dat->read_input = read_stdin;
 }
 
-static void	set_return_str(t_data *dat)
+static void	free_all(t_data *dat)
 {
-	free(dat->ret_str);
-	dat->ret_str = ft_itoa(dat->ret_code);
-	if (!dat->ret_str)
-		set_error(dat, ERR_MALLOC);
+	rl_clear_history();
+	error_and_cleanup(dat, NULL, 0);
+	if (!dat->input && dat->read_input == read_terminal)
+		ft_printf(2, "exit\n");
+}
+
+//NOTES:
+//readline history
+//readline prompt?? does it have to be minishell what about directory?
+//signals
+//compound echo "$" doesnt print $ in the end
+// execute(&dat) //kian part
+void	fake_sleep(void)
+{
+	static int	flag;
+	int			pid;
+
+	pid = fork();
+	if (pid == 0)
+	{
+		setup_signals(SIG_DFL, SIG_DFL);
+		if (flag == 0)
+			sleep(3);
+		exit(0);
+	}
+	flag++;
+	wait(NULL);
 }
 
 int	main(int argc, char **argv, char **envp)
 {
 	t_data	dat;
 
-	ft_bzero(&dat, sizeof(t_data));
-	(void)argc;
-	(void)argv;
+	init(&dat, argc, argv);
 	process_env(&dat, envp);
-	if (fatal_error(&dat))
-		return (1);
-	set_return_str(&dat);
 	if (fatal_error(&dat))
 		return (free_all(&dat), 1);
 	while (1)
 	{
+		dat.ret = g_ret;
 		set_error(&dat, OK);
-		dat.input = readline("minishell$ ");
-		if (!dat.input)
-			set_error(&dat, ERR_MALLOC);
+		dat.read_input(&dat);
 		parse_input(&dat);
 		coordinate_exec(&dat);
 		clean_ast(&dat.ast);
 		free(dat.input);
-		set_return_str(&dat);
-		if (fatal_error(&dat))
-			return (free_all(&dat), dat.ret_code);
+		if (fatal_error(&dat) || !dat.input)
+			return (free_all(&dat), g_ret);
 	}
 }
 //NOTES:

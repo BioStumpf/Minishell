@@ -6,7 +6,7 @@
 /*   By: david <user@student.42mail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/14 17:06:36 by david             #+#    #+#             */
-/*   Updated: 2026/06/30 11:17:18 by david            ###   ########.fr       */
+/*   Updated: 2026/07/07 16:29:15 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static	bool	in_quotes(t_quotes *quotes)
 
 bool	update_quote_status(t_quotes *quotes, char *str)
 {
-	if (str[0] == '$' && is_quote(str[1]))
+	if (str[0] == '$' && is_quote(str[1]) && !in_quotes(quotes))
 		return (true);
 	if (str[0] == '\"' && !quotes->sngl)
 	{
