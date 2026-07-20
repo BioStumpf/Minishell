@@ -79,7 +79,6 @@ enum e_err
 typedef struct s_data
 {
 	int				ret;
-	enum e_err		err;
 	char			*input;
 	char			**new_variable;
 	char			*find_var;
