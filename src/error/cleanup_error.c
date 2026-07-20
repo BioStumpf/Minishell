@@ -6,7 +6,7 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/22 14:22:15 by knajmech          #+#    #+#             */
-/*   Updated: 2026/07/20 16:46:22 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/07/20 16:56:49 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,5 +36,4 @@ void	cleanup(t_data *data)
 		}
 	}
 	return ;
-	//exit (g_ret);
 }
