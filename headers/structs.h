@@ -91,7 +91,6 @@ typedef struct s_data
 	t_pipe_manager	*pipe_info;
 	t_env_tracker	*env_mp;
 	t_ast_buff		ast;
-	t_env_tracker	*env_mp;
 	void			(*read_input)(struct s_data *dat);
 }					t_data;
 
