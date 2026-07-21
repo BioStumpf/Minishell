@@ -6,13 +6,14 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/12 12:11:39 by knajmech          #+#    #+#             */
-/*   Updated: 2026/07/20 12:38:30 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/07/20 17:11:42 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
 #include "parsing.h"
 #include "env.h"
+#include "err.h"
 
 void	extern_helper(t_pipe_manager *pipe_info, char ***env)
 {
@@ -47,7 +48,10 @@ int	exec_extern(t_ast *node, t_pipe_manager *pipe_info)
 		execve(pipe_info->pathwcmd, get_av(node), env);
 		free_out(env, pipe_info->data->env_mp->elem_num);
 		free(pipe_info->pathwcmd);
-		error_and_cleanup(pipe_info->data, "execve", 0);
+		clean_ast(&pipe_info->data->ast);
+		free(pipe_info->data->input);
+		cleanup(pipe_info->data);
+		set_error(pipe_info->data, ERR_MALLOC);
 	}
 	waitpid(child, &status, 0);
 	if (pipe_info->in_pipeline)
