@@ -85,5 +85,6 @@ t_list	*tokenize(t_data *dat)
 		ft_lstadd_back(lst, node);
 	}
 	refine_redirs(dat, lst);
+	move_redirs(lst);
 	return (lst);
 }

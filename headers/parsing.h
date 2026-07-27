@@ -65,6 +65,7 @@ void			parse_input(t_data *dat);
 //main function
 t_list			*tokenize(t_data *data);
 void			refine_redirs(t_data *dat, t_list *lst);
+void			move_redirs(t_list *tokens);
 
 //helpers for word and metatokens
 int				double_tok_type(char metachar);
@@ -247,7 +248,7 @@ bool			is_cmd(t_compound_arr *ca, size_t i);
 bool			is_or(t_compound_arr *ca, size_t i);
 bool			is_and(t_compound_arr *ca, size_t i);
 bool			is_pipe(t_compound_arr *ca, size_t i);
-t_ast			*last_redir(t_ast *node);
+// t_ast			*last_redir(t_ast *node);
 t_ast			*parse_redir(t_data *dat, t_compound_arr *ca, size_t *i);
 bool			is_ast_redir(t_compound_arr *ca, size_t i);
 

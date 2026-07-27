@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 14:04:55 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/07/16 14:20:59 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/07/27 21:23:46 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ void	ft_lstadd_front(t_list *lst, t_node *new);
 void	ft_lstclear(t_list *lst, void (*del)(void *));
 void	ft_lstdelone(t_node *node, void (*del)(void *));
 void	ft_lstmid_rm(t_list *l, t_node *rm, t_node *pre, void (*d)(void *));
+void	ft_lstswitch(t_list *lst, t_node *dst, t_node *src, t_node *pre_src);
 t_list	*ft_lstnew(void);
 t_node	*ft_nodenew(void *content);
 void	ft_lstprint(t_list *lst, void (*print_fn)(void *content));

@@ -28,10 +28,10 @@ t_ast	*parse_redir(t_data *dat, t_compound_arr *ca, size_t *i)
 	}
 	return (redir);
 }
-
-t_ast	*last_redir(t_ast *node)
-{
-	while (node && node->left)
-		node = node->left;
-	return (node);
-}
+//
+// t_ast	*last_redir(t_ast *node)
+// {
+// 	while (node && node->left)
+// 		node = node->left;
+// 	return (node);
+// }
