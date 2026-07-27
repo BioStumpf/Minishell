@@ -6,7 +6,7 @@
 /*   By: knajmech <knajmech@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/10 09:46:59 by knajmech          #+#    #+#             */
-/*   Updated: 2026/07/15 13:52:59 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/07/20 15:31:11 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,16 @@
 t_node	*delete_node(t_node *node)
 {
 	t_env	*env;
+	t_node	*next;
 
 	env = node->content;
 	free(env->key);
 	free(env->value);
 	free(env->key_w_equal);
-	//free((t_env *) node->content);
-	//free(node);
-	return (node);
+	free((t_env *) node->content);
+	next = node->next;
+	free(node);
+	return (next);
 }
 
 void	unset_variable(t_list *map_env, char *key)

@@ -6,7 +6,7 @@
 /*   By: david <dstumpf@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/14 15:16:05 by david             #+#    #+#             */
-/*   Updated: 2026/07/14 15:19:40 by david            ###   ########.fr       */
+/*   Updated: 2026/07/27 11:09:48 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static void	init(t_data *dat, int ac, char **av)
 static void	free_all(t_data *dat)
 {
 	rl_clear_history();
-	error_and_cleanup(dat, NULL, 0);
+	cleanup_normal(dat);
 	if (!dat->input && dat->read_input == read_terminal)
 		ft_printf(2, "exit\n");
 }
@@ -81,7 +81,7 @@ int	main(int argc, char **argv, char **envp)
 		coordinate_exec(&dat);
 		clean_ast(&dat.ast);
 		free(dat.input);
-		if (fatal_error(&dat) || !dat.input)
+		if (fatal_error(&dat) || !dat.input || dat.err == EXIT_CALL)
 			return (free_all(&dat), g_ret);
 	}
 }

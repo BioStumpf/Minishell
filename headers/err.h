@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/04 10:55:51 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/07/07 15:02:13 by david            ###   ########.fr       */
+/*   Updated: 2026/07/27 11:06:49 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,5 +24,7 @@ void				set_error(t_data *dat, enum e_err status);
 bool				status_ok(t_data *dat);
 bool				fatal_error(t_data *dat);
 t_data				*data_storage(t_data *data);
+void				cleanup_normal(t_data *data);
+void				cleanup_child(t_data *data, t_pipe_manager *pipe_info);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/22 14:22:15 by knajmech          #+#    #+#             */
-/*   Updated: 2026/07/07 11:29:10 by david            ###   ########.fr       */
+/*   Updated: 2026/07/27 11:09:07 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,10 @@
 #include "env.h"
 #include "structs.h"
 #include "err.h"
+#include <readline/readline.h>
+#include "parsing.h"
 
-void	cleanup(t_data *data)
+void	cleanup_env(t_data *data)
 {
 	int		i;
 	t_list	*map_env;
@@ -35,5 +37,22 @@ void	cleanup(t_data *data)
 			i++;
 		}
 	}
-	exit (g_ret);
+	return ;
+}
+
+void	cleanup_normal(t_data *data)
+{
+	cleanup_env(data);
+	free(data->cwd);
+}
+
+void	cleanup_child(t_data *data, t_pipe_manager *pipe_info)
+{
+	rl_clear_history();
+	cleanup_env(data);
+	free(data->input);
+	free(data->cwd);
+	free(pipe_info->pathwcmd);
+	clean_ast(&data->ast);
+	exit(g_ret);
 }

@@ -6,7 +6,7 @@
 /*   By: knajmech <knajmech@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/27 07:31:26 by knajmech          #+#    #+#             */
-/*   Updated: 2026/07/01 11:54:19 by david            ###   ########.fr       */
+/*   Updated: 2026/07/20 08:13:49 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,12 @@ void	error_and_cleanup(t_data *data, char *error_desc, int status)
 	int				i;
 
 	(void)status;
+	if (data->pipe_info && data->pipe_info->in_pipeline)
+	{
+		if (error_desc)
+			perror(error_desc);
+		exit(status);
+	}
 	if (data->env_mp)
 	{
 		map_env = data->env_mp->env_ptr;
@@ -36,5 +42,5 @@ void	error_and_cleanup(t_data *data, char *error_desc, int status)
 	}
 	if (error_desc)
 		perror(error_desc);
-	// exit (status);
+	exit (status);
 }

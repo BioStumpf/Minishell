@@ -6,13 +6,14 @@
 /*   By: knajmech <knajmech@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/06 11:01:30 by knajmech          #+#    #+#             */
-/*   Updated: 2026/07/17 12:22:35 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/07/24 12:17:17 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "env.h"
 #include "structs.h"
 #include "execution.h"
+#include "err.h"
 #include <stdio.h>
 
 char	**env_ptrptr(t_data *dat, t_list *env_list, char **env)
@@ -27,7 +28,6 @@ char	**env_ptrptr(t_data *dat, t_list *env_list, char **env)
 	while (i < CAPACITY)
 	{
 		node_list = (t_node *) env_list[i].head;
-		k = 0;
 		while (node_list)
 		{
 			key_and_val = (t_env *)node_list->content;
@@ -35,7 +35,7 @@ char	**env_ptrptr(t_data *dat, t_list *env_list, char **env)
 			assert(key_and_val->key_w_equal);
 			env[k] = ft_strjoin(key_and_val->key_w_equal, key_and_val->value);
 			if (!env[k])
-				return (free_out(env, k), error_and_cleanup(dat, "mall", 0), NULL);
+				return (free_out(env, k), set_error(dat, ERR_MALLOC), NULL);
 			k++;
 			node_list = node_list->next;
 		}
