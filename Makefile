@@ -22,8 +22,8 @@ SRCS_david := parsing_glue/parsing.c parsing_glue/to_delete_later.c parsing_glue
 
 SRCS_kian := env/cleanup.c env/delete_env.c env/hash_search.c env/new_variables.c env/env.c \
 builtins/which_builtin.c builtins/unset.c builtins/pworkdir.c builtins/export.c builtins/exit.c builtins/env_bi.c builtins/echo.c builtins/changedir.c \
-cmd/execution.c cmd/pathfinder.c cmd/pipex_utils.c cmd/redirections.c cmd/and_or.c cmd/pipe.c cmd/heredoc.c cmd/extern_builtin.c
-
+cmd/execution.c cmd/pathfinder.c cmd/pipex_utils.c cmd/redirections.c cmd/and_or.c cmd/pipe.c cmd/heredoc.c cmd/extern_builtin.c \
+error/cleanup_error.c
 SRCS := $(SRCS_main) $(SRCS_kian) $(SRCS_david)
 SRCS := $(addprefix $(SRCS_DIR), $(SRCS))
 OBJS := $(patsubst $(SRCS_DIR)%.c, $(OBJ_DIR)%.o, $(SRCS))

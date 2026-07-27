@@ -6,13 +6,15 @@
 /*   By: david <user@student.42mail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/06 21:34:36 by david             #+#    #+#             */
-/*   Updated: 2026/07/07 15:01:43 by david            ###   ########.fr       */
+/*   Updated: 2026/07/27 11:11:10 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "structs.h"
 #include "ft_printf.h"
 #include "err.h"
+#include "parsing.h"
+#include "readline_sigs.h"
 
 static int	token_error(enum e_token err)
 {
@@ -47,6 +49,10 @@ static int	print_error_get_return(enum e_err err)
 		return (ft_printf(2, "open error\n"), 1);
 	else if (err == ERR_FORK)
 		return (ft_printf(2, "fork error\n"), 1);
+	else if (err == ERR_EXECVE)
+		return (ft_printf(2, "execve error\n"), 1);
+	else if (err == EXIT_CALL)
+		return (0);
 	else
 		return (token_error((enum e_token)err));
 }
@@ -64,5 +70,9 @@ bool	status_ok(t_data *dat)
 
 bool	fatal_error(t_data *dat)
 {
-	return (dat->err == ERR_MALLOC);
+	if (dat->err <= ERR_EXECVE && dat->err >= ERR_MALLOC)
+	{
+		return (dat->err);
+	}
+	return (0);
 }

@@ -6,13 +6,15 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/03 07:24:21 by knajmech          #+#    #+#             */
-/*   Updated: 2026/06/04 11:48:26 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/07/24 12:15:56 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "env.h"
 #include "structs.h"
+#include "parsing.h"
+#include "err.h"
 
 char	*check_access(t_pipe_manager *pipe_info, char *ptc, char *cmd)
 {
@@ -22,20 +24,21 @@ char	*check_access(t_pipe_manager *pipe_info, char *ptc, char *cmd)
 	{
 		pipe_info->pathwcmd = ft_strdup(cmd);
 		if (!pipe_info->pathwcmd)
-			error_and_cleanup(pipe_info->data, "malloc", 0);
+			return (set_error(pipe_info->data, ERR_MALLOC), NULL);
 		return (pipe_info->pathwcmd);
 	}
 	else
 	{
 		full_path = ft_strjoin(ptc, cmd);
 		if (!full_path)
-			error_and_cleanup(pipe_info->data, "malloc", 0);
+			return (set_error(pipe_info->data, ERR_MALLOC), NULL);
 		if (!access(full_path, F_OK) || !access(cmd, F_OK))
 		{
 			pipe_info->cmd_found = 1;
 			if (!access(full_path, X_OK))
 				return (pipe_info->pathwcmd = full_path, pipe_info->pathwcmd);
 		}
+		free(full_path);
 	}
 	return (NULL);
 }
@@ -54,21 +57,26 @@ char	*path_fixer(char *path_to_fix)
 	return (fixed_path);
 }
 
-void	pathfinder(t_pipe_manager *pipe_info, char **path_parts, char **args)
+int	pathfinder(t_pipe_manager *pipe_info, char **path_parts)
 {
 	int		i;
 	char	*path_to_check;
 
+	if (!path_parts)
+		return (0);
 	i = 0;
 	while (path_parts[i])
 	{
 		path_to_check = path_fixer(path_parts[i]);
 		if (!path_to_check)
-			error_and_cleanup(pipe_info->data, "malloc", 0);
-		if (check_access(pipe_info, path_to_check, args[0]))
-			return ;
+			return (set_error(pipe_info->data, ERR_MALLOC), -1);
+		assert(path_to_check);
+		if (check_access(pipe_info, path_to_check,
+					get_av(pipe_info->cmd_node)[0]))
+			return (1);
 		free(path_to_check);
 		i++;
 	}
+	return (0);
 }
 

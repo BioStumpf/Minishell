@@ -6,7 +6,7 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/16 14:18:19 by knajmech          #+#    #+#             */
-/*   Updated: 2026/07/16 14:21:04 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/07/24 11:25:58 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ size_t	ft_count_2d(char **argv)
 {
 	int	i;
 
+	if (!argv || !*argv)
+		return (0);
 	i = 0;
 	while (argv[i])
 		i++;

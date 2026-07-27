@@ -6,7 +6,7 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/27 09:07:15 by knajmech          #+#    #+#             */
-/*   Updated: 2026/06/30 17:48:38 by david            ###   ########.fr       */
+/*   Updated: 2026/07/24 19:06:43 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,12 +35,14 @@ int		exec_and(t_ast *node, t_pipe_manager *pipe_info);
 int		exec_or(t_ast *node, t_pipe_manager *pipe_info);
 int		execute(t_ast *node, t_pipe_manager *pipe_info);
 void	heredoc(t_data *data, t_ast *node);
-void	redirections(t_data *data, t_ast *redir, char **cmd);
+void	redirect_builtin(t_data *data, t_ast *redir, char **cmd);
+void	redirect_extern(t_data *data, t_ast *redir, int first_fd);
 char	**free_out(char **out, size_t len);
-void	pathfinder(t_pipe_manager *pipe_info, char **path_parts, char **args);
+void	pathfinder(t_pipe_manager *pipe_info, char **path_parts);
 char	**split_path_env(t_data *data);
 int		exec_builtin(t_ast *node, t_pipe_manager *pipe_info);
 int		exec_extern(t_ast *node, t_pipe_manager *pipe_info);
 void	coordinate_exec(t_data *data);
+void	extern_child_wrapper(t_ast *node, t_pipe_manager *pipe_info);
 
 #endif

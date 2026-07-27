@@ -6,39 +6,54 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/12 12:00:52 by knajmech          #+#    #+#             */
-/*   Updated: 2026/06/12 12:05:38 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/07/27 10:34:29 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
 #include "structs.h"
 #include "env.h"
+#include "err.h"
 
 int	exec_or(t_ast *node, t_pipe_manager *pipe_info)
 {
-	int	status;
+	int		status;
+	bool	inpipe;
 
+	if (pipe_info->in_pipeline)
+	{
+		inpipe = true;
+		pipe_info->in_pipeline = NO_PIPELINE;
+	}
+	else
+		inpipe = false;
 	assert(node->left != NULL && node->right != NULL);
-	pipe_info->in_pipeline = NO_PIPELINE;
 	status = execute(node->left, pipe_info);
 	if (status > 0)
 		status = execute(node->right, pipe_info);
-	if (pipe_info->in_pipeline)
-		error_and_cleanup(pipe_info->data, NULL, status);
+	if (inpipe)
+		cleanup_child(pipe_info->data, pipe_info);
 	return (status);
 }
 
 int	exec_and(t_ast *node, t_pipe_manager *pipe_info)
 {
-	int	status;
+	int		status;
+	bool	inpipe;
 
+	if (pipe_info->in_pipeline)
+	{
+		inpipe = true;
+		pipe_info->in_pipeline = NO_PIPELINE;
+	}
+	else
+		inpipe = false;
 	assert(node->left != NULL && node->right != NULL);
-	pipe_info->in_pipeline = NO_PIPELINE;
 	status = execute(node->left, pipe_info);
 	if (status == 0)
 		status = execute(node->right, pipe_info);
-	if (pipe_info->in_pipeline)
-		error_and_cleanup(pipe_info->data, NULL, status);
+	if (inpipe)
+		cleanup_child(pipe_info->data, pipe_info);
 	return (status);
 }
 

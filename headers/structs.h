@@ -6,7 +6,7 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/06 13:52:42 by knajmech          #+#    #+#             */
-/*   Updated: 2026/07/07 17:28:16 by david            ###   ########.fr       */
+/*   Updated: 2026/07/27 11:08:19 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include "../libft/libft.h"
 
 typedef struct s_env_tracker	t_env_tracker;
+typedef struct s_pipe_manager	t_pipe_manager;
 
 enum e_token
 {
@@ -60,19 +61,21 @@ typedef struct s_ast_buff
 enum e_err
 {
 	OK,
-	ERR_MALLOC,
 	PARSE_ERR_UNCLOSED_QUOTES,
 	PARSE_ERR_REDIR,
 	PARSE_ERR_PIPE,
 	PARSE_ERR_OR,
 	PARSE_ERR_AND,
 	PARSE_ERR_PARA,
+	ERR_MALLOC,
 	ERR_DUP,
 	ERR_OPEN,
 	ERR_READ,
 	ERR_SIG,
 	ERR_PIPE,
 	ERR_FORK,
+	ERR_EXECVE,
+	EXIT_CALL
 };
 
 typedef struct s_data
@@ -85,6 +88,7 @@ typedef struct s_data
 	char			*cwd;
 	char			*newdir;
 	char			ret_str[4];
+	t_pipe_manager	*pipe_info;
 	t_ast_buff		ast;
 	t_env_tracker	*env_mp;
 	void			(*read_input)(struct s_data *dat);
@@ -96,6 +100,7 @@ typedef struct s_pipe_manager
 	bool	in_pipeline;
 	char	*pathwcmd;
 	pid_t	child[2];
+	t_ast	*cmd_node;
 	t_data	*data;
 }				t_pipe_manager;
 

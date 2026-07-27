@@ -6,20 +6,21 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/01 11:52:36 by knajmech          #+#    #+#             */
-/*   Updated: 2026/07/17 12:26:28 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/07/24 11:36:59 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "structs.h"
 #include "env.h"
+#include "err.h"
 
 char	**free_out(char **out, size_t len)
 {
 	while (len)
 		free(out[--len]);
 	free(out);
-	return (0);
+	return (NULL);
 }
 
 static char	**mallocing(char *s, char **list, int *i, int *k)
@@ -42,7 +43,7 @@ static char	**mallocing(char *s, char **list, int *i, int *k)
 		else
 			(*i)++;
 		if (!list[*k - 1])
-			return (free_out(list, *k));
+			return (free_out(list, *k - 1));
 	}
 	list[*k] = 0;
 	return (list);
@@ -86,18 +87,20 @@ char **split_path_env(t_data *data)
 		return (0);
 	path_parts = split_the_path(key_and_val->value);
 	if (!path_parts)
-		error_and_cleanup(data, "malloc", 0);
+		return (set_error(data, ERR_MALLOC), NULL);
 	i = 0;
 	k = 0;
 	if (key_and_val->value[0] == ':')
 	{
 		i = ft_strlen_char(key_and_val->value, ':');
 		path_parts[0] = ft_substr(key_and_val->value, 0, i);
+		if (!path_parts[0])
+			return (set_error(data, ERR_MALLOC), NULL);
 		k++;
 	}
 	path_parts = mallocing(key_and_val->value, path_parts, &i, &k);
 	if (path_parts == NULL)
-		error_and_cleanup(data, "mallocing", 0);
+		return (set_error(data, ERR_MALLOC), NULL);
 	return (path_parts);
 }
 
