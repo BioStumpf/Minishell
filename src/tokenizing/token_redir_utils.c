@@ -6,7 +6,7 @@
 /*   By: david <dstumpf@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/15 13:45:26 by david             #+#    #+#             */
-/*   Updated: 2026/07/06 10:38:15 by david            ###   ########.fr       */
+/*   Updated: 2026/07/27 20:53:28 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,33 @@ void	refine_redirs(t_data *dat, t_list *lst)
 				return (set_error(dat, PARSE_ERR_REDIR));
 		}
 		pre_prev = prev;
+		prev = cur;
+		cur = cur->next;
+	}
+}
+
+void	move_redirs(t_list *tokens)
+{
+	t_node	*dst;
+	t_node	*prev;
+	t_node	*cur;
+	t_node	*src;
+
+	dst = NULL;
+	prev = NULL;
+	cur = tokens->head;
+	while (cur)
+	{
+		if (is_redir(tok_type(cur)))
+		{
+			src = cur;
+			cur = cur->next;
+			ft_lstswitch(tokens, dst, src, prev);
+			dst = src;
+			continue ;
+		}
+		if (tok_type(cur) != WORD)
+			dst = cur;
 		prev = cur;
 		cur = cur->next;
 	}

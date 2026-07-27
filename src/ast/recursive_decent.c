@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/05 20:03:03 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/07/05 20:03:44 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/07/27 21:28:55 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,6 @@ static t_ast	*parse_cmd(t_data *dat, t_compound_arr *ca, size_t *i)
 	{
 		cmd = new_ast_node(&dat->ast, get_comp(ca, (*i)++));
 		cmd->left = redirs;
-		redirs = last_redir(cmd);
-		redirs->left = parse_redir(dat, ca, i);
 		return (cmd);
 	}
 	else if (redirs)
