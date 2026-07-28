@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/04 11:00:01 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/07/05 20:11:01 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/07/28 15:38:40 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,8 @@ typedef struct s_compound
 		t_arg	args;
 		struct
 		{
-			bool	quoted;
+			// bool	quoted;
+			int		open_fd;
 			int		fd;
 			char	*filename;
 		} s_redir;
@@ -137,6 +138,7 @@ typedef struct s_compound_arr
 //accessors for compounds
 enum e_token	comp_type(t_compound *comp);
 int				comp_fd(t_compound *comp);
+int				comp_heredoc(t_compound *comp);
 char			*comp_filename(t_compound *comp);
 t_arg			*comp_args(t_compound *comp);
 t_compound		*get_comp(t_compound_arr *ca, size_t i);
@@ -221,6 +223,10 @@ bool			split_signal(t_word_split *ws, t_exp *exp);
 char			*get_ifs(t_data *dat);
 //main  
 bool			word_split(t_data *d, t_exp_vec *e, t_arg *n, char *splt);
+
+//heredoc
+bool			heredoc(t_data *dat, t_compound *comp, bool expand);
+void			close_heredocs(t_data *dat);
 
 ///////////////////////////////////////////
 //build syntax tree
