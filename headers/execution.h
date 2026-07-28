@@ -34,7 +34,7 @@ int		exec_pipe(t_ast *node, t_pipe_manager *pipe_info);
 int		exec_and(t_ast *node, t_pipe_manager *pipe_info);
 int		exec_or(t_ast *node, t_pipe_manager *pipe_info);
 int		execute(t_ast *node, t_pipe_manager *pipe_info);
-void	heredoc(t_data *data, t_ast *node);
+// void	heredoc(t_data *data, t_ast *node);
 void	redirect_builtin(t_data *data, t_ast *redir, char **cmd);
 void	redirect_extern(t_data *data, t_ast *redir, int first_fd);
 char	**free_out(char **out, size_t len);

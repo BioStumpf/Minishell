@@ -6,7 +6,7 @@
 /*   By: david <dstumpf@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/18 13:07:57 by david             #+#    #+#             */
-/*   Updated: 2026/07/04 14:17:01 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/07/28 12:07:05 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,14 +42,14 @@ static void	expand_cmd(t_data *dat, t_compound *comp)
 	*comp_args(comp) = new;
 }
 
-static bool	filename_quoted(char *filename)
-{
-	while (*filename && !is_quote(*filename))
-		filename++;
-	if (is_quote(*filename))
-		return (true);
-	return (false);
-}
+// static bool	filename_quoted(char *filename)
+// {
+// 	while (*filename && !is_quote(*filename))
+// 		filename++;
+// 	if (is_quote(*filename))
+// 		return (true);
+// 	return (false);
+// }
 
 static void	expand_redir(t_data *dat, t_compound *comp)
 {
@@ -58,7 +58,12 @@ static void	expand_redir(t_data *dat, t_compound *comp)
 	t_arg		new;
 
 	ft_bzero(&new, sizeof(t_arg));
-	comp->u_value.s_redir.quoted = filename_quoted(comp_filename(comp));
+	if (comp_type(comp) == REDIR_HEREDOC)
+	{
+		comp->u_value.s_redir.filename = unquote_str(dat, comp_filename(comp));
+		expand = filename_quoted(comp_filename(comp));
+		heredoc(dat, comp, expand);
+	}
 	expanded_str = expand_str(dat, comp_filename(comp), RM_QUOTES, &exps);
 	if (!expanded_str)
 		return ;

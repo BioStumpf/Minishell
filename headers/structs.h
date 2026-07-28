@@ -6,7 +6,7 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/06 13:52:42 by knajmech          #+#    #+#             */
-/*   Updated: 2026/07/27 11:08:19 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/07/28 15:14:01 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,9 @@ typedef struct s_ast
 		char		**av;
 		struct
 		{
-			bool	quoted;
+			// bool	quoted;
 			int		fd;
+			int		open_fd;
 			char	*operand;
 		} s_redir;
 	} u_value;
@@ -80,6 +81,8 @@ enum e_err
 
 typedef struct s_data
 {
+	int				heredoc_start;
+	int				heredoc_end;
 	int				ret;
 	enum e_err		err;
 	char			*input;
