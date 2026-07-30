@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ast_accessors.c                                    :+:      :+:    :+:   */
+/*   ast_getters.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/03 15:49:58 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/07/03 15:53:50 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/07/30 12:22:51 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,9 @@ int	get_fd(t_ast *node)
 	return (node->u_value.s_redir.fd);
 }
 
-bool	get_quoted(t_ast *node)
+int	get_open_fd(t_ast *node)
 {
-	return (node->u_value.s_redir.quoted);
+	return (node->u_value.s_redir.open_fd);
 }
 
 char	*get_operand(t_ast *node)

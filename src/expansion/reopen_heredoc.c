@@ -1,30 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   redir_utils.c                                      :+:      :+:    :+:   */
+/*   reopen_heredoc.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/07/05 20:06:33 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/07/05 20:07:40 by dstumpf          ###   ########.fr       */
+/*   Created: 2026/07/30 12:48:25 by dstumpf           #+#    #+#             */
+/*   Updated: 2026/07/30 12:49:06 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parsing.h"
+#include "libft.h"
+#include <fcntl.h>
 
-t_ast	*parse_redir(t_data *dat, t_compound_arr *ca, size_t *i)
+static void	make_name(char name[24], int fd)
 {
-	t_ast	*redir;
-	t_ast	*tmp;
+	char	num[11];
 
-	if (!is_ast_redir(ca, *i))
-		return (NULL);
-	redir = new_ast_node(&dat->ast, get_comp(ca, (*i)++));
-	tmp = redir;
-	while (is_ast_redir(ca, *i))
-	{
-		tmp->left = new_ast_node(&dat->ast, get_comp(ca, (*i)++));
-		tmp = tmp->left;
-	}
-	return (redir);
+	ft_strlcpy(name, "/proc/self/fd/", 15);
+	ft_itoa_buff(fd, num, 11);
+	ft_strlcpy(name + 14, num, 11);
+}
+
+int	reopen_heredoc(int fd)
+{
+	char	proc_name[25];
+
+	make_name(proc_name, fd);
+	return (open(proc_name, O_RDONLY));
 }

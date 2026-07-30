@@ -42,7 +42,6 @@ typedef struct s_ast
 		char		**av;
 		struct
 		{
-			// bool	quoted;
 			int		fd;
 			int		open_fd;
 			char	*operand;

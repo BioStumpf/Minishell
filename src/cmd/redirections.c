@@ -6,13 +6,12 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/03 09:24:30 by knajmech          #+#    #+#             */
-/*   Updated: 2026/07/24 19:11:02 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/07/30 12:39:20 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 #include "structs.h"
-#include "env.h"
 #include "execution.h"
 #include "builtins.h"
 #include "err.h"
@@ -26,10 +25,7 @@ int	fd_assign(enum e_token type, char *file_name, t_data *data, t_ast *redir)
 	else if (type == REDIR_OUTFILE)
 		fd = open(file_name, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	else if (type == REDIR_HEREDOC)
-	{
-		heredoc(data, redir);
-		fd = get_fd(redir);
-	}
+		fd = reopen_heredoc(get_open_fd(redir));
 	else
 		fd = open(file_name, O_CREAT | O_APPEND | O_WRONLY, 0644);
 	if (fd == -1)

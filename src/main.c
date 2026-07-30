@@ -3,11 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: david <dstumpf@student.42vienna.com>       +#+  +:+       +#+        */
+/*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/07/14 15:16:05 by david             #+#    #+#             */
-/*   Updated: 2026/07/27 16:40:32 by dstumpf          ###   ########.fr       */
-/*   Updated: 2026/07/27 21:13:10 by david            ###   ########.fr       */
+/*   Created: 2026/07/30 14:04:09 by dstumpf           #+#    #+#             */
+/*   Updated: 2026/07/30 14:04:09 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +41,13 @@ static void	free_all(t_data *dat)
 		ft_printf(2, "exit\n");
 }
 
+static void	reset(t_data *dat)
+{
+	clean_ast(&dat->ast);
+	free(dat->input);
+	close_heredocs(dat);
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	t_data	dat;
@@ -56,8 +62,7 @@ int	main(int argc, char **argv, char **envp)
 		dat.read_input(&dat);
 		parse_input(&dat);
 		coordinate_exec(&dat);
-		clean_ast(&dat.ast);
-		free(dat.input);
+		reset(&dat);
 		if (fatal_error(&dat) || !dat.input || dat.err == EXIT_CALL)
 			return (free_all(&dat), g_ret);
 		dat.ret = g_ret;

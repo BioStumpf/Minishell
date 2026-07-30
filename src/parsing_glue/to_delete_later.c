@@ -6,7 +6,7 @@
 /*   By: david <user@student.42mail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/30 17:02:23 by david             #+#    #+#             */
-/*   Updated: 2026/07/05 11:56:05 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/07/30 12:25:20 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ void	print_compound(t_compound_arr *compounds)
 		// while (comp_type(comp) == CMD && arg_av(comp)[j])
 			printf("[%s] ", arg_av(comp)[j++]); 
 		if (is_redir(comp_type(comp))) {
-			printf("Fd: %d;File: %s;quoted: %d", comp_fd(comp), comp_filename(comp), comp->u_value.s_redir.quoted);
+			printf("Fd: %d;File: %s", comp_fd(comp), comp_filename(comp));
 		}
 		printf("\n");
 	}
@@ -100,7 +100,7 @@ void	print_tree_node(t_ast *node)
 	while (node->type == CMD && get_av(node)[i])
 		printf("[%s] ", get_av(node)[i++]); 
 	if (is_redir(node->type)) {
-		printf("FD:%d FILE:%s QUOTED:%d", get_fd(node), get_operand(node), get_quoted(node));
+		printf("FD:%d FILE:%s", get_fd(node), get_operand(node));
 	}
 	printf("\n");
 }
