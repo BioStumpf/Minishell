@@ -6,7 +6,7 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/03 09:24:30 by knajmech          #+#    #+#             */
-/*   Updated: 2026/07/30 12:39:20 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/07/31 14:28:54 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ int	fd_assign(enum e_token type, char *file_name, t_data *data, t_ast *redir)
 {
 	int	fd;
 
+	if (fatal_error(data))
+		return (-1);
 	if (type == REDIR_INFILE)
 		fd = open(file_name, O_RDONLY);
 	else if (type == REDIR_OUTFILE)
@@ -29,22 +31,11 @@ int	fd_assign(enum e_token type, char *file_name, t_data *data, t_ast *redir)
 	else
 		fd = open(file_name, O_CREAT | O_APPEND | O_WRONLY, 0644);
 	if (fd == -1)
-		return (set_error(data, ERR_OPEN), 0);
+		return (set_error(data, ERR_OPEN), -1);
 	return (fd);
 }
 
-void	close_fds(int first_fd, int last_fd)
-{
-	if (first_fd == -1)
-		return ;
-	while (first_fd <= last_fd)
-	{
-		close(first_fd);
-		first_fd++;
-	}
-}
-
-void	redirect_extern(t_data *data, t_ast *redir, int first_fd)
+void	redirect_extern(t_data *data, t_ast *redir)
 {
 	int	file_fd;
 
@@ -54,9 +45,19 @@ void	redirect_extern(t_data *data, t_ast *redir, int first_fd)
 		return ;
 	}
 	file_fd = fd_assign(redir->type, get_operand(redir), data, redir);
-	dup2(file_fd, get_fd(redir));
-	close(file_fd);
-	redirect_extern(data, redir->left, first_fd);
+	if (file_fd > -1)
+	{
+		if (dup2(file_fd, get_fd(redir) == -1))
+		{
+			close(file_fd);
+			set_error(data, ERR_DUP);
+			return ;
+		}
+		close(file_fd);
+		redirect_extern(data, redir->left);
+	}
+	else
+		return ;
 }
 
 void	redirect_builtin(t_data *data, t_ast *redir, char **cmd)
@@ -70,11 +71,18 @@ void	redirect_builtin(t_data *data, t_ast *redir, char **cmd)
 		return ;
 	}
 	saved_fd = dup(get_fd(redir));
+	if (saved_fd == -1)
+		set_error(data, ERR_DUP);
 	file_fd = fd_assign(redir->type, get_operand(redir), data, redir);
-	dup2(file_fd, get_fd(redir));
+	if (file_fd == -1)
+	{
+		close(saved_fd);
+		return ;
+	}
 	close(file_fd);
 	redirect_builtin(data, redir->left, cmd);
-	dup2(saved_fd, get_fd(redir));
+	if (dup2(saved_fd, get_fd(redir)) == -1)
+		set_error(data, ERR_DUP);
 	close(saved_fd);
 }
 

@@ -6,13 +6,14 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/11 10:00:28 by knajmech          #+#    #+#             */
-/*   Updated: 2026/07/15 10:10:01 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/07/27 16:30:53 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "structs.h"
 #include "builtins.h"
 #include "env.h"
+#include "err.h"
 #include <stdio.h>
 
 void	env_pwd_swap(t_data *data)
@@ -26,15 +27,24 @@ void	env_pwd_swap(t_data *data)
 		k_v[0] = "PWD";
 		k_v[1] = getcwd(NULL, 0);
 		if (!insert_new(data->env_mp->env_ptr, data->env_mp, k_v))
-			error_and_cleanup(data, "malloc", 0);
+		{
+			set_error(data, ERR_MALLOC);
+			return ;
+		}
 		free(k_v[1]);
 	}
 	else
 	{
 		free(key_and_val->value);
 		key_and_val->value = getcwd(NULL, 0);
+		if (!key_and_val->value)
+		{
+			set_error(data, ERR_MALLOC);
+			return ;
+		}
 	}
 }
+
 void	env_oldpwd_swap(t_data *data)
 {
 	t_env	*key_and_val;
@@ -46,7 +56,10 @@ void	env_oldpwd_swap(t_data *data)
 		k_v[0] = "OLDPWD";
 		k_v[1] = data->cwd;
 		if (!insert_new(data->env_mp->env_ptr, data->env_mp, k_v))
-			error_and_cleanup(data, "malloc", 0);
+		{
+			set_error(data, ERR_MALLOC);
+			return ;
+		}
 	}
 	else
 	{
@@ -70,11 +83,11 @@ int	change_dir(t_data *data)
 	}
 	curdir = ft_strjoin(data->cwd, "/");
 	if (!curdir)
-		error_and_cleanup(data, "malloc", 0);
+		return (set_error(data, ERR_MALLOC), 0);
 	tmp = curdir;
 	curdir = ft_strjoin(curdir, data->newdir);
 	if (!curdir)
-		error_and_cleanup(data, "malloc", 0);
+		return (free(tmp), set_error(data, ERR_MALLOC), 0);
 	chdir(curdir);
 	free(tmp);
 	data->cwd = curdir;
