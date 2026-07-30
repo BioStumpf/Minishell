@@ -6,7 +6,7 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/12 09:27:50 by knajmech          #+#    #+#             */
-/*   Updated: 2026/07/28 12:51:38 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/07/30 10:41:54 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,19 @@ void	print_expolist(t_node	*env_list)
 	}
 }
 
+void	print_var(t_list *env_arr, int capacity)
+{
+	int	i;
+
+	i = 0;
+	while (i < capacity)
+	{
+		if (env_arr[i].head)
+			print_expolist(env_arr[i].head);
+		i++;
+	}
+}
+
 void	export_var(t_data *data, char **argv)
 {
 	t_list	*env_arr;
@@ -51,16 +64,12 @@ void	export_var(t_data *data, char **argv)
 			set_error(data, ERR_MALLOC);
 			return ;
 		}
-		if (ft_count_2d(list) <= 2)
-			insert_new(env_arr, data->env_mp, list);
+		if (ft_count_2d(list) <= 2 && ft_count_2d(list) >= 1)
+			i = insert_new(env_arr, data->env_mp, list);
 		free_out(list, ft_count_2d(list));
-		return ;
+		if (i == 0)
+			set_error(data, ERR_MALLOC);
 	}
-	while (i < data->env_mp->capacity)
-	{
-		if (env_arr[i].head)
-			print_expolist(env_arr[i].head);
-		i++;
-	}
-	assert(i == data->env_mp->capacity);
+	else
+		print_var(env_arr, data->env_mp->capacity);
 }

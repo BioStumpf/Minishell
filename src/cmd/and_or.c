@@ -6,7 +6,7 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/12 12:00:52 by knajmech          #+#    #+#             */
-/*   Updated: 2026/07/27 12:36:09 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/07/30 11:15:35 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,4 +54,3 @@ int	exec_and(t_ast *node, t_pipe_manager *pipe_info)
 		cleanup_child(pipe_info->data, pipe_info);
 	return (g_ret);
 }
-

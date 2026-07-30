@@ -6,7 +6,7 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/01 11:52:36 by knajmech          #+#    #+#             */
-/*   Updated: 2026/07/24 11:36:59 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/07/30 11:07:28 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,22 +74,33 @@ char	**split_the_path(char *entire_path)
 	return (malloc((count_paths + 1) * sizeof(char *)));
 }
 
-char **split_path_env(t_data *data)
+char	**protection_and_initialisation(t_data *data, t_list *hash_arr)
+{
+	t_env	*key_and_val;
+	char	**path_parts;
+
+	key_and_val = hash_search(hash_arr, "PATH");
+	if (key_and_val == NULL || key_and_val->value == NULL)
+		return (0);
+	path_parts = split_the_path(key_and_val->value);
+	if (!path_parts)
+		return (set_error(data, ERR_MALLOC), NULL);
+	return (path_parts);
+}
+
+char	**split_path_env(t_data *data)
 {
 	t_env	*key_and_val;
 	char	**path_parts;
 	int		i;
 	int		k;
 
-	key_and_val =
-		hash_search(data->env_mp->env_ptr, "PATH");
-	if (key_and_val == NULL || key_and_val->value == NULL)
-		return (0);
-	path_parts = split_the_path(key_and_val->value);
-	if (!path_parts)
-		return (set_error(data, ERR_MALLOC), NULL);
+	path_parts = protection_and_initialisation(data, data->env_mp->env_ptr);
+	if (path_parts == NULL)
+		return (NULL);
 	i = 0;
 	k = 0;
+	key_and_val = hash_search(data->env_mp->env_ptr, "PATH");
 	if (key_and_val->value[0] == ':')
 	{
 		i = ft_strlen_char(key_and_val->value, ':');
@@ -103,4 +114,3 @@ char **split_path_env(t_data *data)
 		return (set_error(data, ERR_MALLOC), NULL);
 	return (path_parts);
 }
-

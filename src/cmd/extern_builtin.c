@@ -6,7 +6,7 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/12 12:11:39 by knajmech          #+#    #+#             */
-/*   Updated: 2026/07/27 12:22:23 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/07/30 11:13:35 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,18 @@
 #include "err.h"
 #include "ft_printf.h"
 
-void	extern_helper(t_pipe_manager *pipe_info, char ***env, char ***path_parts)
+void	print_errors(bool cmd_found, t_pipe_manager *pipe_info)
+{
+	if (cmd_found)
+		ft_printf(2, "%s: permission denied\n",
+			get_av(pipe_info->cmd_node)[0]);
+	else
+		ft_printf(2, "%s: command not found\n",
+			get_av(pipe_info->cmd_node)[0]);
+}
+
+void	extern_helper(t_pipe_manager *pipe_info, char ***env,
+		char ***path_parts)
 {
 	*env = env_ptrptr(pipe_info->data,
 			pipe_info->data->env_mp->env_ptr, *env);
@@ -35,10 +46,7 @@ void	extern_helper(t_pipe_manager *pipe_info, char ***env, char ***path_parts)
 	}
 	else if (!pipe_info->pathwcmd)
 	{
-		if (pipe_info->cmd_found)
-			ft_printf(2, "%s: permission denied\n", get_av(pipe_info->cmd_node)[0]);
-		else
-			ft_printf(2, "%s: command not found\n", get_av(pipe_info->cmd_node)[0]);
+		print_errors(pipe_info->cmd_found, pipe_info);
 		free_out(*env, pipe_info->data->env_mp->elem_num);
 	}
 	free_out(*path_parts, ft_count_2d(*path_parts));
