@@ -6,7 +6,7 @@
 /*   By: knajmech <knajmech@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 09:36:17 by knajmech          #+#    #+#             */
-/*   Updated: 2026/07/28 12:42:09 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/07/30 10:31:05 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	hash_function(t_list *map_env, t_env_tracker *tracker,
 	char				*value[2];
 
 	assert(key_index <= (unsigned int) tracker->capacity);
-	value[0] = ft_strndup(env_var,'=');
+	value[0] = ft_strndup(env_var, '=');
 	value[1] = ft_strdup(ft_strchr(env_var, '=') + 1);
 	if (!value[0] || !value[1])
 		return (free(value[0]), free(value[1]), 0);
@@ -55,7 +55,7 @@ int	hash_function(t_list *map_env, t_env_tracker *tracker,
 	content_node = ft_nodenew(key_val_node);
 	if (!content_node)
 		return (free(value[0]), free(value[1]), free(key_val_node->key_w_equal)
-				, free(key_val_node), 0);
+			, free(key_val_node), 0);
 	ft_lstadd_back(&map_env[key_index], content_node);
 	tracker->elem_num++;
 	return (1);
@@ -90,7 +90,7 @@ int	initialise_env(t_env_tracker *tracker)
 	return (1);
 }
 
-int process_env(t_data *data, char **env)
+int	process_env(t_data *data, char **env)
 {
 	static t_env_tracker	tracker;
 
@@ -108,9 +108,8 @@ int process_env(t_data *data, char **env)
 	else if (data->new_variable)
 	{
 		if (!insert_new(tracker.env_ptr, &tracker, data->new_variable))
-			return (0);
+			return (set_error(data, ERR_MALLOC), 0);
 		return (1);
 	}
 	return (0);
 }
-

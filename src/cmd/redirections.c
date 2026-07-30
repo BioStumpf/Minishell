@@ -6,7 +6,7 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/03 09:24:30 by knajmech          #+#    #+#             */
-/*   Updated: 2026/07/31 14:28:54 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/07/31 14:29:29 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,4 +85,3 @@ void	redirect_builtin(t_data *data, t_ast *redir, char **cmd)
 		set_error(data, ERR_DUP);
 	close(saved_fd);
 }
-

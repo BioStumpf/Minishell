@@ -6,7 +6,7 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/12 12:08:14 by knajmech          #+#    #+#             */
-/*   Updated: 2026/07/27 12:25:57 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/07/30 11:15:56 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,4 +69,3 @@ int	exec_pipe(t_ast *node, t_pipe_manager *pipe_info)
 		return (128 + WTERMSIG(g_ret));
 	return (-1);
 }
-
