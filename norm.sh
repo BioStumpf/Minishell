@@ -13,7 +13,7 @@
 #!/bin/sh
 
 output=$(find . \
-	\( -path "./tests" -o -path "./src/builtins" -o -path "./src/cmd" -o -path "./src/env" -o -path "./src/expansion" \) -prune -o \
+	\( -path "./tests" -o -path "./src/builtins" -o -path "./src/cmd" -o -path "./src/env" \) -prune -o \
 	\( -name "*.c" -o -name "*.h" \) \
 	! -name "test.c" ! -name "to_delete_later.c" \
 	-exec norminette {} +)

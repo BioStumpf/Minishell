@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/28 10:20:35 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/07/30 14:07:37 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/07/30 14:35:24 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,8 @@ void	close_heredocs(t_data *dat)
 
 static bool	open_heredoc(t_data *dat, t_compound *comp)
 {
-	comp->u_value.s_redir.open_fd = open("/tmp", O_TMPFILE | O_WRONLY | O_EXCL, 0600);
+	comp->u_value.s_redir.open_fd
+		= open("/tmp", O_TMPFILE | O_WRONLY | O_EXCL, 0600);
 	if (comp->u_value.s_redir.open_fd == -1)
 		return (set_error(dat, ERR_OPEN), false);
 	if (dat->heredoc_start == 0)
