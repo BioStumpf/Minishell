@@ -6,7 +6,7 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/12 12:11:39 by knajmech          #+#    #+#             */
-/*   Updated: 2026/07/27 10:04:32 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/07/27 12:22:23 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ int	exec_extern(t_ast *node, t_pipe_manager *pipe_info)
 		if (pipe_info->child[0] == 0)
 		{
 			pipe_info->in_pipeline = IN_PIPELINE;
-			redirect_extern(pipe_info->data, node, -1);
+			redirect_extern(pipe_info->data, node);
 			if (fatal_error(pipe_info->data))
 				cleanup_child(pipe_info->data, pipe_info);
 		}
@@ -89,7 +89,7 @@ int	exec_extern(t_ast *node, t_pipe_manager *pipe_info)
 			return (set_error(pipe_info->data, ERR_FORK), ERR_FORK);
 		return (waitpid(pipe_info->child[0], &status, 0), status);
 	}
-	redirect_extern(pipe_info->data, node, -1);
+	redirect_extern(pipe_info->data, node);
 	if (fatal_error(pipe_info->data))
 		cleanup_child(pipe_info->data, pipe_info);
 	return (WEXITSTATUS(0));

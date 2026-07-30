@@ -6,13 +6,14 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/12 09:27:50 by knajmech          #+#    #+#             */
-/*   Updated: 2026/07/16 14:35:07 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/07/28 12:51:38 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "structs.h"
 #include "env.h"
 #include "execution.h"
+#include "err.h"
 
 void	print_expolist(t_node	*env_list)
 {
@@ -45,6 +46,11 @@ void	export_var(t_data *data, char **argv)
 	if (data->env_mp->elem_num > 0 && argv[1])
 	{
 		list = ft_split(argv[1], '=');
+		if (!list)
+		{
+			set_error(data, ERR_MALLOC);
+			return ;
+		}
 		if (ft_count_2d(list) <= 2)
 			insert_new(env_arr, data->env_mp, list);
 		free_out(list, ft_count_2d(list));

@@ -6,7 +6,7 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/22 14:22:15 by knajmech          #+#    #+#             */
-/*   Updated: 2026/07/27 11:09:07 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/07/27 12:22:38 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,18 @@
 #include "err.h"
 #include <readline/readline.h>
 #include "parsing.h"
+
+void	close_fds(int *fd_arr, int amount)
+{
+	int	i;
+
+	i = 0;
+	while (i < amount)
+	{
+		close(fd_arr[i]);
+		i++;
+	}
+}
 
 void	cleanup_env(t_data *data)
 {

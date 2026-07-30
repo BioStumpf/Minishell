@@ -6,10 +6,11 @@
 /*   By: knajmech <knajmech@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 09:36:17 by knajmech          #+#    #+#             */
-/*   Updated: 2026/07/15 09:54:31 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/07/28 12:42:09 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "err.h"
 #include "env.h"
 #include "builtins.h"
 #include <assert.h>
@@ -27,7 +28,7 @@ t_env	*make_kv_node(char *key, char *val)
 	node->key = key;
 	node->key_w_equal = ft_strjoin(key, "=");
 	if (!node->key_w_equal)
-		return (NULL);
+		return (free(node), NULL);
 	assert(ft_strlen(node->key_w_equal));
 	node->value = val;
 	return (node);
@@ -49,9 +50,12 @@ int	hash_function(t_list *map_env, t_env_tracker *tracker,
 	if (key_val_node)
 		return (free(value[0]), key_val_node->value = value[1], 1);
 	key_val_node = make_kv_node(value[0], value[1]);
+	if (!key_val_node)
+		return (free(value[0]), free(value[1]), 0);
 	content_node = ft_nodenew(key_val_node);
 	if (!content_node)
-		return (0);
+		return (free(value[0]), free(value[1]), free(key_val_node->key_w_equal)
+				, free(key_val_node), 0);
 	ft_lstadd_back(&map_env[key_index], content_node);
 	tracker->elem_num++;
 	return (1);
@@ -94,11 +98,11 @@ int process_env(t_data *data, char **env)
 	{
 		if (!env)
 			return (1);
-		initialise_env(&tracker); 
+		initialise_env(&tracker);
+		data->env_mp = &tracker;
 		save_cwd(data);
 		if (!fill_env(tracker.env_ptr, &tracker, env))
-			error_and_cleanup(data, "malloc", 0);
-		data->env_mp = &tracker;
+			return (set_error(data, ERR_MALLOC), -1);
 		return (1);
 	}
 	else if (data->new_variable)
@@ -110,20 +114,3 @@ int process_env(t_data *data, char **env)
 	return (0);
 }
 
-/*int	main(int argc, char **argv, char **env)
-{
-	static t_data	data;
-	t_env			*tmp;
-
-	(void) argc;
-	(void) argv;
-	process_env(&data, env);
-	//char	*variables[2]={"VAR", "FOO"};
-	//data.new_variable = variables;
-	//process_env(&data, env);
-	unsigned int	key = find_hash_key("SHLVL");
-	tmp = hash_search(data.env_mp->env_ptr[key].head, "SHLVL");
-	if (tmp->key)
-		printf("%s\n", tmp->value);
-	error_and_cleanup(&data, NULL, 0);
-}*/
