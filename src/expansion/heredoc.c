@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/28 10:20:35 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/07/30 13:45:36 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/07/30 14:07:37 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 static bool	read_input(t_data *dat, char **line)
 {
 	errno = 0;
+	write(1, "> ", 2);
 	*line = get_next_line(STDIN_FILENO);
 	if (errno != 0 && !line)
 	{
