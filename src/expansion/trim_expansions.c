@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/03 14:12:02 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/07/30 11:48:54 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/07/30 14:23:35 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ char	*remove_dollar_quotes(t_exp_vec *exps, char *str,
 	size_t		new_str_size;
 	char		*new_str;
 
-	expand = exps->size == 0;
+	expand = exps->size > 0;
 	new_str_size = trimmed_size(str, quote_removal, expand);
 	new_str = trimm_str(new_str_size, str, quote_removal, expand);
 	if (!new_str)
