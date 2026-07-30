@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/28 10:20:35 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/07/29 19:15:09 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/07/30 13:45:36 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,9 @@ static bool	find_limiter(char *line, char *limiter)
 				"warning: here-document delimited by end-of-file"), true);
 	lim_len = ft_strlen(limiter);
 	line_len = ft_strlen(line);
-	if (lim_len != line_len)
+	if (lim_len + 1 != line_len)
 		return (false);
-	if (ft_strncmp(line, limiter, line_len))
+	if (ft_strncmp(line, limiter, lim_len) == 0)
 		return (true);
 	return (false);
 }
@@ -62,59 +62,45 @@ void	close_heredocs(t_data *dat)
 	end = dat->heredoc_end;
 	while (start <= end)
 		close(start++);
+	dat->heredoc_start = 0;
+	dat->heredoc_end = 0;
 }
 
-static void	make_name(char name[24], int fd)
+static bool	open_heredoc(t_data *dat, t_compound *comp)
 {
-	char	num[11];
-
-	ft_strlcpy(name, "/proc/self/fd/", 15);
-	ft_itoa_buff(fd, num, 11);
-	ft_strlcpy(name + 14, num, 11);
-}
-
-static bool	open_heredoc(t_data *dat, t_compound *comp, int *fd)
-{
-	char	proc_name[25];
-
-	*fd = open("/tmp", O_TMPFILE | O_WRONLY | O_EXCL, 0600);
-	if (*fd)
+	comp->u_value.s_redir.open_fd = open("/tmp", O_TMPFILE | O_WRONLY | O_EXCL, 0600);
+	if (comp->u_value.s_redir.open_fd == -1)
 		return (set_error(dat, ERR_OPEN), false);
-	make_name(proc_name, *fd);
-	comp->u_value.s_redir.open_fd = open(proc_name, O_RDONLY);
-	if (!comp_heredoc(comp))
-		return (close(*fd), set_error(dat, ERR_OPEN), false);
 	if (dat->heredoc_start == 0)
 		dat->heredoc_start = comp_heredoc(comp);
 	dat->heredoc_end = comp_heredoc(comp);
 	return (true);
 }
 
-bool	heredoc(t_data *dat, t_compound *comp, bool expand)
+void	heredoc(t_data *dat, t_compound *comp, bool expand)
 {
-	int			fd;
 	char		*line;
 	char		*expanded;
 	t_exp_vec	exps;
 
-	if (!open_heredoc(dat, comp, &fd))
-		return (close_heredocs(dat), false);
+	if (!open_heredoc(dat, comp))
+		return (close_heredocs(dat));
 	while (1)
 	{
 		if (!read_input(dat, &line))
-			return (close_heredocs(dat), false);
+			return (close_heredocs(dat));
 		if (find_limiter(line, comp_filename(comp)))
-			return (free(line), true);
+			return (free(line));
 		if (expand)
 		{
 			expanded = expand_str(dat, line, KEEP_QUOTES, &exps);
 			if (!expanded)
-				return (close_heredocs(dat), false);
+				return (close_heredocs(dat));
 			free(line);
 			free(exps.expansions);
 			line = expanded;
 		}
-		ft_putstr_fd(line, fd);
+		ft_putstr_fd(line, comp->u_value.s_redir.open_fd);
 		free(line);
 	}
 }

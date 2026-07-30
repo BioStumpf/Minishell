@@ -17,7 +17,7 @@ SRCS_main := main.c error/error_handling.c readline_signals/read_input.c readlin
 SRCS_david := parsing_glue/parsing.c parsing_glue/to_delete_later.c parsing_glue/parser_cleanup.c \
 			  tokenizing/tokenize.c tokenizing/token_list_utils.c tokenizing/token_string_utils.c tokenizing/token_word_utils.c tokenizing/token_metachar_utils.c tokenizing/token_accessors.c tokenizing/token_redir_utils.c tokenizing/token_setters.c \
 			  compounds/compound.c compounds/dynamic_compound_array.c compounds/comp_accessors.c compounds/comp_arg_accessors.c compounds/comp_array_accessors.c \
-			  expansion/expand.c expansion/expand_split_compounds.c expansion/expansion_accessors.c expansion/expansion_vector.c expansion/find_expansions.c expansion/insert_expansion.c expansion/trim_expansions.c expansion/word_split.c expansion/word_split_utils.c expansion/heredoc.c\
+			  expansion/expand.c expansion/expand_split_compounds.c expansion/expansion_accessors.c expansion/expansion_vector.c expansion/find_expansions.c expansion/insert_expansion.c expansion/trim_expansions.c expansion/word_split.c expansion/word_split_utils.c expansion/heredoc.c expansion/reopen_heredoc.c \
 			  ast/ast_getters.c ast/ast_setters.c ast/ast_tree_utils.c ast/ast.c ast/check_tok_types.c ast/check_tok_types2.c ast/recursive_decent.c ast/redir_utils.c
 
 SRCS_kian := env/cleanup.c env/delete_env.c env/hash_search.c env/new_variables.c env/env.c \

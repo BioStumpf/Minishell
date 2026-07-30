@@ -6,13 +6,13 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/03 14:12:02 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/07/03 14:14:38 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/07/30 11:48:54 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 
-static size_t	trimmed_size(char *str, bool quote_removal)
+static size_t	trimmed_size(char *str, bool quote_removal, bool expand)
 {
 	t_quotes	quotes;
 	size_t		size;
@@ -21,9 +21,9 @@ static size_t	trimmed_size(char *str, bool quote_removal)
 	size = 0;
 	while (*str)
 	{
-		if (update_quote_status(&quotes, str) && quote_removal)
+		if (quote_removal && update_quote_status(&quotes, str))
 			str++;
-		else if (is_expand_signal(str, quotes.sngl)
+		else if (expand && is_expand_signal(str, quotes.sngl)
 			&& is_expand_signal(++str, quotes.sngl))
 		{
 			str++;
@@ -38,7 +38,8 @@ static size_t	trimmed_size(char *str, bool quote_removal)
 	return (size);
 }
 
-static char	*trimm_str(size_t str_size, char *str, bool quote_removal)
+static char	*trimm_str(size_t str_size, char *str, bool quote_removal,
+	bool expand)
 {
 	t_quotes	quotes;
 	size_t		i;
@@ -51,9 +52,9 @@ static char	*trimm_str(size_t str_size, char *str, bool quote_removal)
 		return (NULL);
 	while (*str)
 	{
-		if (update_quote_status(&quotes, str) && quote_removal)
+		if (quote_removal && update_quote_status(&quotes, str))
 			str++;
-		else if (is_expand_signal(str, quotes.sngl)
+		else if (expand && is_expand_signal(str, quotes.sngl)
 			&& is_expand_signal(++str, quotes.sngl))
 			out[i++] = *str++;
 		else
@@ -66,11 +67,13 @@ static char	*trimm_str(size_t str_size, char *str, bool quote_removal)
 char	*remove_dollar_quotes(t_exp_vec *exps, char *str,
 	bool quote_removal)
 {
+	bool		expand;
 	size_t		new_str_size;
 	char		*new_str;
 
-	new_str_size = trimmed_size(str, quote_removal);
-	new_str = trimm_str(new_str_size, str, quote_removal);
+	expand = exps->size == 0;
+	new_str_size = trimmed_size(str, quote_removal, expand);
+	new_str = trimm_str(new_str_size, str, quote_removal, expand);
 	if (!new_str)
 		return (free(exps->expansions), NULL);
 	return (new_str);

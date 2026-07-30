@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/04 11:00:01 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/07/28 15:38:40 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/07/30 12:34:47 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,6 +160,7 @@ void			free_compound(t_compound_arr *c, enum e_err s, t_data *d);
 ///////////////////////////////////////////
 // expansion
 ///////////////////////////////////////////
+
 //structs
 typedef struct s_exp
 {
@@ -225,8 +226,9 @@ char			*get_ifs(t_data *dat);
 bool			word_split(t_data *d, t_exp_vec *e, t_arg *n, char *splt);
 
 //heredoc
-bool			heredoc(t_data *dat, t_compound *comp, bool expand);
+void			heredoc(t_data *dat, t_compound *comp, bool expand);
 void			close_heredocs(t_data *dat);
+int				reopen_heredoc(int fd);
 
 ///////////////////////////////////////////
 //build syntax tree
@@ -235,11 +237,11 @@ void			close_heredocs(t_data *dat);
 //accessors
 char			**get_av(t_ast *node);
 int				get_fd(t_ast *node);
-bool			get_quoted(t_ast *node);
+int				get_open_fd(t_ast *node);
 char			*get_operand(t_ast *node);
-void			set_quoted(t_ast *node, bool quoted);
+void			set_open_fd(t_ast *node, int open_fd);
 void			set_operand(t_ast *node, char *s);
-void			set_fd(t_ast *node, size_t fd);
+void			set_fd(t_ast *node, int fd);
 void			set_av(t_ast *node, char **av);
 
 //setting up ast buffer and nodes
