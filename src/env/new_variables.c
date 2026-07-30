@@ -6,7 +6,7 @@
 /*   By: knajmech <knajmech@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/06 11:01:30 by knajmech          #+#    #+#             */
-/*   Updated: 2026/07/24 12:17:17 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/07/28 13:39:13 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,6 @@ char	**env_ptrptr(t_data *dat, t_list *env_list, char **env)
 		while (node_list)
 		{
 			key_and_val = (t_env *)node_list->content;
-			assert(node_list && key_and_val);
-			assert(key_and_val->key_w_equal);
 			env[k] = ft_strjoin(key_and_val->key_w_equal, key_and_val->value);
 			if (!env[k])
 				return (free_out(env, k), set_error(dat, ERR_MALLOC), NULL);
@@ -54,16 +52,23 @@ int	replace_or_add(t_list *map_env, t_env_tracker *tracker,
 
 	assert(key_index <= (unsigned int) tracker->capacity);
 	value[0] = ft_strdup(env_var[0]);
-	value[1] = ft_strdup(env_var[1]);
 	if (!value[0])
-		return (free(value[0]), free(value[1]), 0);
+		return (0);
+	if (env_var[1])
+	{
+		value[1] = ft_strdup(env_var[1]);
+		if (!value[1])
+			return (free(value[0]), 0);
+	}
 	key_val_node = hash_search(map_env, value[0]);
 	if (key_val_node)
 		return (key_val_node->value = value[1], 1);
 	key_val_node = make_kv_node(value[0], value[1]);
+	if (!key_val_node)
+		return (free(value[0]), free(value[1]), 0);
 	content_node = ft_nodenew(key_val_node);
 	if (!content_node)
-		return (0);
+		return (delete_envnode(key_val_node), 0);
 	ft_lstadd_back(&map_env[key_index], content_node);
 	tracker->elem_num++;
 	return (1);
@@ -79,6 +84,6 @@ int	insert_new(t_list *env_ptr, t_env_tracker *tracker, char **new_variable)
 	hash = find_hash_key(new_variable[0]);
 	if (var_len > 0)
 		if(replace_or_add(env_ptr, tracker, hash, new_variable) == 0)
-			return (0); //consider if variable adding is needed.
+			return (0);
 	return (1);
 }

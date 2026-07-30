@@ -6,7 +6,7 @@
 /*   By: knajmech <knajmech@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/04 09:17:01 by knajmech          #+#    #+#             */
-/*   Updated: 2026/07/03 16:42:21 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/07/27 16:24:20 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 #include <errno.h>
 #include <stdlib.h>
 #include <parsing.h>
+#include "err.h"
 
 void	heredoc(t_data *data, t_ast *node)
 {
@@ -27,13 +28,20 @@ void	heredoc(t_data *data, t_ast *node)
 
 	fd = open("/tmp/.heredoc", O_CREAT | O_WRONLY | O_TRUNC, 0600);
 	if (!fd)
-		error_and_cleanup(data, "open", 0);
+	{
+		set_error(data, ERR_OPEN);
+		return ;
+	}
 	while (1)
 	{
 		errno = 0;
 		given_line = readline("> ");
 		if (errno)
-			error_and_cleanup(data, "malloc", 0);
+		{
+			close(fd);
+			set_error(data, ERR_MALLOC);
+			return ;
+		}
 		if (!ft_strncmp(given_line, get_av(node)[0],
 					ft_strlen(get_av(node)[0])))
 			break ;
@@ -42,6 +50,10 @@ void	heredoc(t_data *data, t_ast *node)
 	}
 	free(given_line);
 	if (dup2(get_fd(node), fd))
-		error_and_cleanup(data, "dup", 0);
+	{
+		close(get_fd(node));
+		set_error(data, ERR_DUP);
+	}
+	unlink("/tmp/.heredoc");
 }
 

@@ -6,13 +6,14 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/12 12:08:14 by knajmech          #+#    #+#             */
-/*   Updated: 2026/07/23 07:54:09 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/07/27 12:25:57 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "structs.h"
 #include "execution.h"
 #include "env.h"
+#include "err.h"
 
 int	launch_childp(t_ast *direction, int *fds, int std_fd,
 		t_pipe_manager *pipe_info)
@@ -20,7 +21,7 @@ int	launch_childp(t_ast *direction, int *fds, int std_fd,
 	if (std_fd == STDOUT_FILENO)
 	{
 		if (pipe_info->child[0] == -1)
-			error_and_cleanup(pipe_info->data, "fork", 0);
+			return (set_error(pipe_info->data, ERR_FORK), -1);
 		else if (pipe_info->child[0] == 0)
 			close(fds[0]);
 		pipe_info->in_pipeline = IN_PIPELINE;
@@ -28,45 +29,44 @@ int	launch_childp(t_ast *direction, int *fds, int std_fd,
 	else
 	{
 		if (pipe_info->child[1] == -1)
-			error_and_cleanup(pipe_info->data, "fork", 0);
+			return (set_error(pipe_info->data, ERR_FORK), -1);
 		else if (pipe_info->child[1] == 0)
 			close(fds[1]);
 		pipe_info->in_pipeline = IN_PIPELINE;
 	}
 	if (dup2(fds[std_fd], std_fd) == -1)
-		return (-1);
+		set_error(pipe_info->data, ERR_DUP);
 	close(fds[std_fd]);
+	if (fatal_error(pipe_info->data))
+		return (-1);
 	return (execute(direction, pipe_info));
 }
 
 int	exec_pipe(t_ast *node, t_pipe_manager *pipe_info)
 {
 	int		fds[2];
-	int		status;
 
-	status = 0;
 	if (pipe(fds) == -1)
-		error_and_cleanup(pipe_info->data, "pipe", 0);
+		set_error(pipe_info->data, ERR_PIPE);
 	pipe_info->child[0] = fork();
 	if (pipe_info->child[0] <= 0)
-	{
 		launch_childp(node->left, fds, STDOUT_FILENO, pipe_info);
-	}
 	pipe_info->child[1] = fork();
 	if (pipe_info->child[1] <= 0)
 	{
-		status = launch_childp(node->right, fds, STDIN_FILENO, pipe_info);
-		exit(WEXITSTATUS(status));
+		g_ret = launch_childp(node->right, fds, STDIN_FILENO, pipe_info);
+		cleanup_child(pipe_info->data, pipe_info);
 	}
 	pipe_info->data->pipe_info = pipe_info;
-	close(fds[0]);
-	close(fds[1]);
-	if (pipe_info->child[0])
-		waitpid(pipe_info->child[0], NULL, 0);
-	if (pipe_info->child[1])
-		waitpid(pipe_info->child[1], &status, 0);
+	close_fds(fds, 2);
+	waitpid(pipe_info->child[0], NULL, 0);
+	waitpid(pipe_info->child[1], (int *)&g_ret, 0);
 	if (pipe_info->in_pipeline)
-		error_and_cleanup(pipe_info->data, NULL, WEXITSTATUS(status));
-	return (WEXITSTATUS(status));
+		cleanup_child(pipe_info->data, pipe_info);
+	if (WIFEXITED(g_ret))
+		return (WEXITSTATUS(g_ret));
+	else if (WIFSIGNALED(g_ret))
+		return (128 + WTERMSIG(g_ret));
+	return (-1);
 }
 

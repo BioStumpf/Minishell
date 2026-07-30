@@ -6,7 +6,7 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/12 12:00:52 by knajmech          #+#    #+#             */
-/*   Updated: 2026/07/27 10:34:29 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/07/27 12:36:09 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@
 
 int	exec_or(t_ast *node, t_pipe_manager *pipe_info)
 {
-	int		status;
 	bool	inpipe;
 
 	if (pipe_info->in_pipeline)
@@ -28,17 +27,16 @@ int	exec_or(t_ast *node, t_pipe_manager *pipe_info)
 	else
 		inpipe = false;
 	assert(node->left != NULL && node->right != NULL);
-	status = execute(node->left, pipe_info);
-	if (status > 0)
-		status = execute(node->right, pipe_info);
+	g_ret = execute(node->left, pipe_info);
+	if (g_ret > 0)
+		g_ret = execute(node->right, pipe_info);
 	if (inpipe)
 		cleanup_child(pipe_info->data, pipe_info);
-	return (status);
+	return (g_ret);
 }
 
 int	exec_and(t_ast *node, t_pipe_manager *pipe_info)
 {
-	int		status;
 	bool	inpipe;
 
 	if (pipe_info->in_pipeline)
@@ -49,11 +47,11 @@ int	exec_and(t_ast *node, t_pipe_manager *pipe_info)
 	else
 		inpipe = false;
 	assert(node->left != NULL && node->right != NULL);
-	status = execute(node->left, pipe_info);
-	if (status == 0)
-		status = execute(node->right, pipe_info);
+	g_ret = execute(node->left, pipe_info);
+	if (g_ret == 0)
+		g_ret = execute(node->right, pipe_info);
 	if (inpipe)
 		cleanup_child(pipe_info->data, pipe_info);
-	return (status);
+	return (g_ret);
 }
 
