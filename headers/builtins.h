@@ -6,7 +6,7 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/11 07:52:24 by knajmech          #+#    #+#             */
-/*   Updated: 2026/07/16 12:39:44 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/07/31 08:08:37 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@
 # define ENV 5
 # define EXIT 6*/
 
-void	save_cwd(t_data *data);
 int		is_builtin(char *cmd);
 int		which_builtin(t_data *built_in, char **cmd_argv, int builtin_call);
 int		echo_print(char **echo_string);

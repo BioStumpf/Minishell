@@ -6,7 +6,7 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/15 09:46:08 by knajmech          #+#    #+#             */
-/*   Updated: 2026/07/27 16:30:31 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/07/31 08:53:25 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "structs.h"
 #include "libft.h"
 #include "builtins.h"
+#include "ft_printf.h"
 
 int	is_builtin(char *cmd)
 {
@@ -41,7 +42,11 @@ int	which_builtin(t_data *data, char **cmd_argv, int builtin_call)
 	if (builtin_call == ECHO)
 		return (echo_print(cmd_argv));
 	else if (builtin_call == CD)
+	{
+		if (cmd_argv[1] && cmd_argv[2])
+			return (ft_printf(2, "Minishell: cd: too many arguments\n", 0));
 		return (data->newdir = cmd_argv[1], change_dir(data));
+	}
 	else if (builtin_call == PWD)
 		return (pworkdir(data));
 	else if (builtin_call == EXPO)

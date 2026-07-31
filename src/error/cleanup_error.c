@@ -6,7 +6,7 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/22 14:22:15 by knajmech          #+#    #+#             */
-/*   Updated: 2026/07/27 12:22:38 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/07/30 16:30:03 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ void	cleanup_env(t_data *data)
 void	cleanup_normal(t_data *data)
 {
 	cleanup_env(data);
-	free(data->cwd);
 }
 
 void	cleanup_child(t_data *data, t_pipe_manager *pipe_info)
@@ -63,7 +62,6 @@ void	cleanup_child(t_data *data, t_pipe_manager *pipe_info)
 	rl_clear_history();
 	cleanup_env(data);
 	free(data->input);
-	free(data->cwd);
 	free(pipe_info->pathwcmd);
 	clean_ast(&data->ast);
 	exit(g_ret);
