@@ -6,7 +6,7 @@
 /*   By: david <dstumpf@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/15 13:45:26 by david             #+#    #+#             */
-/*   Updated: 2026/07/27 20:53:28 by david            ###   ########.fr       */
+/*   Updated: 2026/07/31 10:53:30 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,8 @@ void	move_redirs(t_list *tokens)
 		{
 			src = cur;
 			cur = cur->next;
-			ft_lstswitch(tokens, dst, src, prev);
+			if (!ft_lstswitch(tokens, dst, src, prev))
+				prev = src;
 			dst = src;
 			continue ;
 		}
