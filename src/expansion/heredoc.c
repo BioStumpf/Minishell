@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/28 10:20:35 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/07/30 14:35:24 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/07/31 11:16:23 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ void	heredoc(t_data *dat, t_compound *comp, bool expand)
 		{
 			expanded = expand_str(dat, line, KEEP_QUOTES, &exps);
 			if (!expanded)
-				return (close_heredocs(dat));
+				return (free(line), close_heredocs(dat));
 			free(line);
 			free(exps.expansions);
 			line = expanded;
