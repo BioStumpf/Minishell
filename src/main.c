@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/30 14:04:09 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/07/30 14:04:09 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/07/31 11:22:33 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #include "execution.h"
 #include <err.h>
 #include <env.h>
+#include <errno.h>
 
 volatile sig_atomic_t	g_ret = 0;
 
@@ -26,10 +27,13 @@ static void	init(t_data *dat, int ac, char **av)
 	(void)av;
 	rl_event_hook = readline_hook;
 	ft_bzero(dat, sizeof(t_data));
+	errno = 0;
 	if (isatty(STDIN_FILENO))
 		dat->read_input = read_terminal;
-	else
+	else if (errno == ENOTTY)
 		dat->read_input = read_stdin;
+	else
+		exit (1);
 }
 
 static void	free_all(t_data *dat)
