@@ -6,7 +6,7 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/06 13:52:42 by knajmech          #+#    #+#             */
-/*   Updated: 2026/07/28 15:14:01 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/07/31 14:30:35 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,6 @@ typedef struct s_data
 	char			*input;
 	char			**new_variable;
 	char			*find_var;
-	char			*cwd;
 	char			*newdir;
 	char			ret_str[4];
 	t_pipe_manager	*pipe_info;

@@ -6,7 +6,7 @@
 /*   By: knajmech <knajmech@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 09:36:17 by knajmech          #+#    #+#             */
-/*   Updated: 2026/07/30 10:31:05 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/07/30 16:33:17 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,6 @@ int	process_env(t_data *data, char **env)
 			return (1);
 		initialise_env(&tracker);
 		data->env_mp = &tracker;
-		save_cwd(data);
 		if (!fill_env(tracker.env_ptr, &tracker, env))
 			return (set_error(data, ERR_MALLOC), -1);
 		return (1);

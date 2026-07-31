@@ -6,7 +6,7 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/11 08:47:22 by knajmech          #+#    #+#             */
-/*   Updated: 2026/07/27 16:03:28 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/07/30 16:33:58 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "structs.h"
 #include "env.h"
 #include "err.h"
-
+/*
 void	save_cwd(t_data *data)
 {
 	char	*currdir;
@@ -26,7 +26,7 @@ void	save_cwd(t_data *data)
 		return ;
 	}
 	data->cwd = currdir;
-}
+}*/
 
 int	pworkdir(t_data *data)
 {
