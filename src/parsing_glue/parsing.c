@@ -23,10 +23,13 @@ void	parse_input(t_data *dat)
 		return ;
 	tokens = tokenize(dat);
 	compound_tokens = compound_group(dat, tokens);
+	// print_compound(compound_tokens);
 	ft_lstclear(tokens, free_token);
 	expand(dat, compound_tokens);
+	// print_compound(compound_tokens);
 	built_ast(dat, compound_tokens);
 	free_compound(compound_tokens, OK, dat);
+	// print_tree(dat->ast.root, 0);
 }
 
 	//print_tree(dat->ast.root, 0);
