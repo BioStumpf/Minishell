@@ -6,17 +6,17 @@
 /*   By: david <dstumpf@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/27 18:41:41 by david             #+#    #+#             */
-/*   Updated: 2026/07/27 19:24:05 by david            ###   ########.fr       */
+/*   Updated: 2026/07/31 10:52:43 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_lstswitch(t_list *lst, t_node *dst,
+bool	ft_lstswitch(t_list *lst, t_node *dst,
 		t_node *src, t_node *pre_src)
 {
 	if (lst->len < 2 || src == dst || pre_src == dst)
-		return ;
+		return (false);
 	if (src == lst->head)
 		lst->head = src->next;
 	if (src == lst->tail)
@@ -35,4 +35,5 @@ void	ft_lstswitch(t_list *lst, t_node *dst,
 		src->next = dst->next;
 		dst->next = src;
 	}
+	return (true);
 }
