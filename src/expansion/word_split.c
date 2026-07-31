@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/03 14:15:18 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/07/03 14:41:02 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/07/31 16:21:43 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ bool	word_split(t_data *dat, t_exp_vec *exps,
 		else
 			ws.tmp[ws.tmp_idx++] = to_split[ws.splt_idx++];
 	}
-	if (ws.tmp_idx)
+	if (ws.tmp_idx || !exps->expansions)
 		if (!new_field(new, ws.tmp, &ws.tmp_idx))
 			return (set_error(dat, ERR_MALLOC), free(ws.tmp), false);
 	return (free(ws.tmp), true);
