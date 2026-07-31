@@ -23,7 +23,7 @@
 static bool	read_input(t_data *dat, char **line)
 {
 	errno = 0;
-	write(1, "> ", 2);
+	write(2, "> ", 2);
 	*line = get_next_line(STDIN_FILENO);
 	if (errno != 0 && !line)
 	{

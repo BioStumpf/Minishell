@@ -38,6 +38,8 @@ char	*ft_strtrim(char const *s1, char const *set)
 	char	*out;
 	size_t	out_len;
 
+	if (!s1 || !set)
+		return (NULL);
 	start = (char *)s1;
 	end = (char *)s1 + ft_strlen(s1);
 	find_start_end(&start, &end, set);

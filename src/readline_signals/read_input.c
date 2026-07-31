@@ -6,7 +6,7 @@
 /*   By: david <dstumpf@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/06 13:00:27 by david             #+#    #+#             */
-/*   Updated: 2026/07/27 16:37:01 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/07/31 15:07:22 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "get_next_line.h"
 #include <readline/readline.h>
 #include <readline/history.h>
+#include "libft.h"
 #include "readline_sigs.h"
 #include <errno.h>
 
@@ -30,8 +31,10 @@ void	read_terminal(t_data *dat)
 
 void	read_stdin(t_data *dat)
 {
+	char	*line;
+
 	errno = 0;
-	dat->input = get_next_line(STDIN_FILENO);
+	line = get_next_line(STDIN_FILENO);
 	if (!dat->input && errno != 0)
 	{
 		if (errno == ENOMEM)
@@ -39,4 +42,6 @@ void	read_stdin(t_data *dat)
 		else
 			set_error(dat, ERR_READ);
 	}
+	dat->input = ft_strtrim(line, "\n");
+	free(line);
 }
