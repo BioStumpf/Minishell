@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/28 10:20:35 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/07/31 11:16:23 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/08/02 09:47:10 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,15 @@
 #include "parsing.h"
 #include "structs.h"
 #include "get_next_line.h"
+#include "readline_sigs.h"
 #include <fcntl.h>
 #include <errno.h>
 
 static bool	read_input(t_data *dat, char **line)
 {
 	errno = 0;
-	write(2, "> ", 2);
+	if (dat->read_input == read_terminal)
+		write(2, "> ", 2);
 	*line = get_next_line(STDIN_FILENO);
 	if (errno != 0 && !line)
 	{
