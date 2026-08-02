@@ -51,16 +51,11 @@ nothing happens!!!!!
 protect opens in fd_assign
 ///////
 
+export T=nnnnnnnn
+-->sometimes i get malloc fail sometimes not, I think its a collistion in env that isnt handled properly
 
-///////
-echo '' -n
-parsing seems correct, builtin echo introduces a random space:
-dstumpf@c1r3p4:~/Minishell$ ./minishell <testfile | cat -A
-///this is the compound array (before and after expansion)
-Compound type: CMD;   [echo] [''] [-n] $
-Compound type: CMD;   [echo] [] [-n] [(null)] $
-///this is the ast you can see there is no space after the -n
-CMD; [echo] [] [-n] $
-///the output of our minishell has a space after -n which should come from echo
- -n $
-////////
+echo $/ $/
+bash interpres anything after $ except ? as a normal char. bash treats: /, -, =, :, ", ', (, ) (so everything but A-Z; a-z and _) as special
+
+exit value should work
+exit should exit with the last return code
