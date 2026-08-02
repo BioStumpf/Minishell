@@ -6,7 +6,7 @@
 /*   By: knajmech <knajmech@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/04 10:03:18 by knajmech          #+#    #+#             */
-/*   Updated: 2026/07/27 12:40:23 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/08/02 10:44:32 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,21 @@ unsigned int	find_hash_key(char	*key)
 	}
 	key_index = hash % CAPACITY;
 	return (key_index);
+}
+
+void	env_val_swap(t_data *data, char *env1, char *env2)
+{
+	char	*holder;
+	t_env	*node1;
+	t_env	*node2;
+
+	node1 = hash_search(data->env_mp->env_ptr, env1);
+	node2 = hash_search(data->env_mp->env_ptr, env2);
+	if (!node1 || !node2)
+		return ;
+	holder = node1->value;
+	node1->value = node2->value;
+	node2->value = holder;
 }
 
 t_env	*hash_search(t_list *hash_arr, char *key)
