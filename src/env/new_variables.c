@@ -6,7 +6,7 @@
 /*   By: knajmech <knajmech@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/06 11:01:30 by knajmech          #+#    #+#             */
-/*   Updated: 2026/07/30 10:55:13 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/08/02 15:23:19 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int	replace(t_list *map_env, char *key, char *val)
 
 	key_val_node = hash_search(map_env, key);
 	if (key_val_node)
-		return (key_val_node->value = val, 1);
+		return (free(key_val_node->value), key_val_node->value = val, 1);
 	else
 		return (0);
 }
@@ -74,17 +74,17 @@ int	replace_or_add(t_list *map_env, t_env_tracker *tracker,
 	t_node				*content_node;
 	char				*value[2];
 
-	value[0] = ft_strdup(env_var[0]);
-	if (!value[0])
-		return (0);
 	if (env_var[1])
 	{
 		value[1] = ft_strdup(env_var[1]);
 		if (!value[1])
-			return (free(value[0]), 0);
+			return (0);
 	}
-	if (replace(map_env, value[0], value[1]) == 1)
-		return (0);
+	if (replace(map_env, env_var[0], value[1]) == 1)
+		return (1);
+	value[0] = ft_strdup(env_var[0]);
+	if (!value[0])
+		return (free(value[1]), 0);
 	content_node = add(value[0], value[1]);
 	if (!content_node)
 		return (free(value[0]), free(value[1]), 0);
