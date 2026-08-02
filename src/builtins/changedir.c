@@ -6,7 +6,7 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/11 10:00:28 by knajmech          #+#    #+#             */
-/*   Updated: 2026/07/31 08:32:35 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/08/02 11:02:41 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,41 @@
 #include "err.h"
 #include "ft_printf.h"
 #include <stdio.h>
+#include <errno.h>
+
+void	env_oldpwd_swap(t_data *data)
+{
+	t_env	*key_and_val;
+	char	*k_v[2];
+
+	key_and_val = hash_search(data->env_mp->env_ptr, "OLDPWD");
+	if (!key_and_val)
+	{
+		k_v[0] = "OLDPWD";
+		k_v[1] = getcwd(NULL, 0);
+		if (!k_v[1])
+		{
+			set_error(data, ERR_MALLOC);
+			return ;
+		}
+		if (!insert_new(data->env_mp->env_ptr, data->env_mp, k_v))
+		{
+			set_error(data, ERR_MALLOC);
+			free(k_v[1]);
+			return ;
+		}
+	}
+	else
+	{
+		free(key_and_val->value);
+		key_and_val->value = getcwd(NULL, 0);
+		if (!key_and_val->value)
+		{
+			set_error(data, ERR_MALLOC);
+			return ;
+		}
+	}
+}
 
 void	env_pwd_swap(t_data *data)
 {
@@ -52,15 +87,101 @@ void	env_pwd_swap(t_data *data)
 	}
 }
 
-void	env_oldpwd_swap(t_data *data)
+int	set_pwdenv(t_data *data)
+{
+	char	*currdir;
+	char	*k_v[2];
+
+	currdir = getcwd(NULL, 0);
+	if (currdir == NULL)
+		return (0);
+	k_v[0] = "PWD";
+	k_v[1] = currdir;
+	if (insert_new(data->env_mp->env_ptr, data->env_mp, k_v) == 0)
+		return (free(currdir), 0);
+	free(currdir);
+	return (1);
+}
+
+int	change_dir_swap(t_data *data)
+{
+	char	*oldpwd_var;
+
+	if (get_env_val(data, "OLDPWD") == NULL)
+		return (ft_printf(2, "Minishell: cd: OLDPWD not set\n"), 0);
+	if (get_env_val(data, "PWD") == NULL)
+		if (set_pwdenv(data) == 0)
+			return (set_error(data, ERR_MALLOC), 0);
+	oldpwd_var = ft_strdup(get_env_val(data, "OLDPWD"));
+	if (!oldpwd_var)
+		return (set_error(data, ERR_MALLOC), 0);
+	if (chdir(oldpwd_var) == -1)
+	{
+		if (errno == EACCES)
+			ft_printf(2, "Minishell: cd: %s: Permission denied\n", data->newdir);
+		else if (errno == ENOTDIR)
+			ft_printf(2, "Minishell: cd: %s: Not a directory\n", data->newdir);
+		else
+			ft_printf(2, "Minishell: cd: %s: No such file or directory\n", data->newdir);
+		g_ret = 1;
+		return (free(oldpwd_var), 0);
+	}
+	ft_printf(1, "%s\n", oldpwd_var);
+	env_val_swap(data, "PWD", "OLDPWD");
+	return (free(oldpwd_var), 1);
+}
+
+int	change_to_home(t_data *data)
+{
+	t_env	*home_val;
+
+	if (!data->newdir || !ft_strncmp(data->newdir, "~/", 3) ||
+			!ft_strncmp(data->newdir, "~", 2))
+	{
+		home_val = hash_search(data->env_mp->env_ptr, "HOME");
+		if (!home_val || !home_val->value)
+		{
+			ft_printf(2, "Minishell: cd: HOME not set\n");
+			return (0);
+		}
+		else
+			data->newdir = home_val->value;
+	}
+	return (1);
+}
+
+int	change_dir(t_data *data)
+{
+	if (change_to_home(data) == 0)
+		return (0);
+	if (!ft_strncmp(data->newdir, "-", 2))
+		return (change_dir_swap(data));
+	env_oldpwd_swap(data);
+	if (chdir(data->newdir) == -1)
+	{
+		if (errno == EACCES)
+			return (ft_printf(2, "Minishell: cd: %s: Permission denied\n", data->newdir));
+		else if (errno == ENOTDIR)
+			ft_printf(2, "Minishell: cd: %s: Not a directory\n", data->newdir);
+		else
+			ft_printf(2, "Minishell: cd: %s: No such file or directory\n", data->newdir);
+		g_ret = 1;
+	}
+	env_pwd_swap(data);
+	return (1);
+}
+
+
+/*
+void	env_pwd_swap(t_data *data)
 {
 	t_env	*key_and_val;
 	char	*k_v[2];
 
-	key_and_val = hash_search(data->env_mp->env_ptr, "OLDPWD");
+	key_and_val = hash_search(data->env_mp->env_ptr, "PWD");
 	if (!key_and_val)
 	{
-		k_v[0] = "OLDPWD";
+		k_v[0] = "PWD";
 		k_v[1] = getcwd(NULL, 0);
 		if (!k_v[1])
 		{
@@ -73,6 +194,7 @@ void	env_oldpwd_swap(t_data *data)
 			free(k_v[1]);
 			return ;
 		}
+		free(k_v[1]);
 	}
 	else
 	{
@@ -86,6 +208,8 @@ void	env_oldpwd_swap(t_data *data)
 	}
 }
 
+
+
 int	change_dir(t_data *data)
 {
 	t_env	*home_val;
@@ -96,20 +220,30 @@ int	change_dir(t_data *data)
 		home_val = hash_search(data->env_mp->env_ptr, "HOME");
 		if (!home_val || !home_val->value)
 		{
-			ft_printf(2, "Minishell: cd: %s: HOME not set\n", data->newdir);
+			ft_printf(2, "Minishell: cd: HOME not set\n");
 			return (0);
 		}
 		else
 			data->newdir = home_val->value;
 	}
+	if (!ft_strncmp(data->newdir, "-", 2))
+	{
+		change_dir_swap(data);
+		env_pwd_swap(data);
+		return (1);
+	}
 	env_oldpwd_swap(data);
 	if (chdir(data->newdir) == -1)
+	{
+		if (errno == EACCES)
+			return (ft_printf(2, "Minishell: cd: %s: Permission denied\n", data->newdir));
 		ft_printf(2, "Minishell: cd: %s: No such file or directory\n", data->newdir);
+		g_ret = 1;
+	}
 	env_pwd_swap(data);
 	return (1);
 }
 
-/*
 int	change_dir(t_data *data)
 {
 	char	*curdir;

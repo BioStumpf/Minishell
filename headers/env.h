@@ -6,7 +6,7 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/23 08:18:08 by knajmech          #+#    #+#             */
-/*   Updated: 2026/07/28 13:38:15 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/08/02 10:37:06 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,5 +30,6 @@ int				insert_new(t_list *env_ptr, t_env_tracker *tracker,
 					char **new_variable);
 t_node			*delete_node(t_node *node);
 char			**env_ptrptr(t_data *data, t_list *env_list, char **env);
+void			env_val_swap(t_data *data, char *env1, char *env2);
 
 #endif
