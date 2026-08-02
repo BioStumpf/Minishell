@@ -52,6 +52,7 @@ protect opens in fd_assign
 ///////
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 export T=nnnnnnnn
 -->sometimes i get malloc fail sometimes not, I think its a collistion in env that isnt handled properly
 
@@ -75,3 +76,13 @@ CMD; [echo] [] [-n] $
  -n $
 ////////
 >>>>>>> 6ef66f5 (fix echo '' hi '' issue where word splitting ignores the quotes things; add a bug for kian)
+=======
+export T=nnnnnnnn
+-->sometimes i get malloc fail sometimes not, I think its a collistion in env that isnt handled properly
+
+echo $/ $/
+bash interpres anything after $ except ? as a normal char. bash treats: /, -, =, :, ", ', (, ) (so everything but A-Z; a-z and _) as special
+
+exit value should work
+exit should exit with the last return code
+>>>>>>> a63aa4e (fix echo and heredoc incase of stdin not being terminal)
