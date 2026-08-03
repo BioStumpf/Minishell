@@ -6,7 +6,7 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/15 09:46:08 by knajmech          #+#    #+#             */
-/*   Updated: 2026/07/31 08:53:25 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/08/03 08:56:07 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int	which_builtin(t_data *data, char **cmd_argv, int builtin_call)
 	else if (builtin_call == ENV)
 		return (env_var(data), 0);
 	else if (builtin_call == EXIT)
-		return (exit_minishell(data), 0);
+		return (exit_minishell(data, cmd_argv));
 	return (-1);
 }
 
