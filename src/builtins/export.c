@@ -6,7 +6,7 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/12 09:27:50 by knajmech          #+#    #+#             */
-/*   Updated: 2026/07/30 10:41:54 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/08/03 16:30:24 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,26 +14,7 @@
 #include "env.h"
 #include "execution.h"
 #include "err.h"
-
-void	print_expolist(t_node	*env_list)
-{
-	t_env	*node;
-	int		i;
-
-	i = 0;
-	while (env_list)
-	{
-		assert(env_list->content != NULL);
-		node = env_list->content;
-		assert(node->key != NULL);
-		if (node->value && ft_strncmp(node->key, "_", 2))
-			printf("declare -x %s=\"%s\"\n", node->key, node->value);
-		else
-			printf("declare -x %s\n", node->key);
-		env_list = env_list->next;
-		i++;
-	}
-}
+#include "ft_printf.h"
 
 void	print_var(t_list *env_arr, int capacity)
 {
@@ -48,28 +29,88 @@ void	print_var(t_list *env_arr, int capacity)
 	}
 }
 
-void	export_var(t_data *data, char **argv)
+bool	valid_check(char *argv)
+{
+	char	*string;
+	int		i;
+
+	string = argv;
+	if (string == NULL)
+		return (true);
+	i = 0;
+	if (ft_iswhitespace(string[i]) || (string[i] == '='))
+	{
+		ft_printf(2, "minishell: export: '%s': not a valid identifier\n",
+			string);
+		return (false);
+	}
+	return (true);
+}
+
+char	**get_vars(t_data *data, char *argv)
+{
+	int		i;
+	char	**ptr;
+
+	i = 0;
+	ptr = ft_calloc(3, sizeof(char *));
+	if (!ptr)
+		return (set_error(data, ERR_MALLOC), NULL);
+	while (argv && argv[i])
+	{
+		if (argv[i] == '=')
+		{
+			ptr[0] = ft_strndup(argv, '=');
+			ptr[1] = ft_strdup(&argv[i + 1]);
+			if (!ptr[0] || !ptr[1])
+				return (free(ptr[0]), free(ptr), set_error(data, ERR_MALLOC),
+					NULL);
+			return (ptr);
+		}
+		i++;
+	}
+	ptr[0] = ft_strdup(argv);
+	ptr[1] = ft_strdup("\0");
+	if (!ptr[0] || !ptr[1])
+		return (free(ptr[0]), free(ptr), set_error(data, ERR_MALLOC), NULL);
+	return (ptr);
+}
+
+void	export_var(t_data *data, char *argv)
 {
 	t_list	*env_arr;
 	char	**list;
-	int		i;
 
+	if (!valid_check(argv))
+		return ;
 	env_arr = data->env_mp->env_ptr;
-	i = 0;
-	if (data->env_mp->elem_num > 0 && argv[1])
+	if (data->env_mp->elem_num > 0 && argv)
 	{
-		list = ft_split(argv[1], '=');
+		list = get_vars(data, argv);
 		if (!list)
-		{
-			set_error(data, ERR_MALLOC);
 			return ;
-		}
 		if (ft_count_2d(list) <= 2 && ft_count_2d(list) >= 1)
-			i = insert_new(env_arr, data->env_mp, list);
+			if (insert_new(env_arr, data->env_mp, list) == 0)
+				set_error(data, ERR_MALLOC);
 		free_out(list, ft_count_2d(list));
-		if (i == 0)
-			set_error(data, ERR_MALLOC);
 	}
 	else
 		print_var(env_arr, data->env_mp->capacity);
+}
+
+int	export_var_start(t_data *data, char **argv)
+{
+	int	i;
+
+	i = 1;
+	if (!argv[i])
+		print_var(data->env_mp->env_ptr, data->env_mp->capacity);
+	while (argv[i])
+	{
+		export_var(data, argv[i]);
+		i++;
+	}
+	if (fatal_error(data))
+		return (1);
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/27 09:07:15 by knajmech          #+#    #+#             */
-/*   Updated: 2026/07/27 11:36:18 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/08/03 11:54:54 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int		exec_and(t_ast *node, t_pipe_manager *pipe_info);
 int		exec_or(t_ast *node, t_pipe_manager *pipe_info);
 int		execute(t_ast *node, t_pipe_manager *pipe_info);
 // void	heredoc(t_data *data, t_ast *node);
-void	redirect_builtin(t_data *data, t_ast *redir, char **cmd);
+int		redirect_builtin(t_data *data, t_ast *redir, char **cmd);
 void	redirect_extern(t_data *data, t_ast *redir);
 char	**free_out(char **out, size_t len);
 void	pathfinder(t_pipe_manager *pipe_info, char **path_parts);

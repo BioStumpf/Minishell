@@ -6,7 +6,7 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/25 10:17:19 by knajmech          #+#    #+#             */
-/*   Updated: 2026/07/24 19:19:55 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/08/03 16:14:15 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,8 @@ int	execute(t_ast *node, t_pipe_manager *pipe_info)
 			return (g_ret);
 	}
 	else
-		return (0);
-	return (2);
+		return (redirect_builtin(pipe_info->data, node->left, NULL));
+	return (g_ret);
 }
 
 void	coordinate_exec(t_data *data)

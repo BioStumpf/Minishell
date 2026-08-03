@@ -6,7 +6,7 @@
 /*   By: knajmech <knajmech@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 09:36:17 by knajmech          #+#    #+#             */
-/*   Updated: 2026/07/30 16:33:17 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/08/03 15:40:03 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,8 @@ int	fill_env(t_list *map_env, t_env_tracker *tracker, char **env)
 	int				var_len;
 	unsigned int	hash_key;
 
+	if (!env)
+		return (1);
 	index_arr = 0;
 	while (env[index_arr])
 	{
@@ -96,12 +98,12 @@ int	process_env(t_data *data, char **env)
 
 	if (tracker.capacity == 0)
 	{
-		if (!env)
-			return (1);
 		initialise_env(&tracker);
 		data->env_mp = &tracker;
 		if (!fill_env(tracker.env_ptr, &tracker, env))
 			return (set_error(data, ERR_MALLOC), -1);
+		if (!env)
+			return (1);
 		return (1);
 	}
 	else if (data->new_variable)

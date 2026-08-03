@@ -6,11 +6,32 @@
 /*   By: knajmech <knajmech@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/04 10:03:18 by knajmech          #+#    #+#             */
-/*   Updated: 2026/08/02 10:44:32 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/08/03 16:31:37 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "env.h"
+#include "ft_printf.h"
+
+void	print_expolist(t_node *env_list)
+{
+	t_env	*node;
+	int		i;
+
+	i = 0;
+	while (env_list)
+	{
+		assert(env_list->content != NULL);
+		node = env_list->content;
+		assert(node->key != NULL);
+		if (node->value && ft_strncmp(node->key, "_", 2))
+			ft_printf(1, "declare -x %s=\"%s\"\n", node->key, node->value);
+		else
+			ft_printf(1, "declare -x %s\n", node->key);
+		env_list = env_list->next;
+		i++;
+	}
+}
 
 unsigned int	find_hash_key(char	*key)
 {
