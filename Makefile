@@ -52,7 +52,7 @@ FORCE:
 	@printf "$(BOLD)$(BLUE)       Compile Project          $(RESET)\n"
 	@printf "$(GREEN)======================================$(RESET)\n"
 
-norm-parse:
+norm:
 	./norm.sh
 
 test:
