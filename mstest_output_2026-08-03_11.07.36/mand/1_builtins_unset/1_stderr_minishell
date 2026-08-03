@@ -1,2 +1,0 @@
-minishell: src/env/hash_search.c:22: unsigned int find_hash_key(char *): Assertion `key != NULL' failed.
-/home/knajmech/42_minishell_tester/tester.sh: line 634: 216075 Aborted                 (core dumped) LD_PRELOAD=/home/knajmech/42_minishell_tester/utils/libintercept/libintercept.so /home/knajmech/Minishell/minishell

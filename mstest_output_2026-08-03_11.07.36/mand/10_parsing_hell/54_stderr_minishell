@@ -1,2 +1,0 @@
-minishell: src/builtins/which_builtin.c:21: int is_builtin(char *): Assertion `cmd != NULL' failed.
-/home/knajmech/42_minishell_tester/tester.sh: line 634: 199551 Aborted                 (core dumped) LD_PRELOAD=/home/knajmech/42_minishell_tester/utils/libintercept/libintercept.so /home/knajmech/Minishell/minishell

@@ -1,2 +1,0 @@
-open error
-cat: ./test_files/infile: No such file or directory
