@@ -6,10 +6,11 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/03 14:10:42 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/07/03 14:28:47 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/08/03 08:35:58 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
 #include "parsing.h"
 
 bool	is_expand_signal(char *str, bool sngl_quotes)
@@ -20,7 +21,7 @@ bool	is_expand_signal(char *str, bool sngl_quotes)
 	cur = str[0];
 	next = str[1];
 	return (cur == '$' && !sngl_quotes && next
-		&& !is_quote(next) && !is_whitespace_metachar(next));
+		&& (ft_isalnum(next) || next == '?'));
 }
 
 static void	set_exp_info(t_exp *exp, char *str, size_t *idx, bool quoted)
@@ -28,7 +29,7 @@ static void	set_exp_info(t_exp *exp, char *str, size_t *idx, bool quoted)
 	(*idx)++;
 	exp->start = *idx;
 	exp->quoted = quoted;
-	while (str[*idx] && ft_isalnum(str[*idx]))
+	while (str[*idx] && (ft_isalnum(str[*idx]) || str[*idx] == '_'))
 		(*idx)++;
 	if (exp->start == *idx)
 		(*idx)++;
