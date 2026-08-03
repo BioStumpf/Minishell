@@ -13,7 +13,6 @@
 #include "structs.h"
 #include "ft_printf.h"
 #include "err.h"
-#include "readline_sigs.h"
 
 static int	parser_err(enum e_err err)
 {
