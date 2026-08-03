@@ -6,7 +6,7 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/12 09:55:27 by knajmech          #+#    #+#             */
-/*   Updated: 2026/08/07 10:53:07 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/08/03 14:45:36 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,4 +56,5 @@ void	exit_minishell(t_data *data, char **av)
 					av[1]), data->ret = 2, (void)0);
 		return (data->ret = ret, (void)0);
 	}
+	return (g_ret = data->ret, (void)0);
 }
