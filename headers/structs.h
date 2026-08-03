@@ -6,7 +6,7 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/06 13:52:42 by knajmech          #+#    #+#             */
-/*   Updated: 2026/07/31 14:30:35 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/08/03 12:33:20 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,12 +61,6 @@ typedef struct s_ast_buff
 enum e_err
 {
 	OK,
-	PARSE_ERR_UNCLOSED_QUOTES,
-	PARSE_ERR_REDIR,
-	PARSE_ERR_PIPE,
-	PARSE_ERR_OR,
-	PARSE_ERR_AND,
-	PARSE_ERR_PARA,
 	ERR_MALLOC,
 	ERR_DUP,
 	ERR_OPEN,
@@ -75,7 +69,18 @@ enum e_err
 	ERR_PIPE,
 	ERR_FORK,
 	ERR_EXECVE,
-	EXIT_CALL
+	EXIT_CALL,
+	PARSE_ERR_UNCLOSED_QUOTES,
+	PARSE_ERR_REDIR,
+	PARSE_ERR_PIPE = '|',
+	PARSE_ERR_AND	= '&' * 2 + 1,
+	PARSE_ERR_OR = '|' * 2 + 1,
+	PARSE_ERR_REDIR_INFILE = '<',
+	PARSE_ERR_REDIR_OUTFILE = '>',
+	PARSE_ERR_REDIR_HEREDOC = '<' * 2 + 1,
+	PARSE_ERR_REDIR_APPEND = '>' * 2 + 1,
+	PARSE_ERR_LEFT_PARA = '(',
+	PARSE_ERR_RIGHT_PARA = ')',
 };
 
 typedef struct s_data
