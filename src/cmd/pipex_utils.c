@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "libft.h"
-#include "env.h"
 #include "structs.h"
 #include "parsing.h"
 #include "err.h"

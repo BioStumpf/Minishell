@@ -29,19 +29,18 @@
 # include "structs.h"
 // # include "builtins.h"
 
-int		launch_childp(t_ast *dir, int *fds, int std_fd, t_pipe_manager *p_info);
-int		exec_pipe(t_ast *node, t_pipe_manager *pipe_info);
-int		exec_and(t_ast *node, t_pipe_manager *pipe_info);
-int		exec_or(t_ast *node, t_pipe_manager *pipe_info);
-int		execute(t_ast *node, t_pipe_manager *pipe_info);
+void	exec_pipe(t_ast *node, t_pipe_manager *pipe_info);
+void	exec_and(t_ast *node, t_pipe_manager *pipe_info);
+void	exec_or(t_ast *node, t_pipe_manager *pipe_info);
+void	execute(t_ast *node, t_pipe_manager *pipe_info);
 // void	heredoc(t_data *data, t_ast *node);
 int		redirect_builtin(t_data *data, t_ast *redir, char **cmd);
 void	redirect_extern(t_data *data, t_ast *redir);
 char	**free_out(char **out, size_t len);
 void	pathfinder(t_pipe_manager *pipe_info, char **path_parts);
 char	**split_path_env(t_data *data);
-int		exec_builtin(t_ast *node, t_pipe_manager *pipe_info);
-int		exec_extern(t_ast *node, t_pipe_manager *pipe_info);
+void	exec_builtin(t_ast *node, t_pipe_manager *pipe_info);
+void	exec_extern(t_ast *node, t_pipe_manager *pipe_info);
 void	coordinate_exec(t_data *data);
 void	extern_child_wrapper(t_ast *node, t_pipe_manager *pipe_info);
 

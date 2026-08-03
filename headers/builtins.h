@@ -33,7 +33,7 @@ int		pworkdir(t_data *data);
 void	export_var(t_data *data, char **argv);
 void	unset_var(t_list *map_env, char *key);
 void	env_var(t_data *data);
-int		exit_minishell(t_data *data, char **av);
+void	exit_minishell(t_data *data, char **av);
 int		execute_builtin(t_ast *node, bool in_pipeline, t_data *data);
 
 #endif

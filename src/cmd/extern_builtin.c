@@ -6,7 +6,7 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/12 12:11:39 by knajmech          #+#    #+#             */
-/*   Updated: 2026/08/03 11:52:01 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/08/03 17:10:41 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,10 @@ void	extern_helper(t_pipe_manager *pipe_info, char ***env,
 	}
 	else if (!pipe_info->pathwcmd)
 	{
+		if (pipe_info->cmd_found)
+			g_ret = 126;
+		else
+			g_ret = 127;
 		print_errors(pipe_info->cmd_found, pipe_info);
 		free_out(*env, pipe_info->data->env_mp->elem_num);
 	}
@@ -78,11 +82,10 @@ void	extern_child_wrapper(t_ast *node, t_pipe_manager *pipe_info)
 	cleanup_child(pipe_info->data, pipe_info);
 }
 
-int	exec_extern(t_ast *node, t_pipe_manager *pipe_info)
+void	exec_extern(t_ast *node, t_pipe_manager *pipe_info)
 {
 	int	status;
 
-	assert (pipe_info);
 	if (pipe_info->in_pipeline == NO_PIPELINE)
 	{
 		pipe_info->child[0] = fork();
@@ -93,20 +96,26 @@ int	exec_extern(t_ast *node, t_pipe_manager *pipe_info)
 			if (fatal_error(pipe_info->data))
 				cleanup_child(pipe_info->data, pipe_info);
 		}
-		if (pipe_info->child[0] == -1)
-			return (set_error(pipe_info->data, ERR_FORK), ERR_FORK);
-		return (waitpid(pipe_info->child[0], &status, 0), status);
+		else if (pipe_info->child[0] == -1)
+			return (set_error(pipe_info->data, ERR_FORK));
+		waitpid(pipe_info->child[0], &status, 0);
+		if (WIFEXITED(status))
+			g_ret = WEXITSTATUS(status);
+		else if (WIFSIGNALED(status))
+			g_ret = 128 + WTERMSIG(status);
+		return ;
 	}
 	redirect_extern(pipe_info->data, node);
 	if (fatal_error(pipe_info->data))
 		cleanup_child(pipe_info->data, pipe_info);
-	return (WEXITSTATUS(0));
 }
 
-int	exec_builtin(t_ast *node, t_pipe_manager *pipe_info)
+void	exec_builtin(t_ast *node, t_pipe_manager *pipe_info)
 {
 	g_ret = redirect_builtin(pipe_info->data, node->left, get_av(node));
 	if (pipe_info->in_pipeline)
+	{
+		close_heredocs(pipe_info->data);
 		cleanup_child(pipe_info->data, pipe_info);
-	return (g_ret);
+	}
 }

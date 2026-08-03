@@ -60,7 +60,7 @@ int	which_builtin(t_data *data, char **cmd_argv, int builtin_call)
 	else if (builtin_call == ENV)
 		return (env_var(data), 0);
 	else if (builtin_call == EXIT)
-		return (exit_minishell(data, cmd_argv));
+		return (exit_minishell(data, cmd_argv), 0);
 	return (-1);
 }
 

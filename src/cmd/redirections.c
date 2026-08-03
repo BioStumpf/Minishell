@@ -41,11 +41,12 @@ void	redirect_extern(t_data *data, t_ast *redir)
 
 	if (!redir)
 	{
+		close_heredocs(data);
 		extern_child_wrapper(data->pipe_info->cmd_node, data->pipe_info);
 		return ;
 	}
 	file_fd = fd_assign(redir->type, get_operand(redir), data, redir);
-	if (file_fd > -1)
+	if (file_fd != -1)
 	{
 		if (dup2(file_fd, get_fd(redir)) == -1)
 		{
@@ -56,8 +57,6 @@ void	redirect_extern(t_data *data, t_ast *redir)
 		close(file_fd);
 		redirect_extern(data, redir->left);
 	}
-	else
-		return ;
 }
 
 int	redirect_builtin(t_data *data, t_ast *redir, char **cmd)

@@ -6,7 +6,7 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/25 10:17:19 by knajmech          #+#    #+#             */
-/*   Updated: 2026/08/04 12:47:52 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/08/04 14:47:31 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include "builtins.h"
 #include "err.h"
 
-int	execute(t_ast *node, t_pipe_manager *pipe_info)
+void	execute(t_ast *node, t_pipe_manager *pipe_info)
 {
 	if (node->type == AND)
 		return (exec_and(node, pipe_info));
@@ -31,13 +31,12 @@ int	execute(t_ast *node, t_pipe_manager *pipe_info)
 		pipe_info->cmd_found = 0;
 		pipe_info->data->pipe_info = pipe_info;
 		pipe_info->cmd_node = node;
-		g_ret = exec_extern(node->left, pipe_info);
+		exec_extern(node->left, pipe_info);
 		if (fatal_error(pipe_info->data))
-			return (g_ret);
+			return ;
 	}
 	else
-		return (redirect_builtin(pipe_info->data, node->left, NULL));
-	return (g_ret);
+		redirect_builtin(pipe_info->data, node->left, NULL);
 }
 
 void	coordinate_exec(t_data *data)
