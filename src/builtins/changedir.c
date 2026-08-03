@@ -6,7 +6,7 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/11 10:00:28 by knajmech          #+#    #+#             */
-/*   Updated: 2026/08/02 11:02:41 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/08/03 16:26:15 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,11 +118,13 @@ int	change_dir_swap(t_data *data)
 	if (chdir(oldpwd_var) == -1)
 	{
 		if (errno == EACCES)
-			ft_printf(2, "Minishell: cd: %s: Permission denied\n", data->newdir);
+			ft_printf(2, "Minishell: cd: %s: Permission denied\n",
+					data->newdir);
 		else if (errno == ENOTDIR)
 			ft_printf(2, "Minishell: cd: %s: Not a directory\n", data->newdir);
 		else
-			ft_printf(2, "Minishell: cd: %s: No such file or directory\n", data->newdir);
+			ft_printf(2, "Minishell: cd: %s: No such file or directory\n",
+					data->newdir);
 		g_ret = 1;
 		return (free(oldpwd_var), 0);
 	}
@@ -142,25 +144,25 @@ int	change_to_home(t_data *data)
 		if (!home_val || !home_val->value)
 		{
 			ft_printf(2, "Minishell: cd: HOME not set\n");
-			return (0);
+			return (g_ret = 1, g_ret);
 		}
 		else
 			data->newdir = home_val->value;
 	}
-	return (1);
+	return (g_ret);
 }
 
 int	change_dir(t_data *data)
 {
-	if (change_to_home(data) == 0)
-		return (0);
+	if (change_to_home(data) == 1)
+		return (g_ret);
 	if (!ft_strncmp(data->newdir, "-", 2))
-		return (change_dir_swap(data));
+		return (change_dir_swap(data), g_ret);
 	env_oldpwd_swap(data);
 	if (chdir(data->newdir) == -1)
 	{
 		if (errno == EACCES)
-			return (ft_printf(2, "Minishell: cd: %s: Permission denied\n", data->newdir));
+			ft_printf(2, "Minishell: cd: %s: Permission denied\n", data->newdir);
 		else if (errno == ENOTDIR)
 			ft_printf(2, "Minishell: cd: %s: Not a directory\n", data->newdir);
 		else
@@ -168,9 +170,8 @@ int	change_dir(t_data *data)
 		g_ret = 1;
 	}
 	env_pwd_swap(data);
-	return (1);
+	return (g_ret);
 }
-
 
 /*
 void	env_pwd_swap(t_data *data)

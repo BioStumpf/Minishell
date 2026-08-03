@@ -6,7 +6,7 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/12 12:11:39 by knajmech          #+#    #+#             */
-/*   Updated: 2026/07/30 11:13:35 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/08/03 11:52:01 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,8 +105,8 @@ int	exec_extern(t_ast *node, t_pipe_manager *pipe_info)
 
 int	exec_builtin(t_ast *node, t_pipe_manager *pipe_info)
 {
-	redirect_builtin(pipe_info->data, node->left, get_av(node));
+	g_ret = redirect_builtin(pipe_info->data, node->left, get_av(node));
 	if (pipe_info->in_pipeline)
 		cleanup_child(pipe_info->data, pipe_info);
-	return (0);
+	return (g_ret);
 }

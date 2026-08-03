@@ -6,7 +6,7 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/11 07:52:24 by knajmech          #+#    #+#             */
-/*   Updated: 2026/08/03 08:56:26 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/08/03 12:26:14 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # define ENV 5
 # define EXIT 6*/
 
+int		export_var_start(t_data *data, char **cmd_argv);
 int		is_builtin(char *cmd);
 int		which_builtin(t_data *built_in, char **cmd_argv, int builtin_call);
 int		echo_print(char **echo_string);
