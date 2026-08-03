@@ -91,5 +91,6 @@ char	*ft_strndup(const char *s, char delimitter);
 t_node	*ft_nodeadd_back(t_node **lst, t_node *new, t_node *tail);
 t_node	*ft_nodelast(t_node *lst);
 size_t	ft_count_2d(char **argv);
+long	ft_atol(const char *nptr);
 
 #endif
