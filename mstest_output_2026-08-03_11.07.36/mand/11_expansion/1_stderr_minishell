@@ -1,2 +1,0 @@
-minishell: src/builtins/which_builtin.c:21: int is_builtin(char *): Assertion `cmd != NULL' failed.
-minishell: src/builtins/which_builtin.c:21: int is_builtin(char *): Assertion `cmd != NULL' failed.
