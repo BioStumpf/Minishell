@@ -1,0 +1,11 @@
+LOGNAME=knajmech
+XAUTHORITY=/home/knajmech/.Xauthority
+XDG_GREETER_DATA_DIR=/var/lib/lightdm-data/knajmech
+LD_PRELOAD=/home/knajmech/42_minishell_tester/utils/libintercept/libintercept.so
+HOME=/home/knajmech
+USER=knajmech
+PYENV_ROOT=/home/knajmech/.pyenv
+XDG_DATA_DIRS=/home/knajmech/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop
+PATH=/bin:/usr/bin:/usr/sbin:~/sgoinfre/LLVM-21.1.8-Linux-X64/bin:/home/knajmech/.local/funcheck/host:/home/knajmech/.extensions/LuaJIT:/opt/pyenv/plugins/pyenv-virtualenv/shims:/opt/pyenv/shims:/opt/pyenv/bin:/home/knajmech/bin:~/sgoinfre/LLVM-21.1.8-Linux-X64/bin:/home/knajmech/.local/funcheck/host:/home/knajmech/.extensions/LuaJIT:/opt/pyenv/plugins/pyenv-virtualenv/shims:/opt/pyenv/bin:/home/knajmech/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
+MAIL=knajmech@student.42vienna.com
+OLDPWD=/home/knajmech/Minishell
