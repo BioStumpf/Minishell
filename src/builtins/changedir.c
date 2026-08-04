@@ -6,7 +6,7 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/11 10:00:28 by knajmech          #+#    #+#             */
-/*   Updated: 2026/08/04 08:37:41 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/08/04 11:58:41 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ int	change_dir_swap(t_data *data)
 	oldpwd_var = get_env_val(data, "OLDPWD");
 	if (chdir(oldpwd_var) == -1)
 	{
+		perror("cd");
 		if (errno == EACCES)
 			ft_printf(2, "Minishell: cd: %s: Permission denied\n",
 				data->newdir);
@@ -124,21 +125,23 @@ int	change_dir(t_data *data)
 		return (g_ret);
 	if (!ft_strncmp(data->newdir, "-", 2))
 		return (change_dir_swap(data), g_ret);
-	current_pwd = getcwd(NULL, 0);
-	if (!current_pwd)
-		return (set_error(data, ERR_MALLOC), 1);
+	current_pwd = ft_strdup("dummy");
+	//current_pwd = getcwd(NULL, 0);
+	//if (!current_pwd)
+	//	return (set_error(data, ERR_MALLOC), 1);
 	if (chdir(data->newdir) == -1)
 	{
-		if (errno == EACCES)
-			ft_printf(2, "cd: %s: Permission denied\n", data->newdir);
+		perror("cd");
+		/*if (errno == EACCES)
+			ft_printf(2, "Minishell: cd: %s: Permission denied\n", data->newdir);
 		else if (errno == ENOTDIR)
-			ft_printf(2, "cd: %s: Not a directory\n", data->newdir);
+			ft_printf(2, "Minishell: cd: %s: Not a directory\n", data->newdir);
 		else
-			ft_printf(2, "cd: %s: No such file or directory\n", data->newdir);
+			ft_printf(2, "Minishell: cd: %s: No such file or directory\n", data->newdir);*/
 		return (free(current_pwd), g_ret = 1, g_ret);
 	}
-	env_oldpwd_swap(data, current_pwd);
+	//env_oldpwd_swap(data, current_pwd);
 	free(current_pwd);
-	env_pwd_swap(data);
+	//env_pwd_swap(data);
 	return (g_ret);
 }

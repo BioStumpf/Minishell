@@ -6,7 +6,7 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/25 10:17:19 by knajmech          #+#    #+#             */
-/*   Updated: 2026/08/03 16:14:15 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/08/04 12:47:52 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	execute(t_ast *node, t_pipe_manager *pipe_info)
 		return (exec_pipe(node, pipe_info));
 	else if (node->type == CMD && is_builtin(get_av(node)[0]) > -1)
 		return (exec_builtin(node, pipe_info));
-	else if (node->type == CMD)
+	else if (node->type == CMD && get_av(node)[0])
 	{
 		pipe_info->cmd_found = 0;
 		pipe_info->data->pipe_info = pipe_info;

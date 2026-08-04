@@ -6,7 +6,7 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/03 07:24:21 by knajmech          #+#    #+#             */
-/*   Updated: 2026/07/30 11:16:42 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/08/04 14:39:08 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,28 +18,20 @@
 
 char	*check_access(t_pipe_manager *pipe_info, char *ptc, char *cmd)
 {
-	char	*full_path;
-
-	if (ft_strchr(cmd, '/') && !(access(cmd, X_OK)))
-	{
+	if (ft_strchr(cmd, '/'))
 		pipe_info->pathwcmd = ft_strdup(cmd);
-		if (!pipe_info->pathwcmd)
-			return (set_error(pipe_info->data, ERR_MALLOC), NULL);
-		return (pipe_info->pathwcmd);
-	}
 	else
+		pipe_info->pathwcmd = ft_strjoin(ptc, cmd);
+	if (!pipe_info->pathwcmd)
+		return (set_error(pipe_info->data, ERR_MALLOC), NULL);
+	if (!access(pipe_info->pathwcmd, F_OK))
 	{
-		full_path = ft_strjoin(ptc, cmd);
-		if (!full_path)
-			return (set_error(pipe_info->data, ERR_MALLOC), NULL);
-		if (!access(full_path, F_OK) || !access(cmd, F_OK))
-		{
-			pipe_info->cmd_found = 1;
-			if (!access(full_path, X_OK))
-				return (pipe_info->pathwcmd = full_path, pipe_info->pathwcmd);
-		}
-		free(full_path);
+		pipe_info->cmd_found = 1;
+		if (!access(pipe_info->pathwcmd, X_OK))
+			return (pipe_info->pathwcmd);
 	}
+	free(pipe_info->pathwcmd);
+	pipe_info->pathwcmd = NULL;
 	return (NULL);
 }
 
