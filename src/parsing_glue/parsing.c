@@ -27,7 +27,6 @@ void	parse_input(t_data *dat)
 	expand(dat, compound_tokens);
 	built_ast(dat, compound_tokens);
 	free_compound(compound_tokens, OK, dat);
-	print_tree(dat->ast.root, 0);
 }
 
 	//print_tree(dat->ast.root, 0);
