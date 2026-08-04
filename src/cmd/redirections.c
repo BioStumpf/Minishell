@@ -6,7 +6,7 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/03 09:24:30 by knajmech          #+#    #+#             */
-/*   Updated: 2026/08/03 16:25:01 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/08/04 15:27:02 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,29 +59,26 @@ void	redirect_extern(t_data *data, t_ast *redir)
 	}
 }
 
-int	redirect_builtin(t_data *data, t_ast *redir, char **cmd)
+void	redirect_builtin(t_data *data, t_ast *redir, char **cmd)
 {
 	int	saved_fd;
 	int	file_fd;
-	int	status;
 
-	status = 0;
 	if (!redir)
 	{
 		if (!cmd)
-			return (0);
+			return ;
 		return (which_builtin(data, cmd, is_builtin(cmd[0])));
 	}
 	saved_fd = dup(get_fd(redir));
 	if (saved_fd == -1)
-		return (set_error(data, ERR_DUP), 1);
+		return (set_error(data, ERR_DUP));
 	file_fd = fd_assign(redir->type, get_operand(redir), data, redir);
 	if (file_fd == -1 || dup2(file_fd, get_fd(redir)) == -1)
-		return (close(saved_fd), close(file_fd), 1);
+		return (close(saved_fd), close(file_fd), (void)0);
 	close(file_fd);
-	status = redirect_builtin(data, redir->left, cmd);
+	redirect_builtin(data, redir->left, cmd);
 	if (dup2(saved_fd, get_fd(redir)) == -1)
 		set_error(data, ERR_DUP);
 	close(saved_fd);
-	return (status);
 }

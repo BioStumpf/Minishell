@@ -6,7 +6,7 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/12 09:27:50 by knajmech          #+#    #+#             */
-/*   Updated: 2026/08/03 16:30:24 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/08/04 15:06:46 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ bool	valid_check(char *argv)
 	i = 0;
 	if (ft_iswhitespace(string[i]) || (string[i] == '='))
 	{
+		g_ret = 1;
 		ft_printf(2, "minishell: export: '%s': not a valid identifier\n",
 			string);
 		return (false);
@@ -98,7 +99,7 @@ void	export_var(t_data *data, char *argv)
 		print_var(env_arr, data->env_mp->capacity);
 }
 
-int	export_var_start(t_data *data, char **argv)
+void	export_var_start(t_data *data, char **argv)
 {
 	int	i;
 
@@ -110,7 +111,4 @@ int	export_var_start(t_data *data, char **argv)
 		export_var(data, argv[i]);
 		i++;
 	}
-	if (fatal_error(data))
-		return (1);
-	return (0);
 }

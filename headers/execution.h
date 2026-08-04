@@ -34,7 +34,7 @@ void	exec_and(t_ast *node, t_pipe_manager *pipe_info);
 void	exec_or(t_ast *node, t_pipe_manager *pipe_info);
 void	execute(t_ast *node, t_pipe_manager *pipe_info);
 // void	heredoc(t_data *data, t_ast *node);
-int		redirect_builtin(t_data *data, t_ast *redir, char **cmd);
+void	redirect_builtin(t_data *data, t_ast *redir, char **cmd);
 void	redirect_extern(t_data *data, t_ast *redir);
 char	**free_out(char **out, size_t len);
 void	pathfinder(t_pipe_manager *pipe_info, char **path_parts);

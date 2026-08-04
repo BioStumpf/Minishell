@@ -6,11 +6,10 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/11 09:33:31 by knajmech          #+#    #+#             */
-/*   Updated: 2026/08/03 13:29:57 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/08/04 15:14:01 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "execution.h"
 #include "ft_printf.h"
 
 static bool	is_newline_flag(char *str)
@@ -27,7 +26,7 @@ static bool	is_newline_flag(char *str)
 	return (true);
 }
 
-int	echo_print(char **string_arg)
+void	echo_print(char **string_arg)
 {
 	int	i;
 	int	newline_flag;
@@ -48,5 +47,4 @@ int	echo_print(char **string_arg)
 	}
 	if (newline_flag == 1)
 		ft_printf(1, "\n");
-	return (0);
 }

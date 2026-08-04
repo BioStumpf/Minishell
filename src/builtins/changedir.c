@@ -6,12 +6,11 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/11 10:00:28 by knajmech          #+#    #+#             */
-/*   Updated: 2026/08/04 11:58:41 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/08/04 15:34:08 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "structs.h"
-#include "builtins.h"
 #include "env.h"
 #include "err.h"
 #include "ft_printf.h"
@@ -70,15 +69,15 @@ int	env_pwd_swap(t_data *data)
 	return (0);
 }
 
-int	change_dir_swap(t_data *data)
+static void	change_dir_swap(t_data *data)
 {
 	char	*oldpwd_var;
 
 	if (get_env_val(data, "OLDPWD") == NULL)
-		return (ft_printf(2, "Minishell: cd: OLDPWD not set\n"), 0);
+		return (ft_printf(2, "Minishell: cd: OLDPWD not set\n"), (void)0);
 	if (get_env_val(data, "PWD") == NULL)
 		if (set_pwdenv(data) == 0)
-			return (set_error(data, ERR_MALLOC), 0);
+			return (set_error(data, ERR_MALLOC));
 	oldpwd_var = get_env_val(data, "OLDPWD");
 	if (chdir(oldpwd_var) == -1)
 	{
@@ -92,13 +91,13 @@ int	change_dir_swap(t_data *data)
 			ft_printf(2, "Minishell: cd: %s: No such file or directory\n",
 				data->newdir);
 		g_ret = 1;
-		return (g_ret);
+		return ;
 	}
 	ft_printf(1, "%s\n", oldpwd_var);
-	return (env_val_swap(data, "PWD", "OLDPWD"), 1);
+	return (env_val_swap(data, "PWD", "OLDPWD"));
 }
 
-int	change_to_home(t_data *data)
+static bool	change_to_home(t_data *data)
 {
 	t_env	*home_val;
 
@@ -109,22 +108,22 @@ int	change_to_home(t_data *data)
 		if (!home_val || !home_val->value)
 		{
 			ft_printf(2, "Minishell: cd: HOME not set\n");
-			return (g_ret = 1, g_ret);
+			g_ret = 1;
+			return (false);
 		}
-		else
-			data->newdir = home_val->value;
+		data->newdir = home_val->value;
 	}
-	return (g_ret);
+	return (true);
 }
 
-int	change_dir(t_data *data)
+void	change_dir(t_data *data)
 {
 	char	*current_pwd;
 
-	if (change_to_home(data) == 1)
-		return (g_ret);
+	if (!change_to_home(data))
+		return ;
 	if (!ft_strncmp(data->newdir, "-", 2))
-		return (change_dir_swap(data), g_ret);
+		return (change_dir_swap(data));
 	current_pwd = ft_strdup("dummy");
 	//current_pwd = getcwd(NULL, 0);
 	//if (!current_pwd)
@@ -138,10 +137,9 @@ int	change_dir(t_data *data)
 			ft_printf(2, "Minishell: cd: %s: Not a directory\n", data->newdir);
 		else
 			ft_printf(2, "Minishell: cd: %s: No such file or directory\n", data->newdir);*/
-		return (free(current_pwd), g_ret = 1, g_ret);
+		return (g_ret = 1, free(current_pwd));
 	}
 	//env_oldpwd_swap(data, current_pwd);
 	free(current_pwd);
 	//env_pwd_swap(data);
-	return (g_ret);
 }

@@ -34,15 +34,14 @@ void	exit_minishell(t_data *data, char **av)
 
 	set_error(data, EXIT_CALL);
 	if (av[0] && av[1] && av[2])
-		return (ft_printf(2, "exit: too many arguments\n"), g_ret = 2, (void)0);
+		return (ft_printf(2, "exit: too many arguments\n"), data->ret = 2, (void)0);
 	else if (av[0] && av[1])
 	{
 		errno = 0;
 		ret = ft_atol(av[1]) % 256;
 		if (!valid_exit_code(av[1]) || errno == ERANGE)
 			return (ft_printf(2, "exit: %s numeric argument required\n",
-					av[1]), ret = 2, (void)0);
-		return (g_ret = ret, (void)0);
+					av[1]), data->ret = 2, (void)0);
+		return (data->ret = ret, (void)0);
 	}
-	return (g_ret = data->ret, (void)0);
 }

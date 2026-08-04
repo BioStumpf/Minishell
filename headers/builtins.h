@@ -6,7 +6,7 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/11 07:52:24 by knajmech          #+#    #+#             */
-/*   Updated: 2026/08/03 12:26:14 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/08/04 15:05:35 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,16 +24,16 @@
 # define ENV 5
 # define EXIT 6*/
 
-int		export_var_start(t_data *data, char **cmd_argv);
+void	export_var_start(t_data *data, char **cmd_argv);
 int		is_builtin(char *cmd);
-int		which_builtin(t_data *built_in, char **cmd_argv, int builtin_call);
-int		echo_print(char **echo_string);
-int		change_dir(t_data *data);
-int		pworkdir(t_data *data);
+void	which_builtin(t_data *built_in, char **cmd_argv, int builtin_call);
+void	echo_print(char **echo_string);
+void	change_dir(t_data *data);
+void	pworkdir(void);
 void	export_var(t_data *data, char **argv);
 void	unset_var(t_list *map_env, char *key);
 void	env_var(t_data *data);
 void	exit_minishell(t_data *data, char **av);
-int		execute_builtin(t_ast *node, bool in_pipeline, t_data *data);
+void	execute_builtin(t_ast *node, bool in_pipeline, t_data *data);
 
 #endif

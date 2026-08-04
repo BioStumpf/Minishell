@@ -112,7 +112,7 @@ void	exec_extern(t_ast *node, t_pipe_manager *pipe_info)
 
 void	exec_builtin(t_ast *node, t_pipe_manager *pipe_info)
 {
-	g_ret = redirect_builtin(pipe_info->data, node->left, get_av(node));
+	redirect_builtin(pipe_info->data, node->left, get_av(node));
 	if (pipe_info->in_pipeline)
 	{
 		close_heredocs(pipe_info->data);

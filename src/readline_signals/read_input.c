@@ -6,7 +6,7 @@
 /*   By: david <dstumpf@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/06 13:00:27 by david             #+#    #+#             */
-/*   Updated: 2026/07/31 15:07:22 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/08/04 16:22:37 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,13 +35,17 @@ void	read_stdin(t_data *dat)
 
 	errno = 0;
 	line = get_next_line(STDIN_FILENO);
-	if (!dat->input && errno != 0)
+	if (!line)
 	{
 		if (errno == ENOMEM)
 			set_error(dat, ERR_MALLOC);
-		else
+		else if (errno != 0)
 			set_error(dat, ERR_READ);
+		dat->input = NULL;
+		return ;
 	}
 	dat->input = ft_strtrim(line, "\n");
 	free(line);
+	if (!dat->input)
+		set_error(dat, ERR_MALLOC);
 }
