@@ -6,7 +6,7 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/15 09:46:08 by knajmech          #+#    #+#             */
-/*   Updated: 2026/08/03 15:34:09 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/08/04 12:44:05 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@
 
 int	is_builtin(char *cmd)
 {
-	assert(cmd != NULL);
+	if (cmd == NULL)
+		return (-1);
 	if (!ft_strncmp(cmd, "echo", ft_strlen(cmd) + 1))
 		return (0);
 	else if (!ft_strncmp(cmd, "cd", ft_strlen(cmd) + 1))
