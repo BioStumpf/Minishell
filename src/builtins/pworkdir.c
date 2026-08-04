@@ -13,7 +13,7 @@
 #include "err.h"
 #include "ft_printf.h"
 #include <stdio.h> 
-
+#include <error.h> 
 /*
 void	save_cwd(t_data *data)
 {

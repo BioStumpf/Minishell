@@ -56,5 +56,4 @@ void	exit_minishell(t_data *data, char **av)
 					av[1]), data->ret = 2, (void)0);
 		return (data->ret = ret, (void)0);
 	}
-	return (g_ret = data->ret, (void)0);
 }

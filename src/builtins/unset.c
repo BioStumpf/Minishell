@@ -6,12 +6,11 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/11 09:37:47 by knajmech          #+#    #+#             */
-/*   Updated: 2026/08/05 08:29:30 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/08/04 15:23:29 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "env.h"
-#include "err.h"
 #include "structs.h"
 
 void	unset_var(t_env_tracker *env_tracker, t_list *map_env, char *key)
