@@ -69,5 +69,5 @@ void	exec_pipe(t_ast *node, t_pipe_manager *pipe_info)
 		g_ret = 128 + WTERMSIG(status);
 	if (pipe_info->in_pipeline)
 		return (close_heredocs(pipe_info->data),
-				cleanup_child(pipe_info->data, pipe_info));
+			cleanup_child(pipe_info->data, pipe_info));
 }

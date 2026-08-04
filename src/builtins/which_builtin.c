@@ -45,7 +45,8 @@ void	which_builtin(t_data *data, char **cmd_argv, int builtin_call)
 	else if (builtin_call == CD)
 	{
 		if (cmd_argv[1] && cmd_argv[2])
-			return (ft_printf(2, "Minishell: cd: too many arguments\n"), (void)0);
+			return (ft_printf(2, "Minishell: cd: too many arguments\n"),
+				(void)0);
 		return (data->newdir = cmd_argv[1], change_dir(data));
 	}
 	else if (builtin_call == PWD)

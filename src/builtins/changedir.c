@@ -6,7 +6,7 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/11 10:00:28 by knajmech          #+#    #+#             */
-/*   Updated: 2026/08/04 15:34:08 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/08/04 16:50:43 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,21 +125,41 @@ void	change_dir(t_data *data)
 	if (!ft_strncmp(data->newdir, "-", 2))
 		return (change_dir_swap(data));
 	current_pwd = ft_strdup("dummy");
-	//current_pwd = getcwd(NULL, 0);
-	//if (!current_pwd)
-	//	return (set_error(data, ERR_MALLOC), 1);
 	if (chdir(data->newdir) == -1)
 	{
 		perror("cd");
-		/*if (errno == EACCES)
-			ft_printf(2, "Minishell: cd: %s: Permission denied\n", data->newdir);
-		else if (errno == ENOTDIR)
-			ft_printf(2, "Minishell: cd: %s: Not a directory\n", data->newdir);
-		else
-			ft_printf(2, "Minishell: cd: %s: No such file or directory\n", data->newdir);*/
 		return (g_ret = 1, free(current_pwd));
 	}
-	//env_oldpwd_swap(data, current_pwd);
 	free(current_pwd);
-	//env_pwd_swap(data);
 }
+//this is the old one, just wanted clean norm
+// void	change_dir(t_data *data)
+// {
+// 	char	*current_pwd;
+//
+// 	if (!change_to_home(data))
+// 		return ;
+// 	if (!ft_strncmp(data->newdir, "-", 2))
+// 		return (change_dir_swap(data));
+// 	current_pwd = ft_strdup("dummy");
+// 	//current_pwd = getcwd(NULL, 0);
+// 	//if (!current_pwd)
+// 	//	return (set_error(data, ERR_MALLOC), 1);
+// 	if (chdir(data->newdir) == -1)
+// 	{
+// 		perror("cd");
+// 		/*if (errno == EACCES)
+// 			ft_printf(2, "Minishell: cd: %s: Permission denied\n",
+//					data->newdir);
+// 		else if (errno == ENOTDIR)
+// 			ft_printf(2, "Minishell: cd: %s: Not a directory\n",
+//					data->newdir);
+// 		else
+// 			ft_printf(2, "Minishell: cd: %s: No such file or directory\n",
+//					data->newdir);*/
+// 		return (g_ret = 1, free(current_pwd));
+// 	}
+// 	//env_oldpwd_swap(data, current_pwd);
+// 	free(current_pwd);
+// 	//env_pwd_swap(data);
+// }
