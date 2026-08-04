@@ -6,14 +6,13 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/11 08:47:22 by knajmech          #+#    #+#             */
-/*   Updated: 2026/07/30 16:33:58 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/08/04 15:21:45 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "execution.h"
-#include "structs.h"
-#include "env.h"
 #include "err.h"
+#include <stdio.h> 
+#include <error.h> 
 /*
 void	save_cwd(t_data *data)
 {
@@ -28,17 +27,16 @@ void	save_cwd(t_data *data)
 	data->cwd = currdir;
 }*/
 
-int	pworkdir(t_data *data)
+void	pworkdir(void)
 {
 	char	*currdir;
 
 	currdir = getcwd(NULL, 0);
 	if (currdir == NULL)
 	{
-		set_error(data, ERR_MALLOC);
-		return (0);
+		perror(NULL);
+		g_ret = 1;
 	}
 	printf("%s\n", currdir);
 	free(currdir);
-	return (1);
 }

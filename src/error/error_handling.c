@@ -6,14 +6,13 @@
 /*   By: david <user@student.42mail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/06 21:34:36 by david             #+#    #+#             */
-/*   Updated: 2026/07/27 11:11:10 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/08/04 16:10:01 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "structs.h"
 #include "ft_printf.h"
 #include "err.h"
-#include "parsing.h"
 #include "readline_sigs.h"
 
 static int	token_error(enum e_token err)
@@ -71,8 +70,6 @@ bool	status_ok(t_data *dat)
 bool	fatal_error(t_data *dat)
 {
 	if (dat->err <= ERR_EXECVE && dat->err >= ERR_MALLOC)
-	{
-		return (dat->err);
-	}
-	return (0);
+		return (true);
+	return (false);
 }
