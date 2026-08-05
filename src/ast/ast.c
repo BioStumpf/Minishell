@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/03 17:06:49 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/08/03 12:17:29 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/08/05 12:42:24 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	built_ast(t_data *dat, t_compound_arr *ca)
 	size_t	i;
 
 	i = 0;
-	if (!ca || ca->len == 0)
+	if (!ca || ca->len == 0 || !status_ok(dat))
 		return ;
 	dat->ast = ast_init(ca->len);
 	if (!dat->ast.buf)
