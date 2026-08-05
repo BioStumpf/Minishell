@@ -96,7 +96,7 @@ void	expand(t_data *dat, t_compound_arr *ca)
 	size_t		i;
 	t_compound	*comp;
 
-	if (!ca)
+	if (!ca || !status_ok(dat))
 		return ;
 	i = 0;
 	while (i < ca->len)
