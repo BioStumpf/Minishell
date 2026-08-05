@@ -15,6 +15,7 @@
 #include "execution.h"
 #include "builtins.h"
 #include "err.h"
+#include <errno.h>
 
 int	fd_assign(enum e_token type, char *file_name, t_data *data, t_ast *redir)
 {
@@ -63,6 +64,7 @@ void	redirect_extern(t_data *data, t_ast *redir)
 	}
 }
 
+//expand here for operands, char **cmd needs to be expanded earlier
 void	redirect_builtin(t_data *data, t_ast *redir, char **cmd)
 {
 	int	saved_fd;
@@ -85,6 +87,8 @@ void	redirect_builtin(t_data *data, t_ast *redir, char **cmd)
 		return (g_ret = 1, close(saved_fd), close(file_fd), (void)0);
 	close(file_fd);
 	redirect_builtin(data, redir->left, cmd);
+	if (saved_fd == -1)
+		return (close(get_fd(redir)), (void)0);
 	if (dup2(saved_fd, get_fd(redir)) == -1)
 	{
 		set_error(data, ERR_DUP);
