@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "builtins.h"
 #include "execution.h"
 #include "parsing.h"
 #include "env.h"
@@ -112,8 +113,11 @@ void	exec_extern(t_ast *node, t_pipe_manager *pipe_info)
 
 void	exec_builtin(t_ast *node, t_pipe_manager *pipe_info)
 {
-	redirect_builtin(pipe_info->data, node->left, get_av(node));
-	if (pipe_info->in_pipeline)
+	if (node->type == CMD && is_builtin(get_av(node)[0]) > -1)
+		redirect_builtin(pipe_info->data, node->left, get_av(node));
+	else
+		redirect_builtin(pipe_info->data, node->left, NULL);
+	if (pipe_info->in_pipeline == IN_PIPELINE)
 	{
 		close_heredocs(pipe_info->data);
 		cleanup_child(pipe_info->data, pipe_info);
