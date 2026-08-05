@@ -6,26 +6,26 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/25 10:17:19 by knajmech          #+#    #+#             */
-/*   Updated: 2026/08/04 14:47:31 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/08/05 14:06:31 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 #include "structs.h"
 #include "execution.h"
-#include "builtins.h"
 #include "err.h"
+#include "builtins.h"
 
 void	execute(t_ast *node, t_pipe_manager *pipe_info)
 {
 	if (node->type == AND)
-		return (exec_and(node, pipe_info));
+		exec_and(node, pipe_info);
 	else if (node->type == OR)
-		return (exec_or(node, pipe_info));
+		exec_or(node, pipe_info);
 	else if (node->type == PIPE)
-		return (exec_pipe(node, pipe_info));
+		exec_pipe(node, pipe_info);
 	else if (node->type == CMD && is_builtin(get_av(node)[0]) > -1)
-		return (exec_builtin(node, pipe_info));
+		exec_builtin(node, pipe_info);
 	else if (node->type == CMD && get_av(node)[0])
 	{
 		pipe_info->cmd_found = 0;
