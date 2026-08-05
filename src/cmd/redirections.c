@@ -6,7 +6,7 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/03 09:24:30 by knajmech          #+#    #+#             */
-/*   Updated: 2026/08/04 15:27:02 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/08/05 18:38:00 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include "execution.h"
 #include "builtins.h"
 #include "err.h"
+#include <errno.h>
 
 int	fd_assign(enum e_token type, char *file_name, t_data *data, t_ast *redir)
 {
@@ -59,6 +60,7 @@ void	redirect_extern(t_data *data, t_ast *redir)
 	}
 }
 
+//expand here for operands, char **cmd needs to be expanded earlier
 void	redirect_builtin(t_data *data, t_ast *redir, char **cmd)
 {
 	int	saved_fd;
@@ -70,14 +72,17 @@ void	redirect_builtin(t_data *data, t_ast *redir, char **cmd)
 			return ;
 		return (which_builtin(data, cmd, is_builtin(cmd[0])));
 	}
+	errno = 0;
 	saved_fd = dup(get_fd(redir));
-	if (saved_fd == -1)
+	if (saved_fd == -1 && errno != EBADF)
 		return (set_error(data, ERR_DUP));
 	file_fd = fd_assign(redir->type, get_operand(redir), data, redir);
 	if (file_fd == -1 || dup2(file_fd, get_fd(redir)) == -1)
 		return (close(saved_fd), close(file_fd), (void)0);
 	close(file_fd);
 	redirect_builtin(data, redir->left, cmd);
+	if (saved_fd == -1)
+		return (close(get_fd(redir)), (void)0);
 	if (dup2(saved_fd, get_fd(redir)) == -1)
 		set_error(data, ERR_DUP);
 	close(saved_fd);
