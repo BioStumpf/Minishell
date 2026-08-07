@@ -41,6 +41,8 @@ void	prep_heredoc(t_ast *node, t_pipe_manager *pipe_info)
 		else if (node->type == REDIR_HEREDOC)
 		{
 			expand_heredoc(pipe_info->data, node);
+			if (fatal_error(pipe_info->data))
+				return ;
 			prep_heredoc(node->left, pipe_info);
 		}
 		else if (node->type == CMD || is_redir(node->type))
