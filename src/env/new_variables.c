@@ -6,7 +6,7 @@
 /*   By: knajmech <knajmech@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/06 11:01:30 by knajmech          #+#    #+#             */
-/*   Updated: 2026/08/02 15:23:19 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/08/07 09:51:50 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ char	**env_ptrptr(t_data *dat, t_list *env_list, char **env)
 			key_and_val = (t_env *)node_list->content;
 			env[k] = ft_strjoin(key_and_val->key_w_equal, key_and_val->value);
 			if (!env[k])
-				return (free_out(env, k), set_error(dat, ERR_MALLOC), NULL);
+				return (free_out(env, k), set_error(dat, ERR_SYS, NULL), NULL);
 			k++;
 			node_list = node_list->next;
 		}

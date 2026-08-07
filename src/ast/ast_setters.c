@@ -6,15 +6,20 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/03 15:49:58 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/07/30 12:26:30 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/08/06 16:51:32 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 
-void	set_av(t_ast *node, char **av)
+t_arg	*ast_args(t_ast *node)
 {
-	node->u_value.av = av;
+	return (&node->u_value.args);
+}
+
+void	set_args(t_ast *node, t_arg *args)
+{
+	node->u_value.args = *args;
 }
 
 void	set_fd(t_ast *node, int fd)

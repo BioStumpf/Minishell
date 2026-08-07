@@ -15,6 +15,7 @@
 #include "execution.h"
 #include "builtins.h"
 #include "err.h"
+#include <asm-generic/errno-base.h>
 #include <errno.h>
 
 int	fd_assign(enum e_token type, char *file_name, t_data *data, t_ast *redir)
@@ -33,8 +34,8 @@ int	fd_assign(enum e_token type, char *file_name, t_data *data, t_ast *redir)
 	else
 		fd = open(file_name, O_CREAT | O_APPEND | O_WRONLY, 0644);
 	if (fd == -1)
-		return (data->err = ERR_OPEN, data->ret = 1,
-				perror_messaging(NULL, file_name), -1);
+		return (set_error(data, ERR_SYS, NULL), perror_messaging
+			(NULL, file_name), -1);
 	return (fd);
 }
 
@@ -55,7 +56,7 @@ void	redirect_extern(t_data *data, t_ast *redir)
 		if (dup2(file_fd, get_fd(redir)) == -1)
 		{
 			close(file_fd);
-			set_error(data, ERR_DUP);
+			set_error(data, ERR_SYS, NULL);
 			perror_messaging("dup", NULL);
 			return ;
 		}
@@ -78,8 +79,8 @@ void	redirect_builtin(t_data *data, t_ast *redir, char **cmd)
 	}
 	errno = 0;
 	saved_fd = dup(get_fd(redir));
-	if (saved_fd == -1)
-		return (set_error(data, ERR_DUP), perror_messaging("dup", NULL));
+	if (saved_fd == -1 && errno != EBADF)
+ 		return (set_error(data, ERR_SYS, NULL), perror_messaging("dup", NULL));
 	file_fd = fd_assign(redir->type, get_operand(redir), data, redir);
 	if (file_fd == -1)
 		return (close(saved_fd), (void)0);
@@ -91,7 +92,7 @@ void	redirect_builtin(t_data *data, t_ast *redir, char **cmd)
 		return (close(get_fd(redir)), (void)0);
 	if (dup2(saved_fd, get_fd(redir)) == -1)
 	{
-		set_error(data, ERR_DUP);
+		set_error(data, ERR_SYS, NULL);
 		perror_messaging("dup", NULL);
 	}
 	close(saved_fd);

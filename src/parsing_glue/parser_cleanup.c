@@ -46,7 +46,7 @@ void	free_compound(t_compound_arr *ca, enum e_err status, t_data *dat)
 		free(ca->arr);
 	free(ca);
 	if (status != OK)
-		set_error(dat, status);
+		set_error(dat, status, NULL);
 }
 
 void	token_cleanup(t_list *lst, enum e_err status, t_data *dat, t_node *n)
@@ -54,5 +54,5 @@ void	token_cleanup(t_list *lst, enum e_err status, t_data *dat, t_node *n)
 	ft_lstdelone(n, free_token);
 	ft_lstclear(lst, free_token);
 	if (status != OK)
-		set_error(dat, status);
+		set_error(dat, status, NULL);
 }

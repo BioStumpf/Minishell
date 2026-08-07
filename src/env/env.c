@@ -6,13 +6,12 @@
 /*   By: knajmech <knajmech@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 09:36:17 by knajmech          #+#    #+#             */
-/*   Updated: 2026/08/03 15:40:03 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/08/07 09:54:09 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "err.h"
 #include "env.h"
-#include "builtins.h"
 #include <assert.h>
 #include <stdio.h>
 
@@ -101,7 +100,7 @@ int	process_env(t_data *data, char **env)
 		initialise_env(&tracker);
 		data->env_mp = &tracker;
 		if (!fill_env(tracker.env_ptr, &tracker, env))
-			return (set_error(data, ERR_MALLOC), -1);
+			return (set_error(data, ERR_SYS, NULL), -1);
 		if (!env)
 			return (1);
 		return (1);
@@ -109,7 +108,7 @@ int	process_env(t_data *data, char **env)
 	else if (data->new_variable)
 	{
 		if (!insert_new(tracker.env_ptr, &tracker, data->new_variable))
-			return (set_error(data, ERR_MALLOC), 0);
+			return (set_error(data, ERR_SYS, NULL), 0);
 		return (1);
 	}
 	return (0);

@@ -38,14 +38,14 @@ void	read_stdin(t_data *dat)
 	if (!line)
 	{
 		if (errno == ENOMEM)
-			set_error(dat, ERR_MALLOC);
+			set_error(dat, ERR_SYS, NULL);
 		else if (errno != 0)
-			set_error(dat, ERR_READ);
+			set_error(dat, ERR_SYS, NULL);
 		dat->input = NULL;
 		return ;
 	}
 	dat->input = ft_strtrim(line, "\n");
 	free(line);
 	if (!dat->input)
-		set_error(dat, ERR_MALLOC);
+		set_error(dat, ERR_SYS, NULL);
 }

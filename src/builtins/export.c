@@ -63,7 +63,7 @@ char	**get_vars(t_data *data, char *argv)
 	i = 0;
 	ptr = ft_calloc(3, sizeof(char *));
 	if (!ptr)
-		return (set_error(data, ERR_MALLOC), NULL);
+		return (set_error(data, ERR_SYS, NULL), NULL);
 	while (argv && argv[i])
 	{
 		if (argv[i] == '=')
@@ -71,7 +71,7 @@ char	**get_vars(t_data *data, char *argv)
 			ptr[0] = ft_strndup(argv, '=');
 			ptr[1] = ft_strdup(&argv[i + 1]);
 			if (!ptr[0] || !ptr[1])
-				return (free(ptr[0]), free(ptr), set_error(data, ERR_MALLOC),
+				return (free(ptr[0]), free(ptr), set_error(data, ERR_SYS, NULL),
 					NULL);
 			return (ptr);
 		}
@@ -80,7 +80,7 @@ char	**get_vars(t_data *data, char *argv)
 	ptr[0] = ft_strdup(argv);
 	ptr[1] = ft_strdup("\0");
 	if (!ptr[0] || !ptr[1])
-		return (free(ptr[0]), free(ptr), set_error(data, ERR_MALLOC), NULL);
+		return (free(ptr[0]), free(ptr), set_error(data, ERR_SYS, NULL), NULL);
 	return (ptr);
 }
 
@@ -104,7 +104,7 @@ void	export_var(t_data *data, char *argv)
 		}
 		if (ft_count_2d(list) <= 2 && ft_count_2d(list) >= 1)
 			if (insert_new(env_arr, data->env_mp, list) == 0)
-				set_error(data, ERR_MALLOC);
+				set_error(data, ERR_SYS, NULL);
 		free_out(list, ft_count_2d(list));
 	}
 	else

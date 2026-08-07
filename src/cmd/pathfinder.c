@@ -85,7 +85,7 @@ char	**protection_and_initialisation(t_data *data, t_list *hash_arr)
 		return (0);
 	path_parts = split_the_path(key_and_val->value);
 	if (!path_parts)
-		return (set_error(data, ERR_MALLOC), NULL);
+		return (set_error(data, ERR_SYS, NULL), NULL);
 	return (path_parts);
 }
 
@@ -107,11 +107,11 @@ char	**split_path_env(t_data *data)
 		i = ft_strlen_char(key_and_val->value, ':');
 		path_parts[0] = ft_substr(key_and_val->value, 0, i);
 		if (!path_parts[0])
-			return (set_error(data, ERR_MALLOC), NULL);
+			return (set_error(data, ERR_SYS, NULL), NULL);
 		k++;
 	}
 	path_parts = mallocing(key_and_val->value, path_parts, &i, &k);
 	if (path_parts == NULL)
-		return (set_error(data, ERR_MALLOC), NULL);
+		return (set_error(data, ERR_SYS, NULL), NULL);
 	return (path_parts);
 }

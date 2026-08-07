@@ -6,7 +6,7 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/11 10:00:28 by knajmech          #+#    #+#             */
-/*   Updated: 2026/08/04 16:50:43 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/08/07 09:47:57 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,9 @@ int	env_pwd_swap(t_data *data)
 		k_v[0] = "PWD";
 		k_v[1] = getcwd(NULL, 0);
 		if (!k_v[1])
-			return (set_error(data, ERR_MALLOC), 1);
+			return (set_error(data, ERR_SYS, NULL), 1);
 		if (!insert_new(data->env_mp->env_ptr, data->env_mp, k_v))
-			return (free(k_v[1]), set_error(data, ERR_MALLOC), g_ret = 1, 1);
+			return (free(k_v[1]), set_error(data, ERR_SYS, NULL), 1);
 		free(k_v[1]);
 	}
 	else
@@ -60,7 +60,7 @@ int	env_pwd_swap(t_data *data)
 		free(key_and_val->value);
 		key_and_val->value = getcwd(NULL, 0);
 		if (!key_and_val->value)
-			return (set_error(data, ERR_MALLOC), g_ret = 1, 1);
+			return (set_error(data, ERR_SYS, NULL), 1);
 	}
 	return (0);
 }
@@ -73,7 +73,7 @@ static void	change_dir_swap(t_data *data)
 		return (ft_printf(2, "Minishell: cd: OLDPWD not set\n"), (void)0);
 	if (get_env_val(data, "PWD") == NULL)
 		if (set_pwdenv(data) == 0)
-			return (set_error(data, ERR_MALLOC));
+			return (set_error(data, ERR_SYS, NULL));
 	oldpwd_var = get_env_val(data, "OLDPWD");
 	errno = 0;
 	if (chdir(oldpwd_var) == -1)

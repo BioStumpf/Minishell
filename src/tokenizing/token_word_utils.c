@@ -56,7 +56,7 @@ size_t	get_word_len(char *input, t_data *dat)
 		i++;
 	}
 	if (in_quotes(&quotes))
-		set_error(dat, PARSE_ERR_UNCLOSED_QUOTES);
+		set_error(dat, PARSE_ERR_UNCLOSED_QUOTES, NULL);
 	return (i);
 }
 

@@ -97,7 +97,7 @@ void	print_tree_node(t_ast *node)
 	token_map[RIGHT_PARA] = "RIGHT_PARA";
 	printf("%s; ", token_map[node->type]);
 	size_t i = 0;
-	while (node->type == CMD && get_av(node)[i])
+	while (node->type == CMD && i < ast_arg_len(node))
 		printf("[%s] ", get_av(node)[i++]); 
 	if (is_redir(node->type)) {
 		printf("FD:%d FILE:%s", get_fd(node), get_operand(node));

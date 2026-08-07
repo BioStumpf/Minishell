@@ -65,12 +65,13 @@ void	extern_child_wrapper(t_ast *node, t_pipe_manager *pipe_info)
 	env = malloc((pipe_info->data->env_mp->elem_num + 1) * sizeof(char *));
 	if (!env)
 	{
-		set_error(pipe_info->data, ERR_MALLOC);
+		set_error(pipe_info->data, ERR_SYS, NULL);
 		cleanup_child(pipe_info->data, pipe_info);
 	}
 	path_parts = split_path_env(pipe_info->data);
 	if (fatal_error(pipe_info->data))
 	{
+		set_error(pipe_info->data, ERR_SYS, NULL);
 		free(env);
 		env = NULL;
 	}
@@ -81,7 +82,7 @@ void	extern_child_wrapper(t_ast *node, t_pipe_manager *pipe_info)
 		cleanup_child(pipe_info->data, pipe_info);
 	env = free_out(env, ft_count_2d(env));
 	path_parts = free_out(path_parts, ft_count_2d(path_parts));
-	set_error(pipe_info->data, ERR_EXECVE);
+	set_error(pipe_info->data, ERR_SYS, NULL);
 	cleanup_child(pipe_info->data, pipe_info);
 }
 
@@ -100,7 +101,7 @@ void	exec_extern(t_ast *node, t_pipe_manager *pipe_info)
 				cleanup_child(pipe_info->data, pipe_info);
 		}
 		else if (pipe_info->child[0] == -1)
-			return (set_error(pipe_info->data, ERR_FORK));
+			return (set_error(pipe_info->data, ERR_SYS, NULL));
 		waitpid(pipe_info->child[0], &status, 0);
 		if (WIFEXITED(status))
 			g_ret = WEXITSTATUS(status);

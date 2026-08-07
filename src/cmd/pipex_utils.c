@@ -23,7 +23,7 @@ char	*check_access(t_pipe_manager *pipe_info, char *ptc, char *cmd)
 	else
 		pipe_info->pathwcmd = ft_strjoin(ptc, cmd);
 	if (!pipe_info->pathwcmd)
-		return (set_error(pipe_info->data, ERR_MALLOC), NULL);
+		return (set_error(pipe_info->data, ERR_SYS, NULL), NULL);
 	if (!access(pipe_info->pathwcmd, F_OK))
 	{
 		pipe_info->cmd_found = 1;
@@ -64,7 +64,7 @@ void	pathfinder(t_pipe_manager *pipe_info, char **path_parts)
 	{
 		path_to_check = path_fixer(path_parts[i]);
 		if (!path_to_check)
-			return (set_error(pipe_info->data, ERR_MALLOC), perror("malloc"));
+			return (set_error(pipe_info->data, ERR_SYS, NULL), perror("malloc"));
 		assert(path_to_check);
 		if (check_access(pipe_info, path_to_check,
 				get_av(pipe_info->cmd_node)[0]))
