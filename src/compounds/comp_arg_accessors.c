@@ -12,19 +12,9 @@
 
 #include "parsing.h"
 
-int	comp_heredoc(t_compound *comp)
-{
-	return (comp->u_value.s_redir.open_fd);
-}
-
 size_t	arg_size(t_compound *comp)
 {
 	return (comp->u_value.args.size);
-}
-
-size_t	arg_capacity(t_compound *comp)
-{
-	return (comp->u_value.args.capacity);
 }
 
 char	**arg_av(t_compound *comp)

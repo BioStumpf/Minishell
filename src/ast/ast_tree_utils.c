@@ -6,23 +6,13 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/03 16:05:58 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/07/30 12:34:21 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/08/07 08:58:15 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "parsing.h"
 #include "structs.h"
-
-static void	free_av(char **av)
-{
-	size_t	i;
-
-	i = 0;
-	while (av[i])
-		free(av[i++]);
-	free(av);
-}
 
 void	clean_ast(t_ast_buff *ast)
 {
@@ -34,7 +24,7 @@ void	clean_ast(t_ast_buff *ast)
 	{
 		node = &ast->buf[i++];
 		if (node->type == CMD)
-			free_av(get_av(node));
+			free_args(ast_args(node));
 		else if (is_redir(node->type))
 			free(get_operand(node));
 	}
@@ -68,7 +58,7 @@ t_ast	*new_ast_node(t_ast_buff *buf, t_compound *comp)
 	}
 	else if (new->type == CMD)
 	{
-		set_av(new, arg_av(comp));
+		set_args(new, comp_args(comp));
 		comp->u_value.args.av = NULL;
 	}
 	new->left = NULL;

@@ -62,7 +62,7 @@ void	refine_redirs(t_data *dat, t_list *lst)
 		{
 			redir_fd(lst, cur, prev, pre_prev);
 			if (!redir_file(lst, cur, cur->next))
-				return (set_error(dat, PARSE_ERR_REDIR));
+				return (set_error(dat, PARSE_ERR_REDIR, NULL));
 		}
 		pre_prev = prev;
 		prev = cur;

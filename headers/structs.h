@@ -6,14 +6,15 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/06 13:52:42 by knajmech          #+#    #+#             */
-/*   Updated: 2026/08/03 12:33:20 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/08/07 09:30:38 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef STRUCTS_H
 # define STRUCTS_H
 
-# include "../libft/libft.h"
+# include "libft.h"
+# include "args.h"
 
 typedef struct s_env_tracker	t_env_tracker;
 typedef struct s_pipe_manager	t_pipe_manager;
@@ -39,7 +40,7 @@ typedef struct s_ast
 	enum e_token	type;
 	union
 	{
-		char		**av;
+		t_arg		args;
 		struct
 		{
 			int		fd;
@@ -61,26 +62,11 @@ typedef struct s_ast_buff
 enum e_err
 {
 	OK,
-	ERR_MALLOC,
-	ERR_DUP,
-	ERR_OPEN,
-	ERR_READ,
-	ERR_SIG,
-	ERR_PIPE,
-	ERR_FORK,
-	ERR_EXECVE,
+	ERR_SYS,
 	EXIT_CALL,
 	PARSE_ERR_UNCLOSED_QUOTES,
 	PARSE_ERR_REDIR,
-	PARSE_ERR_PIPE = '|',
-	PARSE_ERR_AND	= '&' * 2 + 1,
-	PARSE_ERR_OR = '|' * 2 + 1,
-	PARSE_ERR_REDIR_INFILE = '<',
-	PARSE_ERR_REDIR_OUTFILE = '>',
-	PARSE_ERR_REDIR_HEREDOC = '<' * 2 + 1,
-	PARSE_ERR_REDIR_APPEND = '>' * 2 + 1,
-	PARSE_ERR_LEFT_PARA = '(',
-	PARSE_ERR_RIGHT_PARA = ')',
+	PARSE_ERR_TREE
 };
 
 typedef struct s_data

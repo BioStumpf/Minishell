@@ -6,7 +6,7 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/12 09:55:27 by knajmech          #+#    #+#             */
-/*   Updated: 2026/08/04 16:51:22 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/08/07 09:48:28 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	exit_minishell(t_data *data, char **av)
 {
 	int	ret;
 
-	set_error(data, EXIT_CALL);
+	set_error(data, EXIT_CALL, NULL);
 	if (av[0] && av[1] && av[2])
 		return (ft_printf(2, "exit: too many arguments\n"),
 			data->ret = 2, (void)0);

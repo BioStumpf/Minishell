@@ -6,7 +6,7 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/25 10:17:19 by knajmech          #+#    #+#             */
-/*   Updated: 2026/08/05 14:06:31 by david            ###   ########.fr       */
+/*   Updated: 2026/08/06 18:28:29 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,12 @@
 
 void	execute(t_ast *node, t_pipe_manager *pipe_info)
 {
+	expand(pipe_info->data, node);
+	if (fatal_error(pipe_info->data))
+	{
+		close_heredocs(pipe_info->data);
+		cleanup_child(pipe_info->data, pipe_info);
+	}
 	if (node->type == AND)
 		exec_and(node, pipe_info);
 	else if (node->type == OR)
@@ -29,7 +35,6 @@ void	execute(t_ast *node, t_pipe_manager *pipe_info)
 	else if (node->type == CMD && get_av(node)[0])
 	{
 		pipe_info->cmd_found = 0;
-		pipe_info->data->pipe_info = pipe_info;
 		pipe_info->cmd_node = node;
 		exec_extern(node->left, pipe_info);
 		if (fatal_error(pipe_info->data))
@@ -51,6 +56,7 @@ void	coordinate_exec(t_data *data)
 	pipe_info.child[0] = 0;
 	pipe_info.child[1] = 0;
 	pipe_info.pathwcmd = NULL;
+	data->pipe_info = &pipe_info;
 	node = data->ast.root;
 	execute(node, &pipe_info);
 }

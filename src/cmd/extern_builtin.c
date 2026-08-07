@@ -6,7 +6,7 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/12 12:11:39 by knajmech          #+#    #+#             */
-/*   Updated: 2026/08/03 17:10:41 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/08/07 10:24:06 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,13 +65,13 @@ void	extern_child_wrapper(t_ast *node, t_pipe_manager *pipe_info)
 	env = malloc((pipe_info->data->env_mp->elem_num + 1) * sizeof(char *));
 	if (!env)
 	{
-		set_error(pipe_info->data, ERR_MALLOC);
+		set_error(pipe_info->data, ERR_SYS, NULL);
 		cleanup_child(pipe_info->data, pipe_info);
 	}
 	path_parts = split_path_env(pipe_info->data);
 	if (!path_parts)
 	{
-		set_error(pipe_info->data, ERR_MALLOC);
+		set_error(pipe_info->data, ERR_SYS, NULL);
 		free(env);
 	}
 	extern_helper(pipe_info, &env, &path_parts);
@@ -79,7 +79,7 @@ void	extern_child_wrapper(t_ast *node, t_pipe_manager *pipe_info)
 		execve(pipe_info->pathwcmd, get_av(node), env);
 	else
 		cleanup_child(pipe_info->data, pipe_info);
-	set_error(pipe_info->data, ERR_EXECVE);
+	set_error(pipe_info->data, ERR_SYS, NULL);
 	cleanup_child(pipe_info->data, pipe_info);
 }
 
@@ -98,7 +98,7 @@ void	exec_extern(t_ast *node, t_pipe_manager *pipe_info)
 				cleanup_child(pipe_info->data, pipe_info);
 		}
 		else if (pipe_info->child[0] == -1)
-			return (set_error(pipe_info->data, ERR_FORK));
+			return (set_error(pipe_info->data, ERR_SYS, NULL));
 		waitpid(pipe_info->child[0], &status, 0);
 		if (WIFEXITED(status))
 			g_ret = WEXITSTATUS(status);
