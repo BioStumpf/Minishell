@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/30 14:04:09 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/07/31 14:41:39 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/08/06 12:28:28 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include <readline/readline.h>
 #include "parsing.h"
 #include "execution.h"
+#include "structs.h"
 #include <err.h>
 #include <env.h>
 #include <errno.h>
@@ -40,9 +41,9 @@ static void	free_all(t_data *dat)
 {
 	rl_clear_history();
 	cleanup_normal(dat);
-	if ((!dat->input && dat->read_input == read_terminal)
+	/*if ((!dat->input && dat->read_input == read_terminal)
 		|| dat->err == EXIT_CALL)
-		ft_printf(2, "exit\n");
+		ft_printf(2, "exit\n");*/
 }
 
 static void	reset(t_data *dat)
@@ -67,8 +68,10 @@ int	main(int argc, char **argv, char **envp)
 		parse_input(&dat);
 		coordinate_exec(&dat);
 		reset(&dat);
-		if (fatal_error(&dat) || !dat.input || dat.err == EXIT_CALL)
+		if (fatal_error(&dat))
 			return (free_all(&dat), g_ret);
+		if (!dat.input || dat.err == EXIT_CALL)
+			return (free_all(&dat), dat.ret);
 		dat.ret = g_ret;
 		g_ret = 0;
 	}

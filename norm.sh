@@ -11,9 +11,10 @@
 # **************************************************************************** #
 
 #!/bin/sh
+	# \( -path "./tests" -o -path "./src/builtins" -o -path "./src/cmd" -o -path "./src/env" \) -prune -o \
 
 output=$(find . \
-	\( -path "./tests" -o -path "./src/builtins" -o -path "./src/cmd" -o -path "./src/env" \) -prune -o \
+	\( -path "./tests" \) -prune -o \
 	\( -name "*.c" -o -name "*.h" \) \
 	! -name "test.c" ! -name "to_delete_later.c" \
 	-exec norminette {} +)

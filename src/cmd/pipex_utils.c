@@ -6,15 +6,15 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/03 07:24:21 by knajmech          #+#    #+#             */
-/*   Updated: 2026/08/04 14:39:08 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/08/05 14:04:57 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include "env.h"
 #include "structs.h"
 #include "parsing.h"
 #include "err.h"
+#include "execution.h"
 
 char	*check_access(t_pipe_manager *pipe_info, char *ptc, char *cmd)
 {
@@ -49,25 +49,27 @@ char	*path_fixer(char *path_to_fix)
 	return (fixed_path);
 }
 
-int	pathfinder(t_pipe_manager *pipe_info, char **path_parts)
+void	pathfinder(t_pipe_manager *pipe_info, char **path_parts)
 {
 	int		i;
 	char	*path_to_check;
 
+	if (ft_strchr(get_av(pipe_info->cmd_node)[0], '/'))
+		return (check_access(pipe_info, NULL,
+			get_av(pipe_info->cmd_node)[0]), (void)0);
 	if (!path_parts)
-		return (0);
+		return ;
 	i = 0;
 	while (path_parts[i])
 	{
 		path_to_check = path_fixer(path_parts[i]);
 		if (!path_to_check)
-			return (set_error(pipe_info->data, ERR_MALLOC), -1);
+			return (set_error(pipe_info->data, ERR_MALLOC), perror("malloc"));
 		assert(path_to_check);
 		if (check_access(pipe_info, path_to_check,
 				get_av(pipe_info->cmd_node)[0]))
-			return (1);
+			return (free(path_to_check));
 		free(path_to_check);
 		i++;
 	}
-	return (0);
 }

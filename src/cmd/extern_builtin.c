@@ -6,7 +6,7 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/12 12:11:39 by knajmech          #+#    #+#             */
-/*   Updated: 2026/08/03 11:52:01 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/08/05 12:20:55 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,23 +33,27 @@ void	extern_helper(t_pipe_manager *pipe_info, char ***env,
 			pipe_info->data->env_mp->env_ptr, *env);
 	if (!*env && fatal_error(pipe_info->data))
 	{
-		free_out(*path_parts, ft_count_2d(*path_parts));
-		free_out(*env, pipe_info->data->env_mp->elem_num);
+		*path_parts = free_out(*path_parts, ft_count_2d(*path_parts));
+		*env = free_out(*env, pipe_info->data->env_mp->elem_num);
 		cleanup_child(pipe_info->data, pipe_info);
 	}
 	pathfinder(pipe_info, *path_parts);
 	if (fatal_error(pipe_info->data))
 	{
-		free_out(*env, pipe_info->data->env_mp->elem_num);
-		free_out(*path_parts, ft_count_2d(*path_parts) - 1);
+		*env = free_out(*env, pipe_info->data->env_mp->elem_num);
+		*path_parts = free_out(*path_parts, ft_count_2d(*path_parts) - 1);
 		cleanup_child(pipe_info->data, pipe_info);
 	}
 	else if (!pipe_info->pathwcmd)
 	{
+		if (pipe_info->cmd_found)
+			g_ret = 126;
+		else
+			g_ret = 127;
 		print_errors(pipe_info->cmd_found, pipe_info);
-		free_out(*env, pipe_info->data->env_mp->elem_num);
+		*env = free_out(*env, pipe_info->data->env_mp->elem_num);
 	}
-	free_out(*path_parts, ft_count_2d(*path_parts));
+	*path_parts = free_out(*path_parts, ft_count_2d(*path_parts));
 }
 
 void	extern_child_wrapper(t_ast *node, t_pipe_manager *pipe_info)
@@ -64,25 +68,26 @@ void	extern_child_wrapper(t_ast *node, t_pipe_manager *pipe_info)
 		cleanup_child(pipe_info->data, pipe_info);
 	}
 	path_parts = split_path_env(pipe_info->data);
-	if (!path_parts)
+	if (fatal_error(pipe_info->data))
 	{
-		set_error(pipe_info->data, ERR_MALLOC);
 		free(env);
+		env = NULL;
 	}
 	extern_helper(pipe_info, &env, &path_parts);
 	if (pipe_info->pathwcmd)
 		execve(pipe_info->pathwcmd, get_av(node), env);
 	else
 		cleanup_child(pipe_info->data, pipe_info);
+	env = free_out(env, ft_count_2d(env));
+	path_parts = free_out(path_parts, ft_count_2d(path_parts));
 	set_error(pipe_info->data, ERR_EXECVE);
 	cleanup_child(pipe_info->data, pipe_info);
 }
 
-int	exec_extern(t_ast *node, t_pipe_manager *pipe_info)
+void	exec_extern(t_ast *node, t_pipe_manager *pipe_info)
 {
 	int	status;
 
-	assert (pipe_info);
 	if (pipe_info->in_pipeline == NO_PIPELINE)
 	{
 		pipe_info->child[0] = fork();
@@ -93,20 +98,26 @@ int	exec_extern(t_ast *node, t_pipe_manager *pipe_info)
 			if (fatal_error(pipe_info->data))
 				cleanup_child(pipe_info->data, pipe_info);
 		}
-		if (pipe_info->child[0] == -1)
-			return (set_error(pipe_info->data, ERR_FORK), ERR_FORK);
-		return (waitpid(pipe_info->child[0], &status, 0), status);
+		else if (pipe_info->child[0] == -1)
+			return (set_error(pipe_info->data, ERR_FORK));
+		waitpid(pipe_info->child[0], &status, 0);
+		if (WIFEXITED(status))
+			g_ret = WEXITSTATUS(status);
+		else if (WIFSIGNALED(status))
+			g_ret = 128 + WTERMSIG(status);
+		return ;
 	}
 	redirect_extern(pipe_info->data, node);
 	if (fatal_error(pipe_info->data))
 		cleanup_child(pipe_info->data, pipe_info);
-	return (WEXITSTATUS(0));
 }
 
-int	exec_builtin(t_ast *node, t_pipe_manager *pipe_info)
+void	exec_builtin(t_ast *node, t_pipe_manager *pipe_info)
 {
-	g_ret = redirect_builtin(pipe_info->data, node->left, get_av(node));
+	redirect_builtin(pipe_info->data, node->left, get_av(node));
 	if (pipe_info->in_pipeline)
+	{
+		close_heredocs(pipe_info->data);
 		cleanup_child(pipe_info->data, pipe_info);
-	return (g_ret);
+	}
 }
