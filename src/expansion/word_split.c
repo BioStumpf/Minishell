@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/03 14:15:18 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/07/31 16:21:43 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/08/07 10:15:53 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static bool	init_word_split(t_word_split *ws, t_data *dat, char *to_split)
 	ws->ifs = get_ifs(dat);
 	ws->tmp = malloc((ft_strlen(to_split) + 1) * sizeof(char));
 	if (!ws->tmp)
-		return (set_error(dat, ERR_MALLOC), false);
+		return (set_error(dat, ERR_SYS, NULL), false);
 	return (true);
 }
 
@@ -63,13 +63,13 @@ bool	word_split(t_data *dat, t_exp_vec *exps,
 		if (exp_idx < exps->size && split_signal(&ws, get_exp(exps, exp_idx)))
 		{
 			if (!expansion_split(&ws, new, get_exp(exps, exp_idx)))
-				return (set_error(dat, ERR_MALLOC), free(ws.tmp), false);
+				return (set_error(dat, ERR_SYS, NULL), free(ws.tmp), false);
 		}
 		else
 			ws.tmp[ws.tmp_idx++] = to_split[ws.splt_idx++];
 	}
 	if (ws.tmp_idx || !exps->expansions)
 		if (!new_field(new, ws.tmp, &ws.tmp_idx))
-			return (set_error(dat, ERR_MALLOC), free(ws.tmp), false);
+			return (set_error(dat, ERR_SYS, NULL), free(ws.tmp), false);
 	return (free(ws.tmp), true);
 }

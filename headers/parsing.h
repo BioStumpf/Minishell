@@ -6,14 +6,13 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/04 11:00:01 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/07/30 12:34:47 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/08/06 17:13:12 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PARSING_H
 # define PARSING_H
 
-# include "libft.h"
 # include "structs.h"
 
 # define SPCE " \t\n"
@@ -104,13 +103,6 @@ void			token_cleanup(t_list *l, enum e_err st, t_data *d, t_node *n);
 ///////////////////////////////////////////
 //compound commands structs and enums
 ///////////////////////////////////////////
-//structs and enums
-typedef struct s_arg
-{
-	size_t	size;
-	size_t	capacity;
-	char	**av;
-}			t_arg;
 
 typedef struct s_compound
 {
@@ -138,12 +130,10 @@ typedef struct s_compound_arr
 //accessors for compounds
 enum e_token	comp_type(t_compound *comp);
 int				comp_fd(t_compound *comp);
-int				comp_heredoc(t_compound *comp);
 char			*comp_filename(t_compound *comp);
 t_arg			*comp_args(t_compound *comp);
 t_compound		*get_comp(t_compound_arr *ca, size_t i);
 size_t			arg_size(t_compound *comp);
-size_t			arg_capacity(t_compound *comp);
 char			**arg_av(t_compound *comp);
 size_t			arr_len(t_compound_arr *comps);
 t_compound		*arr_get(t_compound_arr *comps, size_t idx);
@@ -189,7 +179,7 @@ typedef struct s_word_split
 //functions
 ///////////////////////////////////////////
 //main
-void			expand(t_data *dat, t_compound_arr *ca);
+void			expand(t_data *dat, t_ast *node);
 
 ///////////////////////////////////////////
 //expansion part
@@ -226,23 +216,27 @@ char			*get_ifs(t_data *dat);
 bool			word_split(t_data *d, t_exp_vec *e, t_arg *n, char *splt);
 
 //heredoc
-void			heredoc(t_data *dat, t_compound *comp, bool expand);
+void			heredoc(t_data *dat, t_ast *node, bool expand);
 void			close_heredocs(t_data *dat);
 int				reopen_heredoc(int fd);
+void			prep_heredoc(t_ast *node, t_pipe_manager *pipe_info);
+// void			expand_heredoc(t_data *dat, t_ast *node);
 
 ///////////////////////////////////////////
 //build syntax tree
 ///////////////////////////////////////////
 //tree utils
 //accessors
-char			**get_av(t_ast *node);
 int				get_fd(t_ast *node);
 int				get_open_fd(t_ast *node);
 char			*get_operand(t_ast *node);
 void			set_open_fd(t_ast *node, int open_fd);
 void			set_operand(t_ast *node, char *s);
 void			set_fd(t_ast *node, int fd);
-void			set_av(t_ast *node, char **av);
+void			set_args(t_ast *node, t_arg *args);
+char			**get_av(t_ast *node);
+size_t			ast_arg_len(t_ast *node);
+t_arg			*ast_args(t_ast *node);
 
 //setting up ast buffer and nodes
 void			clean_ast(t_ast_buff *ast);
@@ -259,6 +253,7 @@ bool			is_pipe(t_compound_arr *ca, size_t i);
 // t_ast			*last_redir(t_ast *node);
 t_ast			*parse_redir(t_data *dat, t_compound_arr *ca, size_t *i);
 bool			is_ast_redir(t_compound_arr *ca, size_t i);
+const char		*tok_to_str(enum e_token tok);
 
 //recursive decent functions
 void			built_ast(t_data *dat, t_compound_arr *ca);

@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 15:15:50 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/07/06 10:40:41 by david            ###   ########.fr       */
+/*   Updated: 2026/08/07 10:19:16 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static void	word_token(char **input, t_node *new, t_data *dat)
 		return ;
 	word = malloc(sizeof(char) * (word_len + 1));
 	if (!word)
-		return (set_error(dat, ERR_MALLOC), (void)0);
+		return (set_error(dat, ERR_SYS, NULL), (void)0);
 	set_word(input, word, word_len);
 	space = is_whitespace_metachar(**input);
 	set_word_tok(new, word, space);
@@ -73,12 +73,12 @@ t_list	*tokenize(t_data *dat)
 	lst = ft_lstnew();
 	node = NULL;
 	if (!lst)
-		return (token_cleanup(lst, ERR_MALLOC, dat, node), NULL);
+		return (token_cleanup(lst, ERR_SYS, dat, node), NULL);
 	while (skip_whitespace(&input))
 	{
 		node = new_token_node();
 		if (!node)
-			return (token_cleanup(lst, ERR_MALLOC, dat, node), NULL);
+			return (token_cleanup(lst, ERR_SYS, dat, node), NULL);
 		find_next_token(&input, node, dat);
 		if (!status_ok(dat))
 			return (token_cleanup(lst, OK, dat, node), NULL);

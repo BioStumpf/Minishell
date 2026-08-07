@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/05 20:03:03 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/07/27 21:28:55 by david            ###   ########.fr       */
+/*   Updated: 2026/08/07 10:12:13 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static t_ast	*parse_parnthesis(t_data *dat, t_compound_arr *ca, size_t *i)
 	(*i)++;
 	p = parse_ast(dat, ca, i);
 	if (status_ok(dat) && !is_right_par(ca, *i))
-		return (set_error(dat, (enum e_err)LEFT_PARA), NULL);
+		return (set_error(dat, PARSE_ERR_TREE, tok_to_str(LEFT_PARA)), NULL);
 	(*i)++;
 	return (p);
 }
@@ -42,7 +42,8 @@ static t_ast	*parse_cmd(t_data *dat, t_compound_arr *ca, size_t *i)
 	else if (redirs)
 		return (redirs);
 	else if (*i < ca->len)
-		return (set_error(dat, (enum e_err)get_comp(ca, *i)->type), NULL);
+		return (set_error(dat, PARSE_ERR_TREE,
+				tok_to_str(get_comp(ca, *i)->type)), NULL);
 	return (NULL);
 }
 
@@ -57,7 +58,8 @@ static t_ast	*parse_pipe(t_data *dat, t_compound_arr *ca, size_t *i)
 	{
 		comp = get_comp(ca, (*i)++);
 		if (*i == ca->len)
-			return (set_error(dat, (enum e_err)comp->type), NULL);
+			return (set_error(dat, PARSE_ERR_TREE,
+					tok_to_str(comp->type)), NULL);
 		new = new_ast_node(&dat->ast, comp);
 		new->left = left;
 		new->right = parse_cmd(dat, ca, i);
@@ -79,7 +81,8 @@ t_ast	*parse_ast(t_data *dat, t_compound_arr *ca, size_t *i)
 	{
 		comp = get_comp(ca, (*i)++);
 		if (*i == ca->len)
-			return (set_error(dat, (enum e_err)comp->type), NULL);
+			return (set_error(dat, PARSE_ERR_TREE,
+					tok_to_str(comp->type)), NULL);
 		new = new_ast_node(&dat->ast, comp);
 		new->left = left;
 		new->right = parse_pipe(dat, ca, i);

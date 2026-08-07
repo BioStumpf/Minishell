@@ -63,7 +63,7 @@ int	main(int argc, char **argv, char **envp)
 		return (free_all(&dat), 1);
 	while (1)
 	{
-		set_error(&dat, OK);
+		set_error(&dat, OK, NULL);
 		dat.read_input(&dat);
 		parse_input(&dat);
 		coordinate_exec(&dat);

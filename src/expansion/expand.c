@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/03 14:24:21 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/07/30 11:35:42 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/08/07 10:16:31 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,13 @@ char	*expand_str(t_data *dat, char *str,
 
 	ft_bzero(exps, sizeof(t_exp_vec));
 	if (!find_expansions(exps, str, quote_removal))
-		return (set_error(dat, ERR_MALLOC), NULL);
+		return (set_error(dat, ERR_SYS, NULL), NULL);
 	trimmed_str = remove_dollar_quotes(exps, str, quote_removal);
 	if (!trimmed_str)
-		return (set_error(dat, ERR_MALLOC), NULL);
+		return (set_error(dat, ERR_SYS, NULL), NULL);
 	expanded_str = insert_expansions(dat, exps, trimmed_str);
 	free(trimmed_str);
 	if (!expanded_str)
-		return (set_error(dat, ERR_MALLOC), NULL);
+		return (set_error(dat, ERR_SYS, NULL), NULL);
 	return (expanded_str);
 }

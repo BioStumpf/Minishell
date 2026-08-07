@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/04 10:55:51 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/07/27 12:00:28 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/08/07 10:06:39 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 extern volatile sig_atomic_t	g_ret;
 
 //error handling
-void	set_error(t_data *dat, enum e_err status);
+void	set_error(t_data *dat, enum e_err status, const char *str);
 bool	status_ok(t_data *dat);
 bool	fatal_error(t_data *dat);
 t_data	*data_storage(t_data *data);

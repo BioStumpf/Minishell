@@ -6,7 +6,7 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/12 12:08:14 by knajmech          #+#    #+#             */
-/*   Updated: 2026/08/03 16:23:56 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/08/07 10:24:57 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,20 +21,20 @@ static void	launch_childp(t_ast *direction, int *fds, int std_fd,
 	if (std_fd == STDOUT_FILENO)
 	{
 		if (pipe_info->child[0] == -1)
-			return (set_error(pipe_info->data, ERR_FORK));
+			return (set_error(pipe_info->data, ERR_SYS, NULL));
 		else if (pipe_info->child[0] == 0)
 			close(fds[0]);
 	}
 	else
 	{
 		if (pipe_info->child[1] == -1)
-			return (set_error(pipe_info->data, ERR_FORK));
+			return (set_error(pipe_info->data, ERR_SYS, NULL));
 		else if (pipe_info->child[1] == 0)
 			close(fds[1]);
 	}
 	pipe_info->in_pipeline = IN_PIPELINE;
 	if (dup2(fds[std_fd], std_fd) == -1)
-		set_error(pipe_info->data, ERR_DUP);
+		set_error(pipe_info->data, ERR_SYS, NULL);
 	close(fds[std_fd]);
 	if (fatal_error(pipe_info->data))
 	{
@@ -51,7 +51,7 @@ void	exec_pipe(t_ast *node, t_pipe_manager *pipe_info)
 
 	status = 0;
 	if (pipe(fds) == -1)
-		set_error(pipe_info->data, ERR_PIPE);
+		set_error(pipe_info->data, ERR_SYS, NULL);
 	pipe_info->child[0] = fork();
 	if (pipe_info->child[0] <= 0)
 		launch_childp(node->left, fds, STDOUT_FILENO, pipe_info);

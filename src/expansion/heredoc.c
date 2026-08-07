@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/28 10:20:35 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/08/03 11:01:46 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/08/07 10:15:13 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,9 @@ static bool	read_input(t_data *dat, char **line)
 	if (errno != 0 && !line)
 	{
 		if (errno == ENOMEM)
-			return (set_error(dat, ERR_MALLOC), false);
+			return (set_error(dat, ERR_SYS, NULL), false);
 		else
-			return (set_error(dat, ERR_READ), false);
+			return (set_error(dat, ERR_SYS, NULL), false);
 	}
 	return (true);
 }
@@ -69,31 +69,30 @@ void	close_heredocs(t_data *dat)
 	dat->heredoc_end = 0;
 }
 
-static bool	open_heredoc(t_data *dat, t_compound *comp)
+static bool	open_heredoc(t_data *dat, t_ast *node)
 {
-	comp->u_value.s_redir.open_fd
-		= open("/tmp", O_TMPFILE | O_WRONLY | O_EXCL, 0600);
-	if (comp->u_value.s_redir.open_fd == -1)
-		return (set_error(dat, ERR_OPEN), false);
+	set_open_fd(node, open("/tmp", O_TMPFILE | O_WRONLY | O_EXCL, 0600));
+	if (get_open_fd(node) == -1)
+		return (set_error(dat, ERR_SYS, NULL), false);
 	if (dat->heredoc_start == 0)
-		dat->heredoc_start = comp_heredoc(comp);
-	dat->heredoc_end = comp_heredoc(comp);
+		dat->heredoc_start = get_open_fd(node);
+	dat->heredoc_end = get_open_fd(node);
 	return (true);
 }
 
-void	heredoc(t_data *dat, t_compound *comp, bool expand)
+void	heredoc(t_data *dat, t_ast *node, bool expand)
 {
 	char		*line;
 	char		*expanded;
 	t_exp_vec	exps;
 
-	if (!open_heredoc(dat, comp))
+	if (!open_heredoc(dat, node))
 		return (close_heredocs(dat));
 	while (1)
 	{
 		if (!read_input(dat, &line))
 			return (close_heredocs(dat));
-		if (find_limiter(line, comp_filename(comp)))
+		if (find_limiter(line, get_operand(node)))
 			return (free(line));
 		if (expand)
 		{
@@ -104,7 +103,7 @@ void	heredoc(t_data *dat, t_compound *comp, bool expand)
 			free(exps.expansions);
 			line = expanded;
 		}
-		ft_putstr_fd(line, comp->u_value.s_redir.open_fd);
+		ft_putstr_fd(line, get_open_fd(node));
 		free(line);
 	}
 }
