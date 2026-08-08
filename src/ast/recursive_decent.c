@@ -20,7 +20,7 @@ static t_ast	*parse_parnthesis(t_data *dat, t_compound_arr *ca, size_t *i)
 	(*i)++;
 	p = parse_ast(dat, ca, i);
 	if (status_ok(dat) && !is_right_par(ca, *i))
-		return (set_error(dat, PARSE_ERR_TREE, tok_to_str(LEFT_PARA)), NULL);
+		return (set_error(dat, PARSE_ERR_UNCLOSED_PARA, NULL), NULL);
 	(*i)++;
 	return (p);
 }
@@ -43,7 +43,7 @@ static t_ast	*parse_cmd(t_data *dat, t_compound_arr *ca, size_t *i)
 		return (redirs);
 	else if (*i < ca->len)
 		return (set_error(dat, PARSE_ERR_TREE,
-				tok_to_str(get_comp(ca, *i)->type)), NULL);
+				tok_to_str(get_comp(ca, *i))), NULL);
 	return (NULL);
 }
 
@@ -59,7 +59,7 @@ static t_ast	*parse_pipe(t_data *dat, t_compound_arr *ca, size_t *i)
 		comp = get_comp(ca, (*i)++);
 		if (*i == ca->len)
 			return (set_error(dat, PARSE_ERR_TREE,
-					tok_to_str(comp->type)), NULL);
+					tok_to_str(comp)), NULL);
 		new = new_ast_node(&dat->ast, comp);
 		new->left = left;
 		new->right = parse_cmd(dat, ca, i);
@@ -82,7 +82,7 @@ t_ast	*parse_ast(t_data *dat, t_compound_arr *ca, size_t *i)
 		comp = get_comp(ca, (*i)++);
 		if (*i == ca->len)
 			return (set_error(dat, PARSE_ERR_TREE,
-					tok_to_str(comp->type)), NULL);
+					tok_to_str(comp)), NULL);
 		new = new_ast_node(&dat->ast, comp);
 		new->left = left;
 		new->right = parse_pipe(dat, ca, i);

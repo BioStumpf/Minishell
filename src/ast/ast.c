@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/03 17:06:49 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/08/07 10:03:13 by david            ###   ########.fr       */
+/*   Updated: 2026/08/07 12:28:17 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,26 +14,28 @@
 #include "err.h"
 #include "structs.h"
 
-const char	*tok_to_str(enum e_token tok)
+const char	*tok_to_str(t_compound *comp)
 {
-	if (tok == AND)
+	if (comp_type(comp) == AND)
 		return ("&&");
-	if (tok == OR)
+	if (comp_type(comp) == OR)
 		return ("||");
-	if (tok == PIPE)
+	if (comp_type(comp) == PIPE)
 		return ("|");
-	if (tok == REDIR_INFILE)
+	if (comp_type(comp) == REDIR_INFILE)
 		return ("<");
-	if (tok == REDIR_OUTFILE)
+	if (comp_type(comp) == REDIR_OUTFILE)
 		return (">");
-	if (tok == REDIR_APPEND)
+	if (comp_type(comp) == REDIR_APPEND)
 		return (">>");
-	if (tok == REDIR_HEREDOC)
+	if (comp_type(comp) == REDIR_HEREDOC)
 		return ("<<");
-	if (tok == LEFT_PARA)
+	if (comp_type(comp) == LEFT_PARA)
 		return ("(");
-	if (tok == RIGHT_PARA)
+	if (comp_type(comp) == RIGHT_PARA)
 		return (")");
+	if (comp_type(comp) == CMD)
+		return (comp_args(comp)->av[0]);
 	else
 		return ("<unknown token type>");
 }
@@ -50,7 +52,7 @@ void	built_ast(t_data *dat, t_compound_arr *ca)
 		return (set_error(dat, ERR_SYS, NULL));
 	dat->ast.root = parse_ast(dat, ca, &i);
 	if (status_ok(dat) && i != ca->len)
-		set_error(dat, PARSE_ERR_TREE, tok_to_str(comp_type(arr_get(ca, i))));
+		set_error(dat, PARSE_ERR_TREE, tok_to_str(arr_get(ca, i)));
 	if (!status_ok(dat))
 		dat->ast.root = NULL;
 }

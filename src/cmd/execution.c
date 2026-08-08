@@ -6,7 +6,7 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/25 10:17:19 by knajmech          #+#    #+#             */
-/*   Updated: 2026/08/07 12:05:00 by david            ###   ########.fr       */
+/*   Updated: 2026/08/07 13:13:56 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,6 @@
 void	execute(t_ast *node, t_pipe_manager *pipe_info)
 {
 	expand(pipe_info->data, node);
-	if (status_ok(pipe_info->data))
-		prep_heredoc(node, pipe_info);
 	if (fatal_error(pipe_info->data))
 	{
 		close_heredocs(pipe_info->data);
