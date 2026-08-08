@@ -253,7 +253,7 @@ bool			is_pipe(t_compound_arr *ca, size_t i);
 // t_ast			*last_redir(t_ast *node);
 t_ast			*parse_redir(t_data *dat, t_compound_arr *ca, size_t *i);
 bool			is_ast_redir(t_compound_arr *ca, size_t i);
-const char		*tok_to_str(enum e_token tok);
+const char		*tok_to_str(t_compound *comp);
 
 //recursive decent functions
 void			built_ast(t_data *dat, t_compound_arr *ca);
