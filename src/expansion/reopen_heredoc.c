@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/30 12:48:25 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/07/30 12:49:06 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/08/09 09:18:53 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,10 @@ static void	make_name(char name[24], int fd)
 	ft_strlcpy(name + 14, num, 11);
 }
 
-int	reopen_heredoc(int fd)
+int	reopen_heredoc(int fd, int flag)
 {
 	char	proc_name[25];
 
 	make_name(proc_name, fd);
-	return (open(proc_name, O_RDONLY));
+	return (open(proc_name, flag));
 }
