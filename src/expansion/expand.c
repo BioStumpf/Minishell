@@ -20,6 +20,8 @@ char	*expand_str(t_data *dat, char *str,
 	char		*trimmed_str;
 	char		*expanded_str;
 
+	if (!str)
+		return (NULL);
 	ft_bzero(exps, sizeof(t_exp_vec));
 	if (!find_expansions(exps, str, quote_removal))
 		return (set_error(dat, ERR_SYS, NULL), NULL);

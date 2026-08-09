@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/04 11:00:01 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/08/06 17:13:12 by david            ###   ########.fr       */
+/*   Updated: 2026/08/09 09:11:15 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ typedef struct s_compound
 		t_arg	args;
 		struct
 		{
-			// bool	quoted;
+			bool	expand;
 			int		open_fd;
 			int		fd;
 			char	*filename;
@@ -129,6 +129,11 @@ typedef struct s_compound_arr
 //functions
 //accessors for compounds
 enum e_token	comp_type(t_compound *comp);
+int				comp_open_fd(t_compound *comp);
+void			comp_set_filename(t_compound *comp, char *filename);
+void			comp_set_expand(t_compound *comp, bool expand);
+bool			comp_expand(t_compound *comp);
+void			comp_set_open_fd(t_compound *comp, int fd);
 int				comp_fd(t_compound *comp);
 char			*comp_filename(t_compound *comp);
 t_arg			*comp_args(t_compound *comp);
@@ -216,9 +221,11 @@ char			*get_ifs(t_data *dat);
 bool			word_split(t_data *d, t_exp_vec *e, t_arg *n, char *splt);
 
 //heredoc
-void			heredoc(t_data *dat, t_ast *node, bool expand);
+// void			heredoc(t_data *dat, t_ast *node, bool expand);
+void			heredoc(t_data *dat, t_compound_arr *ca);
+void			prompt_heredoc(t_data *dat, t_compound *comp);
 void			close_heredocs(t_data *dat);
-int				reopen_heredoc(int fd);
+int				reopen_heredoc(int fd, int flag);
 void			prep_heredoc(t_ast *node, t_pipe_manager *pipe_info);
 // void			expand_heredoc(t_data *dat, t_ast *node);
 

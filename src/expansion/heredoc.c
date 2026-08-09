@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
+/*   By: david <dstumpf@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/07/28 10:20:35 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/08/07 10:15:13 by david            ###   ########.fr       */
+/*   Created: 2026/08/08 10:08:30 by david             #+#    #+#             */
+/*   Updated: 2026/08/08 10:11:50 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,7 @@ static bool	read_input(t_data *dat, char **line)
 		write(2, "> ", 2);
 	*line = get_next_line(STDIN_FILENO);
 	if (errno != 0 && !line)
-	{
-		if (errno == ENOMEM)
-			return (set_error(dat, ERR_SYS, NULL), false);
-		else
-			return (set_error(dat, ERR_SYS, NULL), false);
-	}
+		return (set_error(dat, ERR_SYS, NULL), false);
 	return (true);
 }
 
@@ -44,7 +39,7 @@ static bool	find_limiter(char *line, char *limiter)
 
 	if (!line)
 		return (ft_printf(2,
-				"warning: here-document delimited by end-of-file"), true);
+				"warning: here-document delimited by end-of-file\n"), true);
 	lim_len = ft_strlen(limiter);
 	line_len = ft_strlen(line);
 	if (lim_len + 1 != line_len)
@@ -69,41 +64,40 @@ void	close_heredocs(t_data *dat)
 	dat->heredoc_end = 0;
 }
 
-static bool	open_heredoc(t_data *dat, t_ast *node)
+static bool	open_heredoc(t_data *dat, t_compound *comp)
 {
-	set_open_fd(node, open("/tmp", O_TMPFILE | O_WRONLY | O_EXCL, 0600));
-	if (get_open_fd(node) == -1)
+	comp_set_open_fd(comp, open("/tmp", O_TMPFILE | O_WRONLY | O_EXCL, 0600));
+	if (comp_open_fd(comp) == -1)
 		return (set_error(dat, ERR_SYS, NULL), false);
 	if (dat->heredoc_start == 0)
-		dat->heredoc_start = get_open_fd(node);
-	dat->heredoc_end = get_open_fd(node);
+		dat->heredoc_start = comp_open_fd(comp);
+	dat->heredoc_end = comp_open_fd(comp);
 	return (true);
 }
 
-void	heredoc(t_data *dat, t_ast *node, bool expand)
+void	prompt_heredoc(t_data *dat, t_compound *comp)
 {
 	char		*line;
-	char		*expanded;
+	char		*expanded_str;
 	t_exp_vec	exps;
 
-	if (!open_heredoc(dat, node))
+	ft_bzero(&exps, sizeof(t_exp_vec));
+	expanded_str = remove_dollar_quotes(&exps, comp_filename(comp), RM_QUOTES);
+	if (!expanded_str)
+		return (set_error(dat, ERR_SYS, NULL));
+	comp_set_expand(comp,
+		(ft_strlen(expanded_str) == ft_strlen(comp_filename(comp))));
+	free(comp_filename(comp));
+	comp_set_filename(comp, expanded_str);
+	if (!open_heredoc(dat, comp))
 		return (close_heredocs(dat));
 	while (1)
 	{
 		if (!read_input(dat, &line))
 			return (close_heredocs(dat));
-		if (find_limiter(line, get_operand(node)))
+		if (find_limiter(line, comp_filename(comp)))
 			return (free(line));
-		if (expand)
-		{
-			expanded = expand_str(dat, line, KEEP_QUOTES, &exps);
-			if (!expanded)
-				return (free(line), close_heredocs(dat));
-			free(line);
-			free(exps.expansions);
-			line = expanded;
-		}
-		ft_putstr_fd(line, get_open_fd(node));
+		ft_putstr_fd(line, comp_open_fd(comp));
 		free(line);
 	}
 }

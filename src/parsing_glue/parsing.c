@@ -24,6 +24,7 @@ void	parse_input(t_data *dat)
 	tokens = tokenize(dat);
 	compound_tokens = compound_group(dat, tokens);
 	ft_lstclear(tokens, free_token);
+	heredoc(dat, compound_tokens);
 	built_ast(dat, compound_tokens);
 	free_compound(compound_tokens, OK, dat);
 }

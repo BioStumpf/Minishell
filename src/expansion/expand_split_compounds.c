@@ -6,53 +6,56 @@
 /*   By: david <dstumpf@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/18 13:07:57 by david             #+#    #+#             */
-/*   Updated: 2026/08/07 10:14:36 by david            ###   ########.fr       */
+/*   Updated: 2026/08/09 10:33:10 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#define _GNU_SOURCE
 #include "libft.h"
 #include "parsing.h"
 #include "err.h"
 #include "structs.h"
-#include "execution.h"
+#include "get_next_line.h"
+#include <fcntl.h>
+#include <errno.h>
+
+static bool	open_fds(t_ast *node, int fds[2])
+{
+	fds[0] = reopen_heredoc(get_open_fd(node), O_RDONLY);
+	if (fds[0] == -1)
+		return (false);
+	fds[1] = open("/tmp", O_TMPFILE | O_WRONLY | O_EXCL, 0600);
+	if (fds[1] == -1)
+		return (close(fds[0]), false);
+	return (true);
+}
 
 static void	expand_heredoc(t_data *dat, t_ast *node)
 {
-	bool		expand;
-	char		*expanded_str;
+	int			fds[2];
+	char		*line;
+	char		*expanded;
 	t_exp_vec	exps;
 
-	ft_bzero(&exps, sizeof(t_exp_vec));
-	expanded_str = remove_dollar_quotes(&exps, get_operand(node), RM_QUOTES);
-	if (!expanded_str)
+	if (!open_fds(node, fds))
 		return (set_error(dat, ERR_SYS, NULL));
-	expand = ft_strlen(expanded_str) == ft_strlen(get_operand(node));
-	free(get_operand(node));
-	set_operand(node, expanded_str);
-	return (heredoc(dat, node, expand));
-}
-
-void	prep_heredoc(t_ast *node, t_pipe_manager *pipe_info)
-{
-	if (pipe_info->in_pipeline == NO_PIPELINE)
+	while (1)
 	{
-		if (!node)
-			return ;
-		else if (node->type == REDIR_HEREDOC)
-		{
-			expand_heredoc(pipe_info->data, node);
-			if (fatal_error(pipe_info->data))
-				return ;
-			prep_heredoc(node->left, pipe_info);
-		}
-		else if (node->type == CMD || is_redir(node->type))
-			prep_heredoc(node->left, pipe_info);
-		else if (node->type == PIPE)
-		{
-			prep_heredoc(node->left, pipe_info);
-			prep_heredoc(node->right, pipe_info);
-		}
+		errno = 0;
+		line = get_next_line(fds[0]);
+		expanded = expand_str(dat, line, KEEP_QUOTES, &exps);
+		free(line);
+		if (!expanded)
+			break ;
+		free(exps.expansions);
+		ft_putstr_fd(expanded, fds[1]);
+		free(expanded);
 	}
+	if (errno != 0)
+		set_error(dat, ERR_SYS, NULL);
+	if (dup2(fds[1], get_open_fd(node)) == -1 && status_ok(dat))
+		set_error(dat, ERR_SYS, NULL);
+	return (close(fds[0]), close(fds[1]), (void)0);
 }
 
 static void	expand_redir(t_data *dat, t_ast *node)
@@ -61,8 +64,8 @@ static void	expand_redir(t_data *dat, t_ast *node)
 	t_arg		new;
 	t_exp_vec	exps;
 
-	if (node->type == REDIR_HEREDOC)
-		return ;
+	if (node->type == REDIR_HEREDOC && node->u_value.s_redir.expand)
+		return (expand_heredoc(dat, node));
 	ft_bzero(&new, sizeof(t_arg));
 	expanded_str = expand_str(dat, get_operand(node), RM_QUOTES, &exps);
 	if (!expanded_str)

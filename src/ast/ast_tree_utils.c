@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/03 16:05:58 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/08/07 08:58:15 by david            ###   ########.fr       */
+/*   Updated: 2026/08/09 09:35:06 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,10 @@ t_ast	*new_ast_node(t_ast_buff *buf, t_compound *comp)
 	if (is_redir(new->type))
 	{
 		if (new->type == REDIR_HEREDOC)
+		{
+			new->u_value.s_redir.expand = comp_expand(comp);
 			set_open_fd(new, comp->u_value.s_redir.open_fd);
+		}
 		set_fd(new, comp_fd(comp));
 		set_operand(new, comp_filename(comp));
 		comp->u_value.s_redir.filename = NULL;
