@@ -21,7 +21,8 @@ static int	print_error_get_return(enum e_err err, const char *str)
 	if (err == PARSE_ERR_UNCLOSED_QUOTES)
 		return (ft_printf(2, "Minishell: syntax error, unclosed quotes\n"), 2);
 	else if (err == PARSE_ERR_UNCLOSED_PARA)
-		return (ft_printf(2, "Minishell: syntax error, unclosed paranthesis\n"), 2);
+		return (ft_printf(2,
+				"Minishell: syntax error, unclosed paranthesis\n"), 2);
 	else if (err == PARSE_ERR_REDIR)
 	{
 		if (!str)

@@ -43,6 +43,7 @@ typedef struct s_ast
 		t_arg		args;
 		struct
 		{
+			bool	expand;
 			int		fd;
 			int		open_fd;
 			char	*operand;

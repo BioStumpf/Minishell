@@ -30,7 +30,7 @@ int	fd_assign(enum e_token type, char *file_name, t_data *data, t_ast *redir)
 	else if (type == REDIR_OUTFILE)
 		fd = open(file_name, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	else if (type == REDIR_HEREDOC)
-		fd = reopen_heredoc(get_open_fd(redir));
+		fd = reopen_heredoc(get_open_fd(redir), O_RDONLY);
 	else
 		fd = open(file_name, O_CREAT | O_APPEND | O_WRONLY, 0644);
 	if (fd == -1)
