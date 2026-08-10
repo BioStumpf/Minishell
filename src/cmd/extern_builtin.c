@@ -6,7 +6,7 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/12 12:11:39 by knajmech          #+#    #+#             */
-/*   Updated: 2026/08/07 10:24:06 by david            ###   ########.fr       */
+/*   Updated: 2026/08/10 13:19:13 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,17 +15,7 @@
 #include "parsing.h"
 #include "env.h"
 #include "err.h"
-#include "ft_printf.h"
-
-void	print_errors(bool cmd_found, t_pipe_manager *pipe_info)
-{
-	if (cmd_found)
-		ft_printf(2, "%s: permission denied\n",
-			get_av(pipe_info->cmd_node)[0]);
-	else
-		ft_printf(2, "%s: command not found\n",
-			get_av(pipe_info->cmd_node)[0]);
-}
+#include "structs.h"
 
 void	extern_helper(t_pipe_manager *pipe_info, char ***env,
 		char ***path_parts)
@@ -48,10 +38,9 @@ void	extern_helper(t_pipe_manager *pipe_info, char ***env,
 	else if (!pipe_info->pathwcmd)
 	{
 		if (pipe_info->cmd_found)
-			g_ret = 126;
+			set_error(pipe_info->data, PERM, get_av(pipe_info->cmd_node)[0]);
 		else
-			g_ret = 127;
-		print_errors(pipe_info->cmd_found, pipe_info);
+			set_error(pipe_info->data, NT_FND, get_av(pipe_info->cmd_node)[0]);
 		free_out(*env, pipe_info->data->env_mp->elem_num);
 	}
 	free_out(*path_parts, ft_count_2d(*path_parts));

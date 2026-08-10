@@ -6,7 +6,7 @@
 /*   By: david <user@student.42mail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/06 21:34:36 by david             #+#    #+#             */
-/*   Updated: 2026/08/07 12:32:35 by david            ###   ########.fr       */
+/*   Updated: 2026/08/10 13:15:51 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,20 +19,25 @@ static int	print_error_get_return(enum e_err err, const char *str)
 	if (err == ERR_SYS)
 		return (perror("minishell"), 1);
 	if (err == PARSE_ERR_UNCLOSED_QUOTES)
-		return (ft_printf(2, "Minishell: syntax error, unclosed quotes\n"), 2);
+		return (ft_printf(2, "minishell: syntax error, unclosed quotes\n"), 2);
 	else if (err == PARSE_ERR_UNCLOSED_PARA)
 		return (ft_printf(2,
-				"Minishell: syntax error, unclosed paranthesis\n"), 2);
+				"minishell: syntax error, unclosed paranthesis\n"), 2);
 	else if (err == PARSE_ERR_REDIR)
 	{
 		if (!str)
-			return (ft_printf(2, "Minishell: ambiguous redirect\n"), 2);
-		return (ft_printf(2, "Minishell: %s: ambiguous redirect\n", str), 1);
+			return (ft_printf(2, "minishell: ambiguous redirect\n"), 2);
+		return (ft_printf(2, "minishell: %s: ambiguous redirect\n", str), 1);
 	}
 	else if (err == PARSE_ERR_TREE)
 		return (ft_printf(2,
-				"Minishell: syntax error near unexpected token \'%s\'\n",
+				"minishell: syntax error near unexpected token \'%s\'\n",
 				str), 2);
+	else if (err == PERM)
+		return (ft_printf(2, "minishell: %s: permission denied\n", str), 126);
+	else if (err == NT_FND)
+		return (ft_printf(2,
+				"minishell: %s: command not found\n", str), 127);
 	else
 		return (0);
 }

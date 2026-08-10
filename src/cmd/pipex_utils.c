@@ -6,7 +6,7 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/03 07:24:21 by knajmech          #+#    #+#             */
-/*   Updated: 2026/08/07 10:23:12 by david            ###   ########.fr       */
+/*   Updated: 2026/08/10 13:06:27 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,8 @@ int	pathfinder(t_pipe_manager *pipe_info, char **path_parts)
 	if (!path_parts)
 		return (0);
 	i = 0;
+	if (get_av(pipe_info->cmd_node)[0] && !*get_av(pipe_info->cmd_node)[0])
+		return (0);
 	while (path_parts[i])
 	{
 		path_to_check = path_fixer(path_parts[i]);

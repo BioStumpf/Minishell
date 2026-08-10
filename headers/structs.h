@@ -6,7 +6,7 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/06 13:52:42 by knajmech          #+#    #+#             */
-/*   Updated: 2026/08/07 09:30:38 by david            ###   ########.fr       */
+/*   Updated: 2026/08/10 13:13:48 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,9 @@ enum e_err
 	PARSE_ERR_UNCLOSED_QUOTES,
 	PARSE_ERR_UNCLOSED_PARA,
 	PARSE_ERR_REDIR,
-	PARSE_ERR_TREE
+	PARSE_ERR_TREE,
+	PERM,
+	NT_FND
 };
 
 typedef struct s_data
