@@ -119,7 +119,7 @@ void	exec_builtin(t_ast *node, t_pipe_manager *pipe_info)
 	if (node->type == CMD && is_builtin(get_av(node)[0]) > -1)
 		redirect_builtin(pipe_info->data, node->left, get_av(node));
 	else
-		redirect_builtin(pipe_info->data, node->left, NULL);
+		redirect_builtin(pipe_info->data, node, NULL);
 	if (pipe_info->in_pipeline == IN_PIPELINE)
 	{
 		close_heredocs(pipe_info->data);
