@@ -136,7 +136,7 @@ void	export_var_start(t_data *data, char **argv)
 		else
 			string = ft_strdup(&argv[i][j]);
 		if (!string)
-			return (set_error(data, ERR_MALLOC));
+			return (set_error(data, ERR_SYS, NULL));
 		export_var(data, string);
 		free(string);
 		i++;

@@ -29,13 +29,13 @@ void	env_oldpwd_swap(t_data *data, char *new_oldpwd)
 		k_v[0] = "OLDPWD";
 		k_v[1] = new_oldpwd;
 		if (!insert_new(data->env_mp->env_ptr, data->env_mp, k_v))
-			return (set_error(data, ERR_MALLOC), free(k_v[1]));
+			return (set_error(data, ERR_SYS, NULL), free(k_v[1]));
 		return ;
 	}
 	free(key_and_val->value);
 	key_and_val->value = ft_strdup(new_oldpwd);
 	if (!key_and_val->value)
-		return (set_error(data, ERR_MALLOC));
+		return (set_error(data, ERR_SYS, NULL));
 }
 
 int	env_pwd_swap(t_data *data)
@@ -116,7 +116,7 @@ void	change_dir(t_data *data)
 	errno = 0;
 	current_pwd = getcwd(NULL, 0);
 	if (!current_pwd && errno == ENOMEM)
-		return (set_error(data, ERR_MALLOC));
+		return (set_error(data, ERR_SYS, NULL));
 	if (errno)
 		return (perror_messaging("cd", data->newdir));
 	errno = 0;
