@@ -34,7 +34,10 @@ static void	launch_childp(t_ast *direction, int *fds, int std_fd,
 	}
 	pipe_info->in_pipeline = IN_PIPELINE;
 	if (dup2(fds[std_fd], std_fd) == -1)
-		set_error(pipe_info->data, ERR_SYS, NULL);
+	{
+		pipe_info->data->err = ERR_SYS;
+		g_ret = 1;
+	}
 	close(fds[std_fd]);
 	if (fatal_error(pipe_info->data))
 	{

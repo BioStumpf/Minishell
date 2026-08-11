@@ -57,8 +57,10 @@ void	redirect_extern(t_data *data, t_ast *redir)
 		if (dup2(file_fd, get_fd(redir)) == -1)
 		{
 			close(file_fd);
-			set_error(data, ERR_SYS, NULL);
-			perror_messaging("dup", NULL);
+			data->err = ERR_SYS;
+			g_ret = 1;
+			//set_error(data, ERR_SYS, NULL);
+			//perror_messaging("dup", NULL);
 			return ;
 		}
 		close(file_fd);

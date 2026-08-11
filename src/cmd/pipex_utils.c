@@ -19,7 +19,12 @@
 char	*check_access(t_pipe_manager *pipe_info, char *ptc, char *cmd)
 {
 	if (ft_strchr(cmd, '/'))
+	{
 		pipe_info->pathwcmd = ft_strdup(cmd);
+		if (pipe_info->pathwcmd == NULL)
+			return (set_error(pipe_info->data, ERR_SYS, NULL), NULL);
+		return (pipe_info->pathwcmd);
+	}
 	else
 		pipe_info->pathwcmd = ft_strjoin(ptc, cmd);
 	if (!pipe_info->pathwcmd)
