@@ -34,8 +34,7 @@ int	fd_assign(enum e_token type, char *file_name, t_data *data, t_ast *redir)
 	else
 		fd = open(file_name, O_CREAT | O_APPEND | O_WRONLY, 0644);
 	if (fd == -1)
-		return (set_error(data, ERR_SYS, NULL), perror_messaging
-			(NULL, file_name), -1);
+		return (perror_messaging(NULL, file_name), -1);
 	return (fd);
 }
 
