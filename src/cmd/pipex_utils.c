@@ -54,6 +54,8 @@ void	pathfinder(t_pipe_manager *pipe_info, char **path_parts)
 	int		i;
 	char	*path_to_check;
 
+	if (!ft_strncmp(get_av(pipe_info->cmd_node)[0], "", 1))
+		return ;
 	if (ft_strchr(get_av(pipe_info->cmd_node)[0], '/'))
 		return (check_access(pipe_info, NULL,
 			get_av(pipe_info->cmd_node)[0]), (void)0);

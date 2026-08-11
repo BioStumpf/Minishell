@@ -22,6 +22,8 @@ int	fd_assign(enum e_token type, char *file_name, t_data *data, t_ast *redir)
 {
 	int	fd;
 
+	if (!(*file_name))
+		return (-1);
 	errno = 0;
 	if (fatal_error(data))
 		return (-1);
