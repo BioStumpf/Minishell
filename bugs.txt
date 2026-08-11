@@ -1,88 +1,86 @@
+echo - should return a -
 
-///////////
-unset sometimes causes segfault
-///////////
-minishell$ export var=hello
-Compound type: CMD;   [export] [var=hello] [(null)] 
-minishell$ echo $var
-Compound type: CMD;   [echo] [hello] [(null)] 
-hello 
-minishell$ unset var
-Compound type: CMD;   [unset] [var] [(null)] 
-minishell$ export var=hi
-Compound type: CMD;   [export] [var=hi] [(null)] 
-minishell$ echo $var
-Compound type: CMD;   [echo] [hi] [(null)] 
-hi 
-minishell$ unset var
-Compound type: CMD;   [unset] [var] [(null)] 
-Segmentation fault
+cd noexistdir: exit status (echo $?) is 0 for us should be 1
 
-///////////
-if i export expanded variable unset it and export again nothing happens?
-///////////
-minishell$ export var=hi
-Compound type: CMD;   [export] [var=hi] [(null)] 
-minishell$ export $var=hello
-Compound type: CMD;   [export] [hi=hello] [(null)] 
-minishell$ echo $hi
-Compound type: CMD;   [echo] [hello] [(null)] 
-hello 
-minishell$ unset hi
-Compound type: CMD;   [unset] [hi] [(null)] 
-minishell$ echo $hi
-Compound type: CMD;   [echo] [(null)] 
-minishell$ echo $var
-Compound type: CMD;   [echo] [hi] [(null)] 
-hi 
-minishell$ export $var=hell
-Compound type: CMD;   [export] [hi=hell] [(null)] 
-minishell$ echo $hi
-Compound type: CMD;   [echo] [(null)] 
-minishell$ 
+export --TEST=123 -> allowed varnames: alphanumeric chars + _ (underscores) no -/ whatever allowed
+export TE-ST=123 -> allowed varnames: alphanumeric chars + _ (underscores) no -/ whatever allowed
 
-/////////
->file
-/////////
-nothing happens!!!!!
+double free:
+minishell$ /bin/echo $HOME
+/home/david
+minishell$ unset HOME
+minishell$ unset HOME
+minishell$ unset HOME
+minishell$ /bin/echo $HOME
+minishell: /bin/echo: command not found
+double free or corruption (out)
+minishell$ bash
+minishell: bash: command not found
+double free or corruption (out)
+minishell$ echo hi
+hi
+minishell$ bash
+minishell: bash: command not found
+double free or corruption (out)
+
+exit "" -> should prompt that numeric argument is required and exit with code 2
+exit 1 2 -> should not exit, print too many arguments and exit with 1
+
+input redir just exits the shell even though it shouldnt:
+minishell$ <out
+minishell: No such file or directory
+david@davidslaptop:~/Documents/coding/Minishell$ echo $?
+1
+
+should return 126 (error message also should be different but return code should definetly match)
+minishell$ /bin/
+minishell: Permission denied
+minishell$ echo $?
+1
+same for:
+.
+..
+/
+
+->return code should be 126 here
+
+should return 127 (error mesage is permission denied and should be at least command not found (its actually sth completely different but i guess command not found seems reasonable))
+minishell$ "."
+minishell: Permission denied
+minishell$ echo $?
+1
+
+pwd doesnt change working directory
+mkdir "tmp_test_folder"
+/bin/echo $PWD
+cd "tmp_test_folder"
+/bin/echo $PWD
+cd ..
+/bin/echo $PWD
+rm -rf "tmp_test_folder"
+
+double free:
+david@davidslaptop:~/Documents/coding/Minishell$ ./minishell
+minishell$ export NEW=42
+minishell$ env | grep NEW
+NEW=42
+minishell$ unset NEW
+minishell$ env | grep NEW
+minishell$ unset NEW
+minishell$ unset NEW
+minishell$ unset NEW
+minishell$ unset NEW
+minishell$ unset NEW
+minishell$ env | grep NEW
+minishell: grep: command not found
+double free or corruption (out)
+
+here the return code is 139? also ls should still print the contents of the folder dunno whats happening here maybe we pass the wrong env pointer to execve and ls is confused? check what we pass execve incase of unsetting PATH
+also in general the PATH FAILS category inside the tester seems to be not working 100% (unset PATH seems to misbehave generally, so take a look at PATH FAILS category)
+ ./minishell
+minishell$ unset PATH
+minishell$ cd /bin
+minishell$ ls
+minishell: Success
 
 
-///////
-protect opens in fd_assign
-///////
-
-<<<<<<< HEAD
-<<<<<<< HEAD
-export T=nnnnnnnn
--->sometimes i get malloc fail sometimes not, I think its a collistion in env that isnt handled properly
-
-echo $/ $/
-bash interpres anything after $ except ? as a normal char. bash treats: /, -, =, :, ", ', (, ) (so everything but A-Z; a-z and _) as special
-
-exit value should work
-exit should exit with the last return code
-=======
-
-///////
-echo '' -n
-parsing seems correct, builtin echo introduces a random space:
-dstumpf@c1r3p4:~/Minishell$ ./minishell <testfile | cat -A
-///this is the compound array (before and after expansion)
-Compound type: CMD;   [echo] [''] [-n] $
-Compound type: CMD;   [echo] [] [-n] [(null)] $
-///this is the ast you can see there is no space after the -n
-CMD; [echo] [] [-n] $
-///the output of our minishell has a space after -n which should come from echo
- -n $
-////////
->>>>>>> 6ef66f5 (fix echo '' hi '' issue where word splitting ignores the quotes things; add a bug for kian)
-=======
-export T=nnnnnnnn
--->sometimes i get malloc fail sometimes not, I think its a collistion in env that isnt handled properly
-
-echo $/ $/
-bash interpres anything after $ except ? as a normal char. bash treats: /, -, =, :, ", ', (, ) (so everything but A-Z; a-z and _) as special
-
-exit value should work
-exit should exit with the last return code
->>>>>>> a63aa4e (fix echo and heredoc incase of stdin not being terminal)
