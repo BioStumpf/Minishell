@@ -57,6 +57,20 @@ void	extern_helper(t_pipe_manager *pipe_info, char ***env,
 	*path_parts = free_out(*path_parts, ft_count_2d(*path_parts));
 }
 
+char	**fill_curr_dir(t_data *data)
+{
+	char **path_parts;
+
+	path_parts = ft_calloc(2, sizeof(char *));
+	if (!path_parts)
+		return (set_error(data, ERR_SYS, NULL), NULL);
+	path_parts[0] = ft_strdup("./");
+	path_parts[1] = '\0';
+	if (!path_parts[0])
+		return (set_error(data, ERR_SYS, NULL), free(path_parts), NULL);
+	return (path_parts);
+}
+
 void	extern_child_wrapper(t_ast *node, t_pipe_manager *pipe_info)
 {
 	char	**env;
@@ -68,13 +82,12 @@ void	extern_child_wrapper(t_ast *node, t_pipe_manager *pipe_info)
 		set_error(pipe_info->data, ERR_SYS, NULL);
 		cleanup_child(pipe_info->data, pipe_info);
 	}
-	path_parts = split_path_env(pipe_info->data);
+	if (hash_search(pipe_info->data->env_mp->env_ptr, "PATH") == NULL)
+		 path_parts = fill_curr_dir(pipe_info->data);
+	else
+		path_parts = split_path_env(pipe_info->data);
 	if (fatal_error(pipe_info->data))
-	{
-		set_error(pipe_info->data, ERR_SYS, NULL);
-		free(env);
-		env = NULL;
-	}
+		return (free(env), env = NULL, cleanup_child(pipe_info->data, pipe_info));
 	extern_helper(pipe_info, &env, &path_parts);
 	if (pipe_info->pathwcmd)
 		execve(pipe_info->pathwcmd, get_av(node), env);
