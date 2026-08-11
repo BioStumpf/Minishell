@@ -40,7 +40,7 @@ void	execute(t_ast *node, t_pipe_manager *pipe_info)
 		if (fatal_error(pipe_info->data))
 			return ;
 	}
-	else
+	else if (is_redir(node->type))
 		exec_builtin(node, pipe_info);
 }
 
