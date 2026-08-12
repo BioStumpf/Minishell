@@ -72,7 +72,7 @@ void	which_builtin(t_data *data, char **cmd_argv, int builtin_call)
 // 	else
 // 		return (which_builtin(data, node->cmd_argv, builtin));
 // }
-void	execute_builtin(t_ast *node, bool in_pipeline, t_data *data)
+/*void	execute_builtin(t_ast *node, bool in_pipeline, t_data *data)
 {
 	int	builtin;
 
@@ -81,4 +81,4 @@ void	execute_builtin(t_ast *node, bool in_pipeline, t_data *data)
 		return (which_builtin(data, get_av(node), builtin));
 	else
 		return (which_builtin(data, get_av(node), builtin));
-}
+}*/

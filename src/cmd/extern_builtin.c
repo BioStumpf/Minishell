@@ -89,13 +89,20 @@ void	extern_child_wrapper(t_ast *node, t_pipe_manager *pipe_info)
 	if (fatal_error(pipe_info->data))
 		return (free(env), env = NULL, cleanup_child(pipe_info->data, pipe_info));
 	extern_helper(pipe_info, &env, &path_parts);
+	errno = 0;
 	if (pipe_info->pathwcmd)
 		execve(pipe_info->pathwcmd, get_av(node), env);
 	else
 		cleanup_child(pipe_info->data, pipe_info);
 	env = free_out(env, ft_count_2d(env));
 	path_parts = free_out(path_parts, ft_count_2d(path_parts));
-	set_error(pipe_info->data, ERR_SYS, NULL);
+	perror_messaging(NULL, pipe_info->pathwcmd);
+	if (pipe_info->cmd_found)
+		g_ret = 126;
+	else
+		g_ret = 127;
+	pipe_info->data->err = ERR_SYS;
+	//set_error(pipe_info->data, ERR_SYS, NULL);
 	cleanup_child(pipe_info->data, pipe_info);
 }
 

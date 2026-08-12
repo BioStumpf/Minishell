@@ -125,6 +125,7 @@ void	change_dir(t_data *data)
 		perror_messaging("cd", data->newdir);
 		return (g_ret = 1, free(current_pwd));
 	}
+	env_oldpwd_swap(data, current_pwd);
 	env_pwd_swap(data);
 	free(current_pwd);
 }
