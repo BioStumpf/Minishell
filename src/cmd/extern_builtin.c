@@ -19,8 +19,11 @@
 
 void	print_errors(bool cmd_found, t_pipe_manager *pipe_info)
 {
+	/*if (get_env_val(pipe_info->data, "PATH") && (get_env_val(pipe_info->data, "PATH"))[0] == '\0')
+		ft_printf(2, "minishell: %s: No such file or directory\n",
+			get_av(pipe_info->cmd_node)[0]);*/
 	if (cmd_found)
-		ft_printf(2, "%s: permission denied\n",
+		ft_printf(2, "%s: Permission denied\n",
 			get_av(pipe_info->cmd_node)[0]);
 	else
 		ft_printf(2, "%s: command not found\n",
@@ -45,7 +48,7 @@ void	extern_helper(t_pipe_manager *pipe_info, char ***env,
 		*path_parts = free_out(*path_parts, ft_count_2d(*path_parts) - 1);
 		cleanup_child(pipe_info->data, pipe_info);
 	}
-	else if (!pipe_info->pathwcmd)
+	else if (!pipe_info->pathwcmd || !get_env_val(pipe_info->data, "PATH") || (get_env_val(pipe_info->data, "PATH"))[0] == '\0')
 	{
 		if (pipe_info->cmd_found)
 			g_ret = 126;
@@ -97,10 +100,7 @@ void	extern_child_wrapper(t_ast *node, t_pipe_manager *pipe_info)
 	env = free_out(env, ft_count_2d(env));
 	path_parts = free_out(path_parts, ft_count_2d(path_parts));
 	perror_messaging(NULL, pipe_info->pathwcmd);
-	if (pipe_info->cmd_found)
-		g_ret = 126;
-	else
-		g_ret = 127;
+	set_global_status();
 	pipe_info->data->err = ERR_SYS;
 	//set_error(pipe_info->data, ERR_SYS, NULL);
 	cleanup_child(pipe_info->data, pipe_info);

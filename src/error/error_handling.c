@@ -13,6 +13,17 @@
 #include "structs.h"
 #include "ft_printf.h"
 #include "err.h"
+#include <asm-generic/errno-base.h>
+#include <errno.h>
+
+void	set_global_status(void)
+{
+	if (errno == ENOENT)
+		g_ret = 127;
+	else
+		g_ret = 126;
+	errno = 0;
+}
 
 static int	print_error_get_return(enum e_err err, const char *str)
 {

@@ -22,6 +22,7 @@ extern volatile sig_atomic_t	g_ret;
 //error handling
 void	perror_messaging(char *command, char *arg);
 void	set_error(t_data *dat, enum e_err status, const char *str);
+void	set_global_status(void);
 bool	status_ok(t_data *dat);
 bool	fatal_error(t_data *dat);
 t_data	*data_storage(t_data *data);

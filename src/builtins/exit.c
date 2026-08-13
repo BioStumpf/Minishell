@@ -14,11 +14,12 @@
 #include "libft.h"
 #include "structs.h"
 #include "err.h"
+#include "execution.h"
 #include <errno.h>
 
 static bool	valid_exit_code(char *str)
 {
-	int	valid;
+	int		valid;
 
 	valid = 0;
 	while (ft_iswhitespace(*str))
@@ -27,10 +28,16 @@ static bool	valid_exit_code(char *str)
 		++str;
 	while (*str)
 	{
-		if (!ft_isdigit(*str++))
+		if (ft_iswhitespace(*str))
+			break ;
+		else if (!ft_isdigit(*str))
 			return (false);
 		valid = 1;
+		++str;
 	}
+	while (*str)
+		if (!ft_iswhitespace(*str++))
+			valid = 0;
 	if (valid)
 		return (true);
 	return (false);
@@ -46,7 +53,7 @@ void	exit_minishell(t_data *data, char **av)
 				av[1]), data->ret = 2, (void)0);
 	if (av[0] && av[1] && av[2])
 		return (ft_printf(2, "exit: too many arguments\n"),
-			data->ret = 2, (void)0);
+			data->ret = 1, (void)0);
 	else if (av[0] && av[1])
 	{
 		errno = 0;
