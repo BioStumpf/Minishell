@@ -114,6 +114,7 @@ void	exec_extern(t_ast *node, t_pipe_manager *pipe_info)
 {
 	int	status;
 
+	status = 0;
 	if (pipe_info->in_pipeline == NO_PIPELINE)
 	{
 		pipe_info->child[0] = fork();
@@ -121,8 +122,7 @@ void	exec_extern(t_ast *node, t_pipe_manager *pipe_info)
 		{
 			pipe_info->in_pipeline = IN_PIPELINE;
 			redirect_extern(pipe_info->data, node);
-			if (fatal_error(pipe_info->data))
-				cleanup_child(pipe_info->data, pipe_info);
+			cleanup_child(pipe_info->data, pipe_info);
 		}
 		else if (pipe_info->child[0] == -1)
 			return (set_error(pipe_info->data, ERR_SYS, NULL));
