@@ -15,6 +15,18 @@
 #include "err.h"
 #include "parsing.h"
 
+void	close_fds(int *fd_arr, int amount)
+{
+	int	i;
+
+	i = 0;
+	while (i < amount)
+	{
+		close(fd_arr[i]);
+		i++;
+	}
+}
+
 static void	launch_childp(t_ast *direction, int *fds, int std_fd,
 		t_pipe_manager *pipe_info)
 {

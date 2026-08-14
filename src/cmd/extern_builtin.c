@@ -48,7 +48,7 @@ void	extern_helper(t_pipe_manager *pipe_info, char ***env,
 		*path_parts = free_out(*path_parts, ft_count_2d(*path_parts) - 1);
 		cleanup_child(pipe_info->data, pipe_info);
 	}
-	else if (!pipe_info->pathwcmd || !get_env_val(pipe_info->data, "PATH") || (get_env_val(pipe_info->data, "PATH"))[0] == '\0')
+	else if (!pipe_info->pathwcmd)
 	{
 		if (pipe_info->cmd_found)
 			g_ret = 126;
@@ -99,7 +99,8 @@ void	extern_child_wrapper(t_ast *node, t_pipe_manager *pipe_info)
 		cleanup_child(pipe_info->data, pipe_info);
 	env = free_out(env, ft_count_2d(env));
 	path_parts = free_out(path_parts, ft_count_2d(path_parts));
-	perror_messaging(NULL, pipe_info->pathwcmd);
+	errno = check_path(pipe_info->pathwcmd);
+	perror_messaging(NULL, get_av(node)[0]);
 	set_global_status();
 	pipe_info->data->err = ERR_SYS;
 	//set_error(pipe_info->data, ERR_SYS, NULL);

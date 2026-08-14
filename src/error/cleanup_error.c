@@ -14,19 +14,22 @@
 #include "env.h"
 #include "structs.h"
 #include "err.h"
+#include <asm-generic/errno-base.h>
 #include <readline/readline.h>
 #include "parsing.h"
+#include <sys/stat.h>
 
-void	close_fds(int *fd_arr, int amount)
+int	check_path(char *cmd)
 {
-	int	i;
+	struct stat	statbuf;
 
-	i = 0;
-	while (i < amount)
-	{
-		close(fd_arr[i]);
-		i++;
-	}
+	if (stat(cmd, &statbuf) == -1)
+		return (ENOENT);
+	else if (S_ISDIR(statbuf.st_mode))
+		return (EISDIR);
+	if (!(statbuf.st_mode & S_IXUSR))
+		return (EACCES);
+	return (0);
 }
 
 void	cleanup_env(t_data *data)
