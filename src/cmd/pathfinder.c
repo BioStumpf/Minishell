@@ -14,6 +14,7 @@
 #include "structs.h"
 #include "env.h"
 #include "err.h"
+#include <asm-generic/errno-base.h>
 
 char	**free_out(char **out, size_t len)
 {
@@ -81,7 +82,7 @@ char	**protection_and_initialisation(t_data *data, t_list *hash_arr)
 	char	**path_parts;
 
 	key_and_val = hash_search(hash_arr, "PATH");
-	if (key_and_val == NULL || key_and_val->value == NULL)
+	if (key_and_val == NULL || key_and_val->value == NULL || key_and_val->value[0] == '\0')
 		return (0);
 	path_parts = split_the_path(key_and_val->value);
 	if (!path_parts)

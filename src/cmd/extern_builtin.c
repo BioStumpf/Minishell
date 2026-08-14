@@ -21,7 +21,10 @@ void	print_errors(bool cmd_found, t_pipe_manager *pipe_info)
 {
 	/*if (get_env_val(pipe_info->data, "PATH") && (get_env_val(pipe_info->data, "PATH"))[0] == '\0')
 		ft_printf(2, "minishell: %s: No such file or directory\n",
-			get_av(pipe_info->cmd_node)[0]);*/
+			get_av(pipe_info->cmd_node)[0]);
+	err  = check_path(get_av(pipe_info->cmd_node)[0]);*/
+	/*if (errno != 0)
+		perror_messaging(NULL, get_av(pipe_info->cmd_node)[0]);*/
 	if (cmd_found)
 		ft_printf(2, "%s: Permission denied\n",
 			get_av(pipe_info->cmd_node)[0]);
