@@ -14,10 +14,18 @@
 #include "env.h"
 #include "structs.h"
 #include "err.h"
+#include "execution.h"
 #include <asm-generic/errno-base.h>
 #include <readline/readline.h>
 #include "parsing.h"
 #include <sys/stat.h>
+
+void	clean_extern_helper(t_pipe_manager *pipe_info, char ***env, char ***pb)
+{
+	*env = free_out(*env, pipe_info->data->env_mp->elem_num);
+	*pb = free_out(*pb, ft_count_2d(*pb));
+	cleanup_child(pipe_info->data, pipe_info);
+}
 
 int	check_path(char *cmd)
 {

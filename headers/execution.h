@@ -30,6 +30,8 @@
 # include <errno.h>
 // # include "builtins.h"
 
+char	**fill_curr_dir(t_data *data);
+void	after_execve_exit(t_pipe_manager *pipe_info, t_ast *ast);
 void	exec_pipe(t_ast *node, t_pipe_manager *pipe_info);
 void	exec_and(t_ast *node, t_pipe_manager *pipe_info);
 void	exec_or(t_ast *node, t_pipe_manager *pipe_info);

@@ -55,7 +55,7 @@ void	which_builtin(t_data *data, char **cmd_argv, int builtin_call)
 		return (export_var_start(data, cmd_argv));
 	else if (builtin_call == UNSET)
 		return (unset_var(data->env_mp,
-					data->env_mp->env_ptr, cmd_argv[1]));
+				data->env_mp->env_ptr, cmd_argv[1]));
 	else if (builtin_call == ENV)
 		return (env_var(data));
 	else if (builtin_call == EXIT)

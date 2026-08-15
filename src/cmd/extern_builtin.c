@@ -19,12 +19,6 @@
 
 void	print_errors(bool cmd_found, t_pipe_manager *pipe_info)
 {
-	/*if (get_env_val(pipe_info->data, "PATH") && (get_env_val(pipe_info->data, "PATH"))[0] == '\0')
-		ft_printf(2, "minishell: %s: No such file or directory\n",
-			get_av(pipe_info->cmd_node)[0]);
-	err  = check_path(get_av(pipe_info->cmd_node)[0]);*/
-	/*if (errno != 0)
-		perror_messaging(NULL, get_av(pipe_info->cmd_node)[0]);*/
 	if (cmd_found)
 		ft_printf(2, "%s: Permission denied\n",
 			get_av(pipe_info->cmd_node)[0]);
@@ -39,18 +33,10 @@ void	extern_helper(t_pipe_manager *pipe_info, char ***env,
 	*env = env_ptrptr(pipe_info->data,
 			pipe_info->data->env_mp->env_ptr, *env);
 	if (!*env && fatal_error(pipe_info->data))
-	{
-		*path_parts = free_out(*path_parts, ft_count_2d(*path_parts));
-		*env = free_out(*env, pipe_info->data->env_mp->elem_num);
-		cleanup_child(pipe_info->data, pipe_info);
-	}
+		clean_extern_helper(pipe_info, env, path_parts);
 	pathfinder(pipe_info, *path_parts);
 	if (fatal_error(pipe_info->data))
-	{
-		*env = free_out(*env, pipe_info->data->env_mp->elem_num);
-		*path_parts = free_out(*path_parts, ft_count_2d(*path_parts) - 1);
-		cleanup_child(pipe_info->data, pipe_info);
-	}
+		clean_extern_helper(pipe_info, env, path_parts);
 	else if (!pipe_info->pathwcmd)
 	{
 		if (pipe_info->cmd_found)
@@ -63,20 +49,6 @@ void	extern_helper(t_pipe_manager *pipe_info, char ***env,
 	*path_parts = free_out(*path_parts, ft_count_2d(*path_parts));
 }
 
-char	**fill_curr_dir(t_data *data)
-{
-	char **path_parts;
-
-	path_parts = ft_calloc(2, sizeof(char *));
-	if (!path_parts)
-		return (set_error(data, ERR_SYS, NULL), NULL);
-	path_parts[0] = ft_strdup("./");
-	path_parts[1] = '\0';
-	if (!path_parts[0])
-		return (set_error(data, ERR_SYS, NULL), free(path_parts), NULL);
-	return (path_parts);
-}
-
 void	extern_child_wrapper(t_ast *node, t_pipe_manager *pipe_info)
 {
 	char	**env;
@@ -84,16 +56,15 @@ void	extern_child_wrapper(t_ast *node, t_pipe_manager *pipe_info)
 
 	env = malloc((pipe_info->data->env_mp->elem_num + 1) * sizeof(char *));
 	if (!env)
-	{
-		set_error(pipe_info->data, ERR_SYS, NULL);
-		cleanup_child(pipe_info->data, pipe_info);
-	}
+		return (set_error(pipe_info->data, ERR_SYS, NULL),
+			cleanup_child(pipe_info->data, pipe_info));
 	if (hash_search(pipe_info->data->env_mp->env_ptr, "PATH") == NULL)
-		 path_parts = fill_curr_dir(pipe_info->data);
+		path_parts = fill_curr_dir(pipe_info->data);
 	else
 		path_parts = split_path_env(pipe_info->data);
 	if (fatal_error(pipe_info->data))
-		return (free(env), env = NULL, cleanup_child(pipe_info->data, pipe_info));
+		return (free(env), env = NULL,
+			cleanup_child(pipe_info->data, pipe_info));
 	extern_helper(pipe_info, &env, &path_parts);
 	errno = 0;
 	if (pipe_info->pathwcmd)
@@ -102,12 +73,7 @@ void	extern_child_wrapper(t_ast *node, t_pipe_manager *pipe_info)
 		cleanup_child(pipe_info->data, pipe_info);
 	env = free_out(env, ft_count_2d(env));
 	path_parts = free_out(path_parts, ft_count_2d(path_parts));
-	errno = check_path(pipe_info->pathwcmd);
-	perror_messaging(NULL, get_av(node)[0]);
-	set_global_status();
-	pipe_info->data->err = ERR_SYS;
-	//set_error(pipe_info->data, ERR_SYS, NULL);
-	cleanup_child(pipe_info->data, pipe_info);
+	after_execve_exit(pipe_info, node);
 }
 
 void	exec_extern(t_ast *node, t_pipe_manager *pipe_info)

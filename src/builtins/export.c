@@ -39,7 +39,9 @@ bool	valid_check(char *argv)
 		return (true);
 	i = 0;
 	if (ft_iswhitespace(string[i]) || string[i] == '=' || ft_isdigit(string[i]))
-		return (g_ret = 1, ft_printf(2, "export: `%s': not a valid identifier\n", string), false);
+		return (g_ret = 1,
+			ft_printf(2, "export: `%s': not a valid identifier\n", string),
+			false);
 	while (argv[i] && argv[i] != '=')
 	{
 		if (!ft_isalnum(argv[i]) && argv[i] != '_')
@@ -114,6 +116,20 @@ void	export_var(t_data *data, char *argv)
 void	export_var_start(t_data *data, char **argv)
 {
 	int		i;
+
+	i = 1;
+	if (!argv[i])
+		print_var(data->env_mp->env_ptr, data->env_mp->capacity);
+	while (argv[i])
+	{
+		export_var(data, argv[i]);
+		i++;
+	}
+}
+/*
+void	export_var_start(t_data *data, char **argv)
+{
+	int		i;
 	int		j;
 	char	*string;
 	char	delimitter;
@@ -125,7 +141,8 @@ void	export_var_start(t_data *data, char **argv)
 	{
 		j = 0;
 		delimitter = 0;
-		while (argv[i][j] && (argv[i][j] == '\'' || argv[i][j] == '\"' || argv[i][j] == '`'))
+		while (argv[i][j] && (argv[i][j] == '\'' ||
+			argv[i][j] == '\"' || argv[i][j] == '`'))
 			j++;
 		if (j)
 			delimitter = argv[i][j - 1];
@@ -141,4 +158,4 @@ void	export_var_start(t_data *data, char **argv)
 		free(string);
 		i++;
 	}
-}
+}*/

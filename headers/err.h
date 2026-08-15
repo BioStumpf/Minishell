@@ -20,6 +20,7 @@
 extern volatile sig_atomic_t	g_ret;
 
 //error handling
+void	clean_extern_helper(t_pipe_manager *pipe_info, char ***env, char ***pb);
 int		check_path(char *cmd);
 void	perror_messaging(char *command, char *arg);
 void	set_error(t_data *dat, enum e_err status, const char *str);

@@ -52,10 +52,8 @@ static void	launch_childp(t_ast *direction, int *fds, int std_fd,
 	}
 	close(fds[std_fd]);
 	if (fatal_error(pipe_info->data))
-	{
-		close_heredocs(pipe_info->data);
-		cleanup_child(pipe_info->data, pipe_info);
-	}
+		return (close_heredocs(pipe_info->data),
+			cleanup_child(pipe_info->data, pipe_info));
 	return (execute(direction, pipe_info));
 }
 

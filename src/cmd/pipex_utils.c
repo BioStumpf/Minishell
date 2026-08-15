@@ -16,6 +16,15 @@
 #include "err.h"
 #include "execution.h"
 
+void	after_execve_exit(t_pipe_manager *pipe_info, t_ast *node)
+{
+	errno = check_path(pipe_info->pathwcmd);
+	perror_messaging(NULL, get_av(node)[0]);
+	set_global_status();
+	pipe_info->data->err = ERR_SYS;
+	cleanup_child(pipe_info->data, pipe_info);
+}
+
 char	*check_access(t_pipe_manager *pipe_info, char *ptc, char *cmd)
 {
 	if (ft_strchr(cmd, '/'))
@@ -54,6 +63,20 @@ char	*path_fixer(char *path_to_fix)
 	return (fixed_path);
 }
 
+char	**fill_curr_dir(t_data *data)
+{
+	char	**path_parts;
+
+	path_parts = ft_calloc(2, sizeof(char *));
+	if (!path_parts)
+		return (set_error(data, ERR_SYS, NULL), NULL);
+	path_parts[0] = ft_strdup("./");
+	path_parts[1] = '\0';
+	if (!path_parts[0])
+		return (set_error(data, ERR_SYS, NULL), free(path_parts), NULL);
+	return (path_parts);
+}
+
 void	pathfinder(t_pipe_manager *pipe_info, char **path_parts)
 {
 	int		i;
@@ -63,7 +86,7 @@ void	pathfinder(t_pipe_manager *pipe_info, char **path_parts)
 		return ;
 	if (ft_strchr(get_av(pipe_info->cmd_node)[0], '/'))
 		return (check_access(pipe_info, NULL,
-			get_av(pipe_info->cmd_node)[0]), (void)0);
+				get_av(pipe_info->cmd_node)[0]), (void)0);
 	if (!path_parts)
 		return ;
 	i = 0;
@@ -71,7 +94,8 @@ void	pathfinder(t_pipe_manager *pipe_info, char **path_parts)
 	{
 		path_to_check = path_fixer(path_parts[i]);
 		if (!path_to_check)
-			return (set_error(pipe_info->data, ERR_SYS, NULL), perror("malloc"));
+			return (set_error(pipe_info->data, ERR_SYS, NULL),
+				perror("malloc"));
 		assert(path_to_check);
 		if (check_access(pipe_info, path_to_check,
 				get_av(pipe_info->cmd_node)[0]))

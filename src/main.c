@@ -41,9 +41,6 @@ static void	free_all(t_data *dat)
 {
 	rl_clear_history();
 	cleanup_normal(dat);
-	/*if ((!dat->input && dat->read_input == read_terminal)
-		|| dat->err == EXIT_CALL)
-		ft_printf(2, "exit\n");*/
 }
 
 static void	reset(t_data *dat)
