@@ -6,12 +6,13 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/11 09:33:31 by knajmech          #+#    #+#             */
-/*   Updated: 2026/08/04 15:14:01 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/08/17 12:39:08 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 #include "libft.h"
+#include "err.h"
 
 static bool	is_newline_flag(char *str)
 {
@@ -48,4 +49,5 @@ void	echo_print(char **string_arg)
 	}
 	if (newline_flag == 1)
 		ft_printf(1, "\n");
+	g_ret = 0;
 }

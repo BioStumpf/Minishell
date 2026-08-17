@@ -6,7 +6,7 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/23 08:18:08 by knajmech          #+#    #+#             */
-/*   Updated: 2026/08/05 08:19:39 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/08/17 14:33:55 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include "libft.h"
 # define CAPACITY 67
 
+void	print_var(t_list *env_arr, int capacity);
 int				set_pwdenv(t_data *data);
 void			print_expolist(t_node *env_list);
 void			delete_envnode(t_env *env);

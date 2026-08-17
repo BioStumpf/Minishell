@@ -6,7 +6,7 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/12 12:11:39 by knajmech          #+#    #+#             */
-/*   Updated: 2026/08/05 12:20:55 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/08/17 12:46:28 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,8 +100,7 @@ void	exec_extern(t_ast *node, t_pipe_manager *pipe_info)
 		return ;
 	}
 	redirect_extern(pipe_info->data, node);
-	if (fatal_error(pipe_info->data))
-		cleanup_child(pipe_info->data, pipe_info);
+	cleanup_child(pipe_info->data, pipe_info);
 }
 
 void	exec_builtin(t_ast *node, t_pipe_manager *pipe_info)

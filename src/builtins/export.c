@@ -6,7 +6,7 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/12 09:27:50 by knajmech          #+#    #+#             */
-/*   Updated: 2026/08/07 10:45:10 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/08/17 14:53:16 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,17 +16,20 @@
 #include "err.h"
 #include "ft_printf.h"
 
-void	print_var(t_list *env_arr, int capacity)
+char	**heap_allocate_vars(char *arg1, char delimitter, char *arg2)
 {
-	int	i;
+	char	**ptr;
 
-	i = 0;
-	while (i < capacity)
-	{
-		if (env_arr[i].head)
-			print_expolist(env_arr[i].head);
-		i++;
-	}
+	ptr = ft_calloc(3, sizeof(char *));
+	if (!ptr)
+		return (NULL);
+	ptr[0] = ft_strndup(arg1, delimitter);
+	if (!ptr[0])
+		return (free(ptr), NULL);
+	ptr[1] = ft_strdup(arg2);
+	if (!ptr[1])
+		return (free(ptr[0]), free(ptr), NULL);
+	return (ptr);
 }
 
 bool	valid_check(char *argv)
@@ -63,26 +66,20 @@ char	**get_vars(t_data *data, char *argv)
 	char	**ptr;
 
 	i = 0;
-	ptr = ft_calloc(3, sizeof(char *));
-	if (!ptr)
-		return (set_error(data, ERR_SYS, NULL), NULL);
 	while (argv && argv[i])
 	{
 		if (argv[i] == '=')
 		{
-			ptr[0] = ft_strndup(argv, '=');
-			ptr[1] = ft_strdup(&argv[i + 1]);
-			if (!ptr[0] || !ptr[1])
-				return (free(ptr[0]), free(ptr), set_error(data, ERR_SYS, NULL),
-					NULL);
+			ptr = heap_allocate_vars(argv, '=', &argv[i + 1]);
+			if (!ptr)
+				return (set_error(data, ERR_SYS, NULL), NULL);
 			return (ptr);
 		}
 		i++;
 	}
-	ptr[0] = ft_strdup(argv);
-	ptr[1] = ft_strdup("\0");
-	if (!ptr[0] || !ptr[1])
-		return (free(ptr[0]), free(ptr), set_error(data, ERR_SYS, NULL), NULL);
+	ptr = heap_allocate_vars(argv, '\0', "\0");
+	if (!ptr)
+		return (set_error(data, ERR_SYS, NULL), NULL);
 	return (ptr);
 }
 
@@ -118,11 +115,14 @@ void	export_var_start(t_data *data, char **argv)
 	int		i;
 
 	i = 1;
+	g_ret = 0;
 	if (!argv[i])
 		print_var(data->env_mp->env_ptr, data->env_mp->capacity);
 	while (argv[i])
 	{
 		export_var(data, argv[i]);
+		if (fatal_error(data))
+			return ;
 		i++;
 	}
 }

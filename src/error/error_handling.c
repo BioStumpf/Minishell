@@ -6,7 +6,7 @@
 /*   By: david <user@student.42mail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/06 21:34:36 by david             #+#    #+#             */
-/*   Updated: 2026/08/05 07:58:12 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/08/17 12:56:33 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,11 @@ void	set_global_status(void)
 
 static int	print_error_get_return(enum e_err err, const char *str)
 {
-	if (err == ERR_SYS)
-		return (perror("minishell"), 1);
+	if (err == ERR_SYS && str)
+	{
+		perror_messaging(NULL, (char *) str);
+		return (1);
+	}
 	if (err == PARSE_ERR_UNCLOSED_QUOTES)
 		return (ft_printf(2, "Minishell: syntax error, unclosed quotes\n"), 2);
 	else if (err == PARSE_ERR_UNCLOSED_PARA)

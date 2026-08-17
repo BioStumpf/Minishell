@@ -6,7 +6,7 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/03 09:24:30 by knajmech          #+#    #+#             */
-/*   Updated: 2026/08/17 09:34:46 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/08/17 12:53:29 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	fd_assign(enum e_token type, char *file_name, t_data *data, t_ast *redir)
 	else
 		fd = open(file_name, O_CREAT | O_APPEND | O_WRONLY, 0644);
 	if (fd == -1)
-		return (perror_messaging(NULL, file_name), -1);
+		return (set_error(data, ERR_SYS, file_name), -1);
 	return (fd);
 }
 

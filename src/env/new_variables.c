@@ -6,7 +6,7 @@
 /*   By: knajmech <knajmech@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/06 11:01:30 by knajmech          #+#    #+#             */
-/*   Updated: 2026/08/07 09:51:50 by david            ###   ########.fr       */
+/*   Updated: 2026/08/17 14:25:18 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ t_node	*add(char *key, char *val)
 		return (free(key), free(val), NULL);
 	content_node = ft_nodenew(key_val_node);
 	if (!content_node)
-		return (delete_envnode(key_val_node), NULL);
+		return (delete_envnode(key_val_node), free(key_val_node), NULL);
 	return ((t_node *) content_node);
 }
 
@@ -87,7 +87,7 @@ int	replace_or_add(t_list *map_env, t_env_tracker *tracker,
 		return (free(value[1]), 0);
 	content_node = add(value[0], value[1]);
 	if (!content_node)
-		return (free(value[0]), free(value[1]), 0);
+		return (0);
 	ft_lstadd_back(&map_env[key_index], content_node);
 	return (tracker->elem_num++, 1);
 }

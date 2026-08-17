@@ -6,7 +6,7 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/11 10:00:28 by knajmech          #+#    #+#             */
-/*   Updated: 2026/08/07 09:47:57 by david            ###   ########.fr       */
+/*   Updated: 2026/08/17 12:42:16 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,7 @@ void	change_dir(t_data *data)
 {
 	char	*current_pwd;
 
+	g_ret = 0;
 	if (!change_to_home(data))
 		return ;
 	if (!ft_strncmp(data->newdir, "-", 2))
