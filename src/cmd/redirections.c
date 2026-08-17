@@ -6,7 +6,7 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/03 09:24:30 by knajmech          #+#    #+#             */
-/*   Updated: 2026/08/07 12:03:32 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/08/17 09:34:46 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ void	redirect_extern(t_data *data, t_ast *redir)
 	{
 		close_heredocs(data);
 		extern_child_wrapper(data->pipe_info->cmd_node, data->pipe_info);
+		g_ret = 1;
 		return ;
 	}
 	file_fd = fd_assign(redir->type, get_operand(redir), data, redir);
