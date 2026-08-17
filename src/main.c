@@ -6,11 +6,10 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/30 14:04:09 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/08/06 12:28:28 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/08/17 16:07:23 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
 #include "readline_sigs.h"
 #include <readline/readline.h>
 #include "parsing.h"
@@ -30,7 +29,11 @@ static void	init(t_data *dat, int ac, char **av)
 	ft_bzero(dat, sizeof(t_data));
 	errno = 0;
 	if (isatty(STDIN_FILENO))
+	{
+		setup_signal(SIGINT, sigint_handler);
+		setup_signal(SIGQUIT, SIG_IGN);
 		dat->read_input = read_terminal;
+	}
 	else if (errno == ENOTTY)
 		dat->read_input = read_stdin;
 	else

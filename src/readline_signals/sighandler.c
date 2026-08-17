@@ -6,22 +6,22 @@
 /*   By: david <dstumpf@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/06 17:05:45 by david             #+#    #+#             */
-/*   Updated: 2026/07/27 16:36:43 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/08/17 16:57:48 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <readline/readline.h>
 #include <err.h>
 
-void	sigint_readline(int sig)
+void	sigint_handler(int sig)
 {
 	g_ret = (128 + sig) % 256;
 }
 
-void	sigint_exec(int sig)
+void	signal_newline(void)
 {
-	g_ret = (128 + sig) % 256;
-	write(STDOUT_FILENO, "\n", 1);
+	if (g_ret == 128 + SIGINT)
+		write(STDOUT_FILENO, "\n", 1);
 }
 
 int	readline_hook(void)
@@ -32,12 +32,6 @@ int	readline_hook(void)
 		rl_done = 1;
 	}
 	return (0);
-}
-
-void	sigquit_handler(int sig)
-{
-	g_ret = (128 + sig) % 256;
-	write(STDOUT_FILENO, "Quit\n", 5);
 }
 
 void	setup_signal(int sig, void (*sig_func)(int sig))

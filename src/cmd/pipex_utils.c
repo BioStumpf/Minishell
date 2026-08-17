@@ -6,7 +6,7 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/03 07:24:21 by knajmech          #+#    #+#             */
-/*   Updated: 2026/08/17 15:05:02 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/08/17 15:50:35 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ char	**fill_curr_dir(t_data *data)
 	if (!path_parts)
 		return (set_error(data, ERR_SYS, NULL), NULL);
 	path_parts[0] = ft_strdup("./");
-	path_parts[1]= NULL;
+	path_parts[1] = NULL;
 	if (!path_parts[0])
 		return (set_error(data, ERR_SYS, NULL), free(path_parts), NULL);
 	return (path_parts);

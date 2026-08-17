@@ -14,7 +14,6 @@
 #include "libft.h"
 #include "structs.h"
 #include "err.h"
-#include "execution.h"
 #include <errno.h>
 
 static bool	valid_exit_code(char *str)

@@ -6,10 +6,11 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/12 12:11:39 by knajmech          #+#    #+#             */
-/*   Updated: 2026/08/17 12:46:28 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/08/17 16:56:16 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "readline_sigs.h"
 #include "builtins.h"
 #include "execution.h"
 #include "parsing.h"
@@ -97,6 +98,7 @@ void	exec_extern(t_ast *node, t_pipe_manager *pipe_info)
 			g_ret = WEXITSTATUS(status);
 		else if (WIFSIGNALED(status))
 			g_ret = 128 + WTERMSIG(status);
+		signal_newline();
 		return ;
 	}
 	redirect_extern(pipe_info->data, node);

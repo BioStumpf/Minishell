@@ -6,7 +6,7 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/12 12:08:14 by knajmech          #+#    #+#             */
-/*   Updated: 2026/08/07 10:24:57 by david            ###   ########.fr       */
+/*   Updated: 2026/08/17 17:00:05 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "execution.h"
 #include "err.h"
 #include "parsing.h"
+#include "readline_sigs.h"
 
 void	close_fds(int *fd_arr, int amount)
 {
@@ -80,6 +81,7 @@ void	exec_pipe(t_ast *node, t_pipe_manager *pipe_info)
 		g_ret = WEXITSTATUS(status);
 	else if (WIFSIGNALED(status))
 		g_ret = 128 + WTERMSIG(status);
+	signal_newline();
 	if (pipe_info->in_pipeline)
 		return (close_heredocs(pipe_info->data),
 			cleanup_child(pipe_info->data, pipe_info));
