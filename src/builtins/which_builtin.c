@@ -6,7 +6,7 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/15 09:46:08 by knajmech          #+#    #+#             */
-/*   Updated: 2026/08/05 08:31:53 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/08/17 17:50:17 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ int	is_builtin(char *cmd)
 
 void	which_builtin(t_data *data, char **cmd_argv, int builtin_call)
 {
-	assert (builtin_call <= 6 && builtin_call >= 0);
 	if (builtin_call == ECHO)
 		return (echo_print(cmd_argv));
 	else if (builtin_call == CD)

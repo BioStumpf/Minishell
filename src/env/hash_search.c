@@ -6,7 +6,7 @@
 /*   By: knajmech <knajmech@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/04 10:03:18 by knajmech          #+#    #+#             */
-/*   Updated: 2026/08/03 16:31:37 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/08/17 17:45:49 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,7 @@ void	print_expolist(t_node *env_list)
 	i = 0;
 	while (env_list)
 	{
-		assert(env_list->content != NULL);
 		node = env_list->content;
-		assert(node->key != NULL);
 		if (node->value && ft_strncmp(node->key, "_", 2))
 			ft_printf(1, "declare -x %s=\"%s\"\n", node->key, node->value);
 		else
@@ -40,7 +38,6 @@ unsigned int	find_hash_key(char	*key)
 	unsigned int	i;
 	unsigned int	key_len;
 
-	assert(key != NULL);
 	hash = 5381;
 	key_len = ft_strlen_char(key, '=');
 	i = 0;

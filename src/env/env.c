@@ -6,13 +6,12 @@
 /*   By: knajmech <knajmech@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 09:36:17 by knajmech          #+#    #+#             */
-/*   Updated: 2026/08/17 12:13:33 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/08/17 17:45:09 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "err.h"
 #include "env.h"
-#include <assert.h>
 #include <stdio.h>
 
 t_env	*make_kv_node(char *key, char *val)
