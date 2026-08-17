@@ -6,7 +6,7 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/03 07:24:21 by knajmech          #+#    #+#             */
-/*   Updated: 2026/08/17 10:21:05 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/08/17 15:05:02 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,9 +94,7 @@ void	pathfinder(t_pipe_manager *pipe_info, char **path_parts)
 	{
 		path_to_check = path_fixer(path_parts[i]);
 		if (!path_to_check)
-			return (set_error(pipe_info->data, ERR_SYS, NULL),
-				perror("malloc"));
-		assert(path_to_check);
+			return (set_error(pipe_info->data, ERR_SYS, NULL));
 		if (check_access(pipe_info, path_to_check,
 				get_av(pipe_info->cmd_node)[0]))
 			return (free(path_to_check));

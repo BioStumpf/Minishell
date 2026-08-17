@@ -6,7 +6,7 @@
 /*   By: david <user@student.42mail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/06 21:34:36 by david             #+#    #+#             */
-/*   Updated: 2026/08/17 12:56:33 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/08/17 15:14:55 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,9 @@ void	set_global_status(void)
 
 static int	print_error_get_return(enum e_err err, const char *str)
 {
-	if (err == ERR_SYS && str)
+	if (err == ERR_SYS)
 	{
-		perror_messaging(NULL, (char *) str);
+		perror_messaging(NULL, (char *)str);
 		return (1);
 	}
 	if (err == PARSE_ERR_UNCLOSED_QUOTES)

@@ -6,7 +6,7 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/11 10:00:28 by knajmech          #+#    #+#             */
-/*   Updated: 2026/08/17 12:42:16 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/08/17 15:24:01 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ void	change_dir(t_data *data)
 	if (!current_pwd && errno == ENOMEM)
 		return (set_error(data, ERR_SYS, NULL));
 	if (errno)
-		return (perror_messaging("cd", data->newdir));
+		return (g_ret = 1, perror_messaging("cd", data->newdir));
 	errno = 0;
 	if (chdir(data->newdir) == -1)
 	{

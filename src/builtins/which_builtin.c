@@ -50,7 +50,7 @@ void	which_builtin(t_data *data, char **cmd_argv, int builtin_call)
 		return (data->newdir = cmd_argv[1], change_dir(data));
 	}
 	else if (builtin_call == PWD)
-		return (pworkdir());
+		return (pworkdir(data));
 	else if (builtin_call == EXPO)
 		return (export_var_start(data, cmd_argv));
 	else if (builtin_call == UNSET)

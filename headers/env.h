@@ -18,7 +18,7 @@
 # include "libft.h"
 # define CAPACITY 67
 
-void	print_var(t_list *env_arr, int capacity);
+void			print_var(t_list *env_arr, int capacity);
 int				set_pwdenv(t_data *data);
 void			print_expolist(t_node *env_list);
 void			delete_envnode(t_env *env);

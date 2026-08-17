@@ -81,7 +81,7 @@ void	redirect_builtin(t_data *data, t_ast *redir, char **cmd)
 	errno = 0;
 	saved_fd = dup(get_fd(redir));
 	if (saved_fd == -1 && errno != EBADF)
-		return (set_error(data, ERR_SYS, NULL), perror_messaging("dup", NULL));
+		return (set_error(data, ERR_SYS, NULL));
 	file_fd = fd_assign(redir->type, get_operand(redir), data, redir);
 	if (file_fd == -1)
 		return (close(saved_fd), (void)0);
@@ -92,6 +92,6 @@ void	redirect_builtin(t_data *data, t_ast *redir, char **cmd)
 	if (saved_fd == -1)
 		return (close(get_fd(redir)), (void)0);
 	if (dup2(saved_fd, get_fd(redir)) == -1)
-		return (set_error(data, ERR_SYS, NULL), perror_messaging("dup", NULL));
+		return (set_error(data, ERR_SYS, NULL));
 	close(saved_fd);
 }
