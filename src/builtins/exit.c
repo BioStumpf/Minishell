@@ -6,7 +6,7 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/12 09:55:27 by knajmech          #+#    #+#             */
-/*   Updated: 2026/08/07 09:48:28 by david            ###   ########.fr       */
+/*   Updated: 2026/08/17 18:41:29 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,17 +49,18 @@ void	exit_minishell(t_data *data, char **av)
 	set_error(data, EXIT_CALL, NULL);
 	if (av[1] && !valid_exit_code(av[1]))
 		return (ft_printf(2, "exit: %s: numeric argument required\n",
-				av[1]), data->ret = 2, (void)0);
-	if (av[0] && av[1] && av[2])
+				av[1]), g_ret = 2, (void)0);
+	else if (av[0] && av[1] && av[2])
 		return (ft_printf(2, "exit: too many arguments\n"),
-			data->ret = 1, (void)0);
+			g_ret = 1, (void)0);
 	else if (av[0] && av[1])
 	{
 		errno = 0;
 		ret = ft_atol(av[1]) % 256;
 		if (!valid_exit_code(av[1]) || errno == ERANGE)
 			return (ft_printf(2, "exit: %s: numeric argument required\n",
-					av[1]), data->ret = 2, (void)0);
-		return (data->ret = ret, (void)0);
+					av[1]), g_ret = 2, (void)0);
+		return (g_ret = ret, (void)0);
 	}
+	g_ret = data->ret; 
 }
