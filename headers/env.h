@@ -6,17 +6,16 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/23 08:18:08 by knajmech          #+#    #+#             */
-/*   Updated: 2026/08/17 14:33:55 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/08/18 12:22:35 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef ENV_H
 # define ENV_H
 
-# include <assert.h>
 # include "structs.h"
 # include "libft.h"
-# define CAPACITY 67
+# define CAPACITY 97
 
 void			print_var(t_list *env_arr, int capacity);
 int				set_pwdenv(t_data *data);
