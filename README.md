@@ -6,7 +6,7 @@ This project was a collaborative effort between Kian Najmechi (knajmech), and Da
 Due to the nature of including the bonus part of the project, we have included '&&' and '||' with paranthesis for priority (although the behaviour is recreated, we do not include a subshell). This means that we use an abstract syntax tree with recursive descent to go through each token, execute its step, and then move onto the next step. We prioritise pipes, forking for a write end and a write end. Then we can through the other steps, taking a look at the type of commands that need to be executed etc.
 
 ## Parsing
-
+	
 
 ## Execution
 
