@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenize.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
+/*   By: knajmech <knajmech@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 15:15:50 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/08/07 10:19:16 by david            ###   ########.fr       */
+/*   Updated: 2026/08/18 14:32:39 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,6 @@
 #include "parsing.h"
 #include "err.h"
 
-//after knowing the current char is a metachar,
-//check if its a double (&& || >> <<)
-//if not double metachar but and, we dont want to do anything
-//because in our minishell this one does not have special meaning
-//whitespace metachar that we should skip (SPACE TAB \n)
-//or else a valid single metachar ( | < > ')' '(' )
 static bool	meta_token(char **input, t_node *new)
 {
 	if (is_double_metachar(*input))
@@ -88,3 +82,10 @@ t_list	*tokenize(t_data *dat)
 	move_redirs(lst);
 	return (lst);
 }
+
+//after knowing the current char is a metachar,
+//check if its a double (&& || >> <<)
+//if not double metachar but and, we dont want to do anything
+//because in our minishell this one does not have special meaning
+//whitespace metachar that we should skip (SPACE TAB \n)
+//or else a valid single metachar ( | < > ')' '(' )

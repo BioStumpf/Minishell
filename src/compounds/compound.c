@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   compound.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: david <user@student.42mail.com>            +#+  +:+       +#+        */
+/*   By: knajmech <knajmech@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/26 13:37:33 by david             #+#    #+#             */
-/*   Updated: 2026/08/07 10:27:36 by david            ###   ########.fr       */
+/*   Updated: 2026/08/18 14:30:59 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 #include "parsing.h"
 #include <stdlib.h>
 #include <err.h>
-// #include <stdbool.h>
 
 static size_t	count_compounds(t_list *tokens)
 {

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
+/*   By: knajmech <knajmech@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/27 09:07:15 by knajmech          #+#    #+#             */
-/*   Updated: 2026/08/05 12:50:41 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/08/18 14:29:38 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ void	exec_pipe(t_ast *node, t_pipe_manager *pipe_info);
 void	exec_and(t_ast *node, t_pipe_manager *pipe_info);
 void	exec_or(t_ast *node, t_pipe_manager *pipe_info);
 void	execute(t_ast *node, t_pipe_manager *pipe_info);
-// void	heredoc(t_data *data, t_ast *node);
 void	redirect_builtin(t_data *data, t_ast *redir, char **cmd);
 void	redirect_extern(t_data *data, t_ast *redir);
 char	**free_out(char **out, size_t len);

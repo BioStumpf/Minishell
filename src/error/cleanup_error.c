@@ -3,14 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   cleanup_error.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
+/*   By: knajmech <knajmech@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/22 14:22:15 by knajmech          #+#    #+#             */
-/*   Updated: 2026/08/17 12:30:55 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/08/18 14:30:53 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-// #include "execution.h"
 #include "env.h"
 #include "structs.h"
 #include "err.h"

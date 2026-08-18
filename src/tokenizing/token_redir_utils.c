@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_redir_utils.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: david <dstumpf@student.42vienna.com>       +#+  +:+       +#+        */
+/*   By: knajmech <knajmech@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/15 13:45:26 by david             #+#    #+#             */
-/*   Updated: 2026/07/31 10:53:30 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/08/18 14:32:22 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 #include <unistd.h>
 #include "err.h"
 
-//handles default cases (when there was no word infront the redirection)
 static void	redir_fd(t_list *lst, t_node *redir, t_node *fd, t_node *before_fd)
 {
 	if (fd && tok_type(fd) == WORD && !tok_space(fd)
@@ -97,3 +96,4 @@ void	move_redirs(t_list *tokens)
 		cur = cur->next;
 	}
 }
+//handles default cases (when there was no word infront the redirection)

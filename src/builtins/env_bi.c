@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_bi.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
+/*   By: knajmech <knajmech@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/12 09:10:22 by knajmech          #+#    #+#             */
-/*   Updated: 2026/08/17 14:33:17 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/08/18 14:35:41 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,4 +59,4 @@ void	env_var(t_data *data)
 	}
 	g_ret = 0;
 }
-//remember to remove assert len check here
+//comment
