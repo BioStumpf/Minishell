@@ -5,8 +5,39 @@ This project was a collaborative effort between Kian Najmechi (knajmech), and Da
 
 Due to the nature of including the bonus part of the project, we have included '&&' and '||' with paranthesis for priority (although the behaviour is recreated, we do not include a subshell). This means that we use an abstract syntax tree with recursive descent to go through each token, execute its step, and then move onto the next step. We prioritise pipes, forking for a write end and a write end. Then we can through the other steps, taking a look at the type of commands that need to be executed etc.
 
+### Parsing
+
 ## Parsing
-	
+
+Our parsing is split into two main stages: tokenization and building the AST. The lexer walks through the raw input character by character, splitting it into tokens while keeping track of quote state (single vs double quotes behave differently, since single quotes block all expansion while double quotes still allow variable expansion to happen later). Redirections, pipes, and the logical operators are all recognised at this stage and tagged with their own token types so the parser doesn't have to re-derive them.
+
+Once we have a token stream, we build an abstract syntax tree using recursive descent. Each grammar rule (command, pipeline, and/or expression, parenthesised group) maps to its own function, and the parser calls into itself for anything of lower precedence before combining the result into a node. This gave us a clean way to encode precedence without having to write a separate precedence table: parentheses are handled by recursing back into the top level of the grammar, pipes bind tighter than '&&' and '||', and '&&'/'||' are left-associative so we build the tree leaning left as we consume operators.
+
+Every node in the tree carries a type (command, pipe, and, or, subshell) along with left and right children where relevant, so a command sits at a leaf and everything above it is control flow. Execution later just walks this same tree, which is why the pipeline and the logical operators share so much of the same traversal logic.
+
+Expansion of variables, exit status ('$?'), and tilde happens after the tree is built rather than during tokenization, since we need the quote context preserved per-token to decide what should and shouldn't be expanded. This also let us keep the parser itself fairly dumb about the meaning of the words it's grouping, it only cares about structure.
+
+If the parser hits anything it can't make sense of (unmatched quotes, a pipe with nothing on one side, a stray parenthesis), it throws a syntax error and the whole line is discarded without attempting execution, in keeping with how we handle parsing errors elsewhere in the project.
+
+Heredocs
+
+Heredocs are detected at the parsing stage but resolved separately from the rest of the tree, since they need to consume input before execution ever starts. Once we hit a '<<' token, we read line by line from stdin until we see a line that matches the given delimiter exactly. If the delimiter was quoted in the original input, we skip expansion entirely and treat the body as a literal block; if it wasn't quoted, each line gets passed through the same expansion logic as everything else before being written out.
+
+We write the collected heredoc content into a pipe rather than a temp file, so the reading end can be handed directly to the command as its stdin once execution starts. This avoids leaving stray files around and keeps cleanup simpler.
+
+Because heredoc collection happens before we fork anything, it also needs to be interruptible on its own. A Ctrl-C during heredoc input aborts the collection, discards whatever was already been typed, and returns control back to the prompt rather than trying to execute a partial command.
+
+### Signal Handling
+
+We handle signals differently depending on whether we're sitting at the prompt, waiting on a heredoc, or waiting on a child process, since bash itself behaves differently in each of those states and we wanted to stay close to that.
+
+At the prompt, Ctrl-C (SIGINT) doesn't kill the shell. It prints a newline, discards whatever's currently on the input line, and redraws the prompt as if nothing happened. Ctrl-D (EOF) at an empty prompt line exits the shell the same way calling 'exit' with no arguments would, but if there's already text typed on the line, Ctrl-D is ignored, matching bash's behaviour of only exiting on EOF when the line is empty.
+
+While a child process is running (a builtin isn't run in a child, so this only really applies to piped/forked commands), we set SIGINT and SIGQUIT back to their default dispositions in the child before execve, so the child can be interrupted normally, while the parent shell itself ignores those signals and just waits on the child. Once the child dies from a signal, we make sure the reported exit status reflects that (128 + signal number), same as bash does.
+
+During heredoc collection, SIGINT is handled separately again since we're not in a child process and not at the main prompt either, so it needed its own handler to break out of the read loop cleanly and set the exit status to 130 without leaving a half-built heredoc pipe behind.
+
+Because signal handlers can only safely touch a very limited set of operations, we rely on a single global variable to record which signal was caught, and the actual handling logic (reprinting the prompt, adjusting exit status, breaking a read loop) happens outside the handler itself once control returns to the main loop.
 
 ## Execution
 
