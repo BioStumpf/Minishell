@@ -6,7 +6,7 @@
 /*   By: david <dstumpf@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/08 10:08:30 by david             #+#    #+#             */
-/*   Updated: 2026/08/17 19:43:41 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/08/18 13:51:37 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,30 @@
 #include "readline_sigs.h"
 #include <fcntl.h>
 #include <readline/readline.h>
+#include <errno.h>
+#include "get_next_line.h"
 
 static bool	read_input(t_data *dat, char **line)
 {
+	char	*tmp;
+
 	if (dat->read_input == read_terminal)
 		*line = readline("> ");
 	else
-		*line = readline("");
+	{
+		errno = 0;
+		tmp = get_next_line(STDIN_FILENO);
+		if (!tmp)
+		{
+			if (errno != 0)
+				set_error(dat, ERR_SYS, NULL);
+			return (false);
+		}
+		*line = ft_strtrim(tmp, "\n");
+		free(tmp);
+		if (!line)
+		return (set_error(dat, ERR_SYS, NULL), false);
+	}
 	if (g_ret == 128 + SIGINT)
 		return (free(*line), *line = NULL, false);
 	return (true);

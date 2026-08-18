@@ -1,9 +1,6 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   read_input.c                                       :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: david <dstumpf@student.42vienna.com>       +#+  +:+       +#+        */
+/*                                                        :::      ::::::::   */ /*   read_input.c                                       :+:      :+:    :+:   */ /*                                                    +:+ +:+         +:+     */ /*   By: david <dstumpf@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/06 13:00:27 by david             #+#    #+#             */
 /*   Updated: 2026/08/17 16:31:01 by dstumpf          ###   ########.fr       */
@@ -33,9 +30,7 @@ void	read_stdin(t_data *dat)
 	line = get_next_line(STDIN_FILENO);
 	if (!line)
 	{
-		if (errno == ENOMEM)
-			set_error(dat, ERR_SYS, NULL);
-		else if (errno != 0)
+		if (errno != 0)
 			set_error(dat, ERR_SYS, NULL);
 		dat->input = NULL;
 		return ;
