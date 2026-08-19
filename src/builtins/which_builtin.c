@@ -6,7 +6,7 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/15 09:46:08 by knajmech          #+#    #+#             */
-/*   Updated: 2026/08/04 15:22:03 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/08/18 16:51:10 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ int	is_builtin(char *cmd)
 
 void	which_builtin(t_data *data, char **cmd_argv, int builtin_call)
 {
-	assert (builtin_call <= 6 && builtin_call >= 0);
 	if (builtin_call == ECHO)
 		return (echo_print(cmd_argv));
 	else if (builtin_call == CD)
@@ -50,14 +49,11 @@ void	which_builtin(t_data *data, char **cmd_argv, int builtin_call)
 		return (data->newdir = cmd_argv[1], change_dir(data));
 	}
 	else if (builtin_call == PWD)
-		return (pworkdir());
+		return (pworkdir(data));
 	else if (builtin_call == EXPO)
 		return (export_var_start(data, cmd_argv));
 	else if (builtin_call == UNSET)
-	{
-		data->env_mp->elem_num--;
-		return (unset_var(data->env_mp->env_ptr, cmd_argv[1]));
-	}
+		return (unset_var_start(data, cmd_argv));
 	else if (builtin_call == ENV)
 		return (env_var(data));
 	else if (builtin_call == EXIT)
@@ -74,7 +70,7 @@ void	which_builtin(t_data *data, char **cmd_argv, int builtin_call)
 // 	else
 // 		return (which_builtin(data, node->cmd_argv, builtin));
 // }
-void	execute_builtin(t_ast *node, bool in_pipeline, t_data *data)
+/*void	execute_builtin(t_ast *node, bool in_pipeline, t_data *data)
 {
 	int	builtin;
 
@@ -83,4 +79,4 @@ void	execute_builtin(t_ast *node, bool in_pipeline, t_data *data)
 		return (which_builtin(data, get_av(node), builtin));
 	else
 		return (which_builtin(data, get_av(node), builtin));
-}
+}*/

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: david <dstumpf@student.42vienna.com>       +#+  +:+       +#+        */
+/*   By: dstumpf <dstumpf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/08/09 09:05:59 by david             #+#    #+#             */
-/*   Updated: 2026/08/09 09:11:20 by david            ###   ########.fr       */
+/*   Created: 2026/08/18 18:45:58 by dstumpf           #+#    #+#             */
+/*   Updated: 2026/08/18 18:45:59 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	heredoc(t_data *dat, t_compound_arr *ca)
 	if (!ca || !status_ok(dat))
 		return ;
 	i = 0;
-	while (i < ca->len)
+	while (i < ca->len && g_ret != 128 + SIGINT)
 	{
 		comp = get_comp(ca, i);
 		if (comp_type(comp) == REDIR_HEREDOC)

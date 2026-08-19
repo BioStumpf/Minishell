@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
+/*   By: dstumpf <dstumpf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/30 14:04:09 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/08/04 16:34:26 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/08/18 18:46:45 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
 #include "readline_sigs.h"
+#include "ft_printf.h"
 #include <readline/readline.h>
 #include "parsing.h"
 #include "execution.h"
@@ -30,7 +30,11 @@ static void	init(t_data *dat, int ac, char **av)
 	ft_bzero(dat, sizeof(t_data));
 	errno = 0;
 	if (isatty(STDIN_FILENO))
+	{
+		setup_signal(SIGINT, sigint_handler);
+		setup_signal(SIGQUIT, SIG_IGN);
 		dat->read_input = read_terminal;
+	}
 	else if (errno == ENOTTY)
 		dat->read_input = read_stdin;
 	else
@@ -41,8 +45,8 @@ static void	free_all(t_data *dat)
 {
 	rl_clear_history();
 	cleanup_normal(dat);
-	if ((!dat->input && dat->read_input == read_terminal)
-		|| dat->err == EXIT_CALL)
+	if ((!dat->input || dat->err == EXIT_CALL)
+		&& dat->read_input == read_terminal)
 		ft_printf(2, "exit\n");
 }
 
@@ -68,11 +72,10 @@ int	main(int argc, char **argv, char **envp)
 		parse_input(&dat);
 		coordinate_exec(&dat);
 		reset(&dat);
-		if (fatal_error(&dat))
+		if (fatal_error(&dat) || dat.err == EXIT_CALL)
 			return (free_all(&dat), g_ret);
 		if (!dat.input || dat.err == EXIT_CALL)
 			return (free_all(&dat), dat.ret);
 		dat.ret = g_ret;
-		g_ret = 0;
 	}
 }

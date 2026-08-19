@@ -14,7 +14,7 @@ SRCS_DIR := src/
 HEADER_DIR := headers/
 
 SRCS_main := main.c error/error_handling.c readline_signals/read_input.c readline_signals/sighandler.c
-SRCS_david := parsing_glue/parsing.c parsing_glue/to_delete_later.c parsing_glue/parser_cleanup.c \
+SRCS_david := parsing_glue/parsing.c parsing_glue/parser_cleanup.c \
 			  tokenizing/tokenize.c tokenizing/token_list_utils.c tokenizing/token_string_utils.c tokenizing/token_word_utils.c tokenizing/token_metachar_utils.c tokenizing/token_accessors.c tokenizing/token_redir_utils.c tokenizing/token_setters.c \
 			  compounds/compound.c compounds/dynamic_compound_array.c compounds/comp_accessors.c compounds/comp_arg_accessors.c compounds/comp_array_accessors.c compounds/comp_accessors_2.c parsing_glue/heredoc.c \
 			  expansion/expand.c expansion/expand_split_compounds.c expansion/expansion_accessors.c expansion/expansion_vector.c expansion/find_expansions.c expansion/insert_expansion.c expansion/trim_expansions.c expansion/word_split.c expansion/word_split_utils.c expansion/heredoc.c expansion/reopen_heredoc.c \
@@ -23,7 +23,7 @@ SRCS_david := parsing_glue/parsing.c parsing_glue/to_delete_later.c parsing_glue
 SRCS_kian := env/delete_env.c env/hash_search.c env/new_variables.c env/env.c env/env_swap_func.c\
 builtins/which_builtin.c builtins/unset.c builtins/pworkdir.c builtins/export.c builtins/exit.c builtins/env_bi.c builtins/echo.c builtins/changedir.c \
 cmd/execution.c cmd/pathfinder.c cmd/pipex_utils.c cmd/redirections.c cmd/and_or.c cmd/pipe.c cmd/extern_builtin.c \
-error/cleanup_error.c
+error/cleanup_error.c error/error_print.c
 SRCS := $(SRCS_main) $(SRCS_kian) $(SRCS_david)
 SRCS := $(addprefix $(SRCS_DIR), $(SRCS))
 OBJS := $(patsubst $(SRCS_DIR)%.c, $(OBJ_DIR)%.o, $(SRCS))
@@ -93,7 +93,10 @@ fclean: localclean
 	$(MAKE) --no-print-directory -sC $(LIBFT_DIR) fclean
 	@printf "\n"
 
-re: fclean all
+#re: fclean all
+re:
+	$(MAKE) fclean
+	$(MAKE) all
 
 -include $(DEPS)
 

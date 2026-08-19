@@ -3,25 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   sighandler.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: david <dstumpf@student.42vienna.com>       +#+  +:+       +#+        */
+/*   By: dstumpf <dstumpf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/07/06 17:05:45 by david             #+#    #+#             */
-/*   Updated: 2026/07/27 16:36:43 by dstumpf          ###   ########.fr       */
+/*   Created: 2026/08/18 18:46:18 by dstumpf           #+#    #+#             */
+/*   Updated: 2026/08/18 18:46:19 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <readline/readline.h>
 #include <err.h>
 
-void	sigint_readline(int sig)
+void	sigint_handler(int sig)
 {
 	g_ret = (128 + sig) % 256;
 }
 
-void	sigint_exec(int sig)
+void	signal_newline(void)
 {
-	g_ret = (128 + sig) % 256;
-	write(STDOUT_FILENO, "\n", 1);
+	if (g_ret == 128 + SIGINT)
+		write(STDOUT_FILENO, "\n", 1);
 }
 
 int	readline_hook(void)
@@ -32,12 +32,6 @@ int	readline_hook(void)
 		rl_done = 1;
 	}
 	return (0);
-}
-
-void	sigquit_handler(int sig)
-{
-	g_ret = (128 + sig) % 256;
-	write(STDOUT_FILENO, "Quit\n", 5);
 }
 
 void	setup_signal(int sig, void (*sig_func)(int sig))

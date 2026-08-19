@@ -6,7 +6,7 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/03 09:24:30 by knajmech          #+#    #+#             */
-/*   Updated: 2026/08/07 10:25:35 by david            ###   ########.fr       */
+/*   Updated: 2026/08/19 09:34:01 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,16 @@
 #include "execution.h"
 #include "builtins.h"
 #include "err.h"
+#include <asm-generic/errno-base.h>
 #include <errno.h>
 
 int	fd_assign(enum e_token type, char *file_name, t_data *data, t_ast *redir)
 {
 	int	fd;
 
+	if (!(*file_name))
+		return (-1);
+	errno = 0;
 	if (fatal_error(data))
 		return (-1);
 	if (type == REDIR_INFILE)
@@ -31,8 +35,10 @@ int	fd_assign(enum e_token type, char *file_name, t_data *data, t_ast *redir)
 		fd = reopen_heredoc(get_open_fd(redir), O_RDONLY);
 	else
 		fd = open(file_name, O_CREAT | O_APPEND | O_WRONLY, 0644);
-	if (fd == -1)
-		return (set_error(data, ERR_SYS, NULL), -1);
+	if (fd == -1 && errno == EACCES)
+		return (perror_messaging(NULL, file_name), g_ret = 1, -1);
+	else if (fd == -1)
+		return (set_error(data, ERR_SYS, file_name), -1);
 	return (fd);
 }
 
@@ -44,15 +50,18 @@ void	redirect_extern(t_data *data, t_ast *redir)
 	{
 		close_heredocs(data);
 		extern_child_wrapper(data->pipe_info->cmd_node, data->pipe_info);
+		g_ret = 1;
 		return ;
 	}
 	file_fd = fd_assign(redir->type, get_operand(redir), data, redir);
 	if (file_fd != -1)
 	{
+		errno = 0;
 		if (dup2(file_fd, get_fd(redir)) == -1)
 		{
 			close(file_fd);
-			set_error(data, ERR_SYS, NULL);
+			data->err = ERR_SYS;
+			g_ret = 1;
 			return ;
 		}
 		close(file_fd);
@@ -60,7 +69,6 @@ void	redirect_extern(t_data *data, t_ast *redir)
 	}
 }
 
-//expand here for operands, char **cmd needs to be expanded earlier
 void	redirect_builtin(t_data *data, t_ast *redir, char **cmd)
 {
 	int	saved_fd;
@@ -77,13 +85,15 @@ void	redirect_builtin(t_data *data, t_ast *redir, char **cmd)
 	if (saved_fd == -1 && errno != EBADF)
 		return (set_error(data, ERR_SYS, NULL));
 	file_fd = fd_assign(redir->type, get_operand(redir), data, redir);
-	if (file_fd == -1 || dup2(file_fd, get_fd(redir)) == -1)
-		return (close(saved_fd), close(file_fd), (void)0);
+	if (file_fd == -1)
+		return (close(saved_fd), (void)0);
+	if (dup2(file_fd, get_fd(redir)) == -1)
+		return (g_ret = 1, close(saved_fd), close(file_fd), (void)0);
 	close(file_fd);
 	redirect_builtin(data, redir->left, cmd);
 	if (saved_fd == -1)
 		return (close(get_fd(redir)), (void)0);
 	if (dup2(saved_fd, get_fd(redir)) == -1)
-		set_error(data, ERR_SYS, NULL);
+		return (set_error(data, ERR_SYS, NULL));
 	close(saved_fd);
 }

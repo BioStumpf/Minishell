@@ -6,7 +6,7 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/12 12:08:14 by knajmech          #+#    #+#             */
-/*   Updated: 2026/08/07 10:24:57 by david            ###   ########.fr       */
+/*   Updated: 2026/08/17 17:00:05 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,19 @@
 #include "execution.h"
 #include "err.h"
 #include "parsing.h"
+#include "readline_sigs.h"
+
+void	close_fds(int *fd_arr, int amount)
+{
+	int	i;
+
+	i = 0;
+	while (i < amount)
+	{
+		close(fd_arr[i]);
+		i++;
+	}
+}
 
 static void	launch_childp(t_ast *direction, int *fds, int std_fd,
 		t_pipe_manager *pipe_info)
@@ -34,13 +47,14 @@ static void	launch_childp(t_ast *direction, int *fds, int std_fd,
 	}
 	pipe_info->in_pipeline = IN_PIPELINE;
 	if (dup2(fds[std_fd], std_fd) == -1)
-		set_error(pipe_info->data, ERR_SYS, NULL);
+	{
+		pipe_info->data->err = ERR_SYS;
+		g_ret = 1;
+	}
 	close(fds[std_fd]);
 	if (fatal_error(pipe_info->data))
-	{
-		close_heredocs(pipe_info->data);
-		cleanup_child(pipe_info->data, pipe_info);
-	}
+		return (close_heredocs(pipe_info->data),
+			cleanup_child(pipe_info->data, pipe_info));
 	return (execute(direction, pipe_info));
 }
 
@@ -67,6 +81,7 @@ void	exec_pipe(t_ast *node, t_pipe_manager *pipe_info)
 		g_ret = WEXITSTATUS(status);
 	else if (WIFSIGNALED(status))
 		g_ret = 128 + WTERMSIG(status);
+	signal_newline();
 	if (pipe_info->in_pipeline)
 		return (close_heredocs(pipe_info->data),
 			cleanup_child(pipe_info->data, pipe_info));
