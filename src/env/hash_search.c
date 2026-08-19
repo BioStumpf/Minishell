@@ -16,9 +16,7 @@
 void	print_expolist(t_node *env_list)
 {
 	t_env	*node;
-	int		i;
 
-	i = 0;
 	while (env_list)
 	{
 		node = env_list->content;
@@ -27,7 +25,6 @@ void	print_expolist(t_node *env_list)
 		else
 			ft_printf(1, "declare -x %s\n", node->key);
 		env_list = env_list->next;
-		i++;
 	}
 }
 

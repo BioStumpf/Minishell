@@ -11,9 +11,7 @@
 /* ************************************************************************** */
 
 #include "structs.h"
-#include "libft.h"
 #include "env.h"
-#include "readline_sigs.h"
 #include "err.h"
 
 int	set_pwdenv(t_data *data)
