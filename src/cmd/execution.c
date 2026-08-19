@@ -6,7 +6,7 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/25 10:17:19 by knajmech          #+#    #+#             */
-/*   Updated: 2026/08/07 13:13:56 by david            ###   ########.fr       */
+/*   Updated: 2026/08/17 12:38:00 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,11 @@
 
 void	execute(t_ast *node, t_pipe_manager *pipe_info)
 {
+	if (fatal_error(pipe_info->data))
+		cleanup_child(pipe_info->data, pipe_info);
 	expand(pipe_info->data, node);
 	if (fatal_error(pipe_info->data))
-	{
-		close_heredocs(pipe_info->data);
 		cleanup_child(pipe_info->data, pipe_info);
-	}
 	if (node->type == AND)
 		exec_and(node, pipe_info);
 	else if (node->type == OR)
@@ -40,8 +39,8 @@ void	execute(t_ast *node, t_pipe_manager *pipe_info)
 		if (fatal_error(pipe_info->data))
 			return ;
 	}
-	else if (is_redir(node->type))
-		exec_builtin(node, pipe_info);
+	else
+		redirect_builtin(pipe_info->data, node, NULL);
 }
 
 void	coordinate_exec(t_data *data)

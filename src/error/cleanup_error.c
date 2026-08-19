@@ -3,30 +3,40 @@
 /*                                                        :::      ::::::::   */
 /*   cleanup_error.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
+/*   By: knajmech <knajmech@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/22 14:22:15 by knajmech          #+#    #+#             */
-/*   Updated: 2026/07/30 16:30:03 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/08/18 14:30:53 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-// #include "execution.h"
 #include "env.h"
 #include "structs.h"
 #include "err.h"
+#include "execution.h"
+#include <asm-generic/errno-base.h>
 #include <readline/readline.h>
 #include "parsing.h"
+#include <sys/stat.h>
 
-void	close_fds(int *fd_arr, int amount)
+void	clean_extern_helper(t_pipe_manager *pipe_info, char ***env, char ***pb)
 {
-	int	i;
+	*env = free_out(*env, pipe_info->data->env_mp->elem_num);
+	*pb = free_out(*pb, ft_count_2d(*pb));
+	cleanup_child(pipe_info->data, pipe_info);
+}
 
-	i = 0;
-	while (i < amount)
-	{
-		close(fd_arr[i]);
-		i++;
-	}
+int	check_path(char *cmd)
+{
+	struct stat	statbuf;
+
+	if (stat(cmd, &statbuf) == -1)
+		return (ENOENT);
+	else if (S_ISDIR(statbuf.st_mode))
+		return (EISDIR);
+	if (!(statbuf.st_mode & S_IXUSR))
+		return (EACCES);
+	return (0);
 }
 
 void	cleanup_env(t_data *data)
@@ -59,6 +69,7 @@ void	cleanup_normal(t_data *data)
 
 void	cleanup_child(t_data *data, t_pipe_manager *pipe_info)
 {
+	close_heredocs(data);
 	rl_clear_history();
 	cleanup_env(data);
 	free(data->input);

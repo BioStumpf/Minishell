@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   read_input.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: david <dstumpf@student.42vienna.com>       +#+  +:+       +#+        */
+/*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/07/06 13:00:27 by david             #+#    #+#             */
-/*   Updated: 2026/08/04 16:22:37 by dstumpf          ###   ########.fr       */
+/*   Created: 2026/08/18 14:16:45 by knajmech          #+#    #+#             */
+/*   Updated: 2026/08/18 14:16:48 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,9 @@
 
 void	read_terminal(t_data *dat)
 {
-	setup_signal(SIGINT, sigint_readline);
-	setup_signal(SIGQUIT, SIG_IGN);
 	dat->input = readline("minishell$ ");
 	if (dat->input && *dat->input)
 		add_history(dat->input);
-	setup_signal(SIGINT, sigint_exec);
-	setup_signal(SIGQUIT, sigquit_handler);
 }
 
 void	read_stdin(t_data *dat)
@@ -37,9 +33,7 @@ void	read_stdin(t_data *dat)
 	line = get_next_line(STDIN_FILENO);
 	if (!line)
 	{
-		if (errno == ENOMEM)
-			set_error(dat, ERR_SYS, NULL);
-		else if (errno != 0)
+		if (errno != 0)
 			set_error(dat, ERR_SYS, NULL);
 		dat->input = NULL;
 		return ;

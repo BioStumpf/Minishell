@@ -6,13 +6,12 @@
 /*   By: knajmech <knajmech@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 09:36:17 by knajmech          #+#    #+#             */
-/*   Updated: 2026/08/07 09:54:09 by david            ###   ########.fr       */
+/*   Updated: 2026/08/17 17:45:09 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "err.h"
 #include "env.h"
-#include <assert.h>
 #include <stdio.h>
 
 t_env	*make_kv_node(char *key, char *val)
@@ -22,13 +21,10 @@ t_env	*make_kv_node(char *key, char *val)
 	node = malloc(sizeof(t_env));
 	if (!node)
 		return (NULL);
-	assert(key != NULL);
-	assert(val != NULL);
 	node->key = key;
 	node->key_w_equal = ft_strjoin(key, "=");
 	if (!node->key_w_equal)
 		return (free(node), NULL);
-	assert(ft_strlen(node->key_w_equal));
 	node->value = val;
 	return (node);
 }
@@ -40,14 +36,13 @@ int	hash_function(t_list *map_env, t_env_tracker *tracker,
 	t_node				*content_node;
 	char				*value[2];
 
-	assert(key_index <= (unsigned int) tracker->capacity);
 	value[0] = ft_strndup(env_var, '=');
 	value[1] = ft_strdup(ft_strchr(env_var, '=') + 1);
 	if (!value[0] || !value[1])
 		return (free(value[0]), free(value[1]), 0);
 	key_val_node = hash_search(map_env, value[0]);
 	if (key_val_node)
-		return (free(value[0]), key_val_node->value = value[1], 1);
+		return (free(value[0]), key_val_node->value = value[1], 0);
 	key_val_node = make_kv_node(value[0], value[1]);
 	if (!key_val_node)
 		return (free(value[0]), free(value[1]), 0);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: david <dstumpf@student.42vienna.com>       +#+  +:+       +#+        */
+/*   By: dstumpf <dstumpf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/08/08 10:08:30 by david             #+#    #+#             */
-/*   Updated: 2026/08/08 10:11:50 by david            ###   ########.fr       */
+/*   Created: 2026/08/18 18:47:02 by dstumpf           #+#    #+#             */
+/*   Updated: 2026/08/18 18:47:03 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,19 +16,35 @@
 #include "libft.h"
 #include "parsing.h"
 #include "structs.h"
-#include "get_next_line.h"
 #include "readline_sigs.h"
 #include <fcntl.h>
+#include <readline/readline.h>
 #include <errno.h>
+#include "get_next_line.h"
 
 static bool	read_input(t_data *dat, char **line)
 {
-	errno = 0;
+	char	*tmp;
+
 	if (dat->read_input == read_terminal)
-		write(2, "> ", 2);
-	*line = get_next_line(STDIN_FILENO);
-	if (errno != 0 && !line)
-		return (set_error(dat, ERR_SYS, NULL), false);
+		*line = readline("> ");
+	else
+	{
+		errno = 0;
+		tmp = get_next_line(STDIN_FILENO);
+		if (!tmp)
+		{
+			if (errno != 0)
+				set_error(dat, ERR_SYS, NULL);
+			return (false);
+		}
+		*line = ft_strtrim(tmp, "\n");
+		free(tmp);
+		if (!line)
+			return (set_error(dat, ERR_SYS, NULL), false);
+	}
+	if (g_ret == 128 + SIGINT)
+		return (free(*line), *line = NULL, false);
 	return (true);
 }
 
@@ -42,7 +58,7 @@ static bool	find_limiter(char *line, char *limiter)
 				"warning: here-document delimited by end-of-file\n"), true);
 	lim_len = ft_strlen(limiter);
 	line_len = ft_strlen(line);
-	if (lim_len + 1 != line_len)
+	if (lim_len != line_len)
 		return (false);
 	if (ft_strncmp(line, limiter, lim_len) == 0)
 		return (true);
@@ -97,7 +113,7 @@ void	prompt_heredoc(t_data *dat, t_compound *comp)
 			return (close_heredocs(dat));
 		if (find_limiter(line, comp_filename(comp)))
 			return (free(line));
-		ft_putstr_fd(line, comp_open_fd(comp));
+		ft_putendl_fd(line, comp_open_fd(comp));
 		free(line);
 	}
 }
