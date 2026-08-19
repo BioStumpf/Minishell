@@ -6,18 +6,19 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/04 11:00:01 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/08/18 18:33:36 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/08/19 18:24:34 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PARSING_H
 # define PARSING_H
 
-# include "structs.h"
-
 # define SPCE " \t\n"
 # define RM_QUOTES true
 # define KEEP_QUOTES false
+# define _GNU_SOURCE
+
+# include "structs.h"
 
 ///////////////////////////////////////////
 //tokenizer structs and enums
@@ -267,8 +268,8 @@ void			built_ast(t_data *dat, t_compound_arr *ca);
 t_ast			*parse_ast(t_data *dat, t_compound_arr *ca, size_t *i);
 
 //to_delete_functions (just usefull for now)
-void			print_token(void *content); //this need to be removed
-void			print_tree(t_ast *root, int depth);
-void			print_compound(t_compound_arr *compounds);
+// void			print_token(void *content); //this need to be removed
+// void			print_tree(t_ast *root, int depth);
+// void			print_compound(t_compound_arr *compounds);
 
 #endif

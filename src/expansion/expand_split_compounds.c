@@ -6,17 +6,16 @@
 /*   By: dstumpf <dstumpf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/18 18:46:51 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/08/18 18:46:52 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/08/19 18:24:27 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#define _GNU_SOURCE
-#include "libft.h"
 #include "parsing.h"
+#include <fcntl.h>
+#include "libft.h"
 #include "err.h"
 #include "structs.h"
 #include "get_next_line.h"
-#include <fcntl.h>
 #include <errno.h>
 
 static bool	open_fds(t_ast *node, int fds[2])

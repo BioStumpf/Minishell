@@ -6,18 +6,17 @@
 /*   By: dstumpf <dstumpf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/18 18:47:02 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/08/18 18:47:03 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/08/19 18:25:04 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#define _GNU_SOURCE
+#include "parsing.h"
+#include "fcntl.h"
 #include "err.h"
 #include "ft_printf.h"
 #include "libft.h"
-#include "parsing.h"
 #include "structs.h"
 #include "readline_sigs.h"
-#include <fcntl.h>
 #include <readline/readline.h>
 #include <errno.h>
 #include "get_next_line.h"

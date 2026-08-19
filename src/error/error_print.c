@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "structs.h"
 #include "err.h"
 #include <stdio.h>
 #include "ft_printf.h"
