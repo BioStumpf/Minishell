@@ -6,7 +6,7 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/12 12:08:14 by knajmech          #+#    #+#             */
-/*   Updated: 2026/08/17 17:00:05 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/08/19 18:05:03 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,10 +66,10 @@ void	exec_pipe(t_ast *node, t_pipe_manager *pipe_info)
 	status = 0;
 	if (pipe(fds) == -1)
 		set_error(pipe_info->data, ERR_SYS, NULL);
-	pipe_info->child[0] = fork();
+	pipe_info->child[0] = custom_fork();
 	if (pipe_info->child[0] <= 0)
 		launch_childp(node->left, fds, STDOUT_FILENO, pipe_info);
-	pipe_info->child[1] = fork();
+	pipe_info->child[1] = custom_fork();
 	if (pipe_info->child[1] <= 0)
 		launch_childp(node->right, fds, STDIN_FILENO, pipe_info);
 	close_fds(fds, 2);
@@ -77,11 +77,11 @@ void	exec_pipe(t_ast *node, t_pipe_manager *pipe_info)
 		waitpid(pipe_info->child[0], NULL, 0);
 	if (pipe_info->child[1] != -1)
 		waitpid(pipe_info->child[1], &status, 0);
+	signal_print(status);
 	if (WIFEXITED(status))
 		g_ret = WEXITSTATUS(status);
 	else if (WIFSIGNALED(status))
 		g_ret = 128 + WTERMSIG(status);
-	signal_newline();
 	if (pipe_info->in_pipeline)
 		return (close_heredocs(pipe_info->data),
 			cleanup_child(pipe_info->data, pipe_info));

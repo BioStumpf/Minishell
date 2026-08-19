@@ -19,7 +19,8 @@ void	sigint_handler(int sig);
 void	read_terminal(t_data *dat);
 void	read_stdin(t_data *dat);
 void	setup_signal(int sig, void (*sigint)(int sig));
-void	signal_newline(void);
+void	signal_print(int status);
 int		readline_hook(void);
+int		custom_fork(void);
 
 #endif

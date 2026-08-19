@@ -6,7 +6,7 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/12 12:11:39 by knajmech          #+#    #+#             */
-/*   Updated: 2026/08/17 16:56:16 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/08/19 18:06:25 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ void	exec_extern(t_ast *node, t_pipe_manager *pipe_info)
 	status = 0;
 	if (pipe_info->in_pipeline == NO_PIPELINE)
 	{
-		pipe_info->child[0] = fork();
+		pipe_info->child[0] = custom_fork();
 		if (pipe_info->child[0] == 0)
 		{
 			pipe_info->in_pipeline = IN_PIPELINE;
@@ -94,11 +94,11 @@ void	exec_extern(t_ast *node, t_pipe_manager *pipe_info)
 		else if (pipe_info->child[0] == -1)
 			return (set_error(pipe_info->data, ERR_SYS, NULL));
 		waitpid(pipe_info->child[0], &status, 0);
+		signal_print(status);
 		if (WIFEXITED(status))
 			g_ret = WEXITSTATUS(status);
 		else if (WIFSIGNALED(status))
 			g_ret = 128 + WTERMSIG(status);
-		signal_newline();
 		return ;
 	}
 	redirect_extern(pipe_info->data, node);
