@@ -6,7 +6,7 @@
 /*   By: knajmech <knajmech@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/06 11:01:30 by knajmech          #+#    #+#             */
-/*   Updated: 2026/08/17 14:25:18 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/08/20 09:54:07 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,28 +19,30 @@
 char	**env_ptrptr(t_data *dat, t_list *env_list, char **env)
 {
 	t_node	*node_list;
-	t_env	*key_and_val;
+	t_env	*k_a_v;
 	int		i;
 	int		k;
 
 	i = 0;
 	k = 0;
-	while (i < CAPACITY)
+	while (i++ < CAPACITY)
 	{
-		node_list = (t_node *) env_list[i].head;
+		node_list = (t_node *) env_list[i - 1].head;
 		while (node_list)
 		{
-			key_and_val = (t_env *)node_list->content;
-			env[k] = ft_strjoin(key_and_val->key_w_equal, key_and_val->value);
-			if (!env[k])
-				return (free_out(env, k), set_error(dat, ERR_SYS, NULL), NULL);
-			k++;
+			k_a_v = (t_env *)node_list->content;
+			if (k_a_v->value != NULL)
+			{
+				env[k] = ft_strjoin(k_a_v->key_w_equal, k_a_v->value);
+				if (!env[k])
+					return (free_out(env, k), set_error(dat, ERR_SYS, NULL),
+						NULL);
+			}
 			node_list = node_list->next;
+			k++;
 		}
-		i++;
 	}
-	env[k] = 0;
-	return (env);
+	return (env[k] = 0, env);
 }
 
 int	replace(t_list *map_env, char *key, char *val)
@@ -80,6 +82,8 @@ int	replace_or_add(t_list *map_env, t_env_tracker *tracker,
 		if (!value[1])
 			return (0);
 	}
+	else
+		value[1] = NULL;
 	if (replace(map_env, env_var[0], value[1]) == 1)
 		return (1);
 	value[0] = ft_strdup(env_var[0]);

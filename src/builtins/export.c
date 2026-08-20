@@ -6,7 +6,7 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/12 09:27:50 by knajmech          #+#    #+#             */
-/*   Updated: 2026/08/18 17:38:21 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/08/20 10:04:42 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,14 @@ char	**heap_allocate_vars(char *arg1, char delimitter, char *arg2)
 	ptr[0] = ft_strndup(arg1, delimitter);
 	if (!ptr[0])
 		return (free(ptr), NULL);
-	ptr[1] = ft_strdup(arg2);
-	if (!ptr[1])
-		return (free(ptr[0]), free(ptr), NULL);
+	if (arg2 == NULL)
+		ptr[1] = NULL;
+	else if (arg2 != NULL)
+	{
+		ptr[1] = ft_strdup(arg2);
+		if (!ptr[1])
+			return (free(ptr[0]), free(ptr), NULL);
+	}
 	return (ptr);
 }
 
@@ -77,7 +82,9 @@ char	**get_vars(t_data *data, char *argv)
 		}
 		i++;
 	}
-	ptr = heap_allocate_vars(argv, '\0', "\0");
+	if (get_env_val(data, argv))
+		return (NULL);
+	ptr = heap_allocate_vars(argv, '\0', NULL);
 	if (!ptr)
 		return (set_error(data, ERR_SYS, NULL), NULL);
 	return (ptr);
@@ -104,7 +111,7 @@ void	export_var(t_data *data, char *argv)
 		if (ft_count_2d(list) <= 2 && ft_count_2d(list) >= 1)
 			if (insert_new(env_arr, data->env_mp, list) == 0)
 				set_error(data, ERR_SYS, NULL);
-		free_out(list, ft_count_2d(list));
+		free_out(list, 2);
 	}
 	else
 		print_var(env_arr, data->env_mp->capacity);
