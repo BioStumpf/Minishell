@@ -6,7 +6,7 @@
 /*   By: knajmech <knajmech@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/22 14:22:15 by knajmech          #+#    #+#             */
-/*   Updated: 2026/08/18 14:30:53 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/08/20 11:50:06 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,9 +70,9 @@ void	cleanup_normal(t_data *data)
 void	cleanup_child(t_data *data, t_pipe_manager *pipe_info)
 {
 	close_heredocs(data);
-	rl_clear_history();
 	cleanup_env(data);
 	free(data->input);
+	rl_clear_history();
 	free(pipe_info->pathwcmd);
 	clean_ast(&data->ast);
 	exit(g_ret);
