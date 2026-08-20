@@ -6,7 +6,7 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/01 11:52:36 by knajmech          #+#    #+#             */
-/*   Updated: 2026/08/05 12:18:15 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/08/20 08:26:19 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ char	**split_path_env(t_data *data)
 	if (key_and_val->value[0] == ':')
 	{
 		i = ft_strlen_char(key_and_val->value, ':');
-		path_parts[0] = ft_substr(key_and_val->value, 0, i);
+		path_parts[0] = ft_strdup("./");
 		if (!path_parts[0])
 			return (set_error(data, ERR_SYS, NULL), NULL);
 		k++;
