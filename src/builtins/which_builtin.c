@@ -6,10 +6,11 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/15 09:46:08 by knajmech          #+#    #+#             */
-/*   Updated: 2026/08/18 16:51:10 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/08/20 12:55:28 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "err.h"
 #include "structs.h"
 #include "libft.h"
 #include "builtins.h"
@@ -43,8 +44,8 @@ void	which_builtin(t_data *data, char **cmd_argv, int builtin_call)
 	else if (builtin_call == CD)
 	{
 		if (cmd_argv[1] && cmd_argv[2])
-			return (ft_printf(2, "Minishell: cd: too many arguments\n"),
-				(void)0);
+			return (g_ret = 1,
+				ft_printf(2, "Minishell: cd: too many arguments\n"), (void)0);
 		return (data->newdir = cmd_argv[1], change_dir(data));
 	}
 	else if (builtin_call == PWD)
