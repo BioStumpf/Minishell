@@ -6,7 +6,7 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/12 12:11:39 by knajmech          #+#    #+#             */
-/*   Updated: 2026/08/19 18:06:25 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/08/20 09:54:21 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	extern_child_wrapper(t_ast *node, t_pipe_manager *pipe_info)
 	char	**env;
 	char	**path_parts;
 
-	env = malloc((pipe_info->data->env_mp->elem_num + 1) * sizeof(char *));
+	env = ft_calloc(pipe_info->data->env_mp->elem_num + 1, sizeof(char *));
 	if (!env)
 		return (set_error(pipe_info->data, ERR_SYS, NULL),
 			cleanup_child(pipe_info->data, pipe_info));
