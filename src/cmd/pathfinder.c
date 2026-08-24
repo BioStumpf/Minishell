@@ -6,7 +6,7 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/01 11:52:36 by knajmech          #+#    #+#             */
-/*   Updated: 2026/08/20 08:26:19 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/08/24 08:35:31 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,8 @@ static char	**mallocing(char *s, char **list, int *i, int *k)
 		if (s[*i] == ':' && (s[*i + 1] == ':' || s[*i + 1] == '\0'))
 		{
 			list[*k] = ft_strdup("./");
-			*i += 1;
+			while (s[*i] && s[*i] == ':')
+				(*i)++;
 			*k += 1;
 		}
 		else if (s[*i] != ':' && s[*i + 1] != ':')
@@ -47,8 +48,7 @@ static char	**mallocing(char *s, char **list, int *i, int *k)
 		if (!list[*k - 1])
 			return (free_out(list, *k - 1));
 	}
-	list[*k] = 0;
-	return (list);
+	return (list[*k] = 0, list);
 }
 
 char	**split_the_path(char *entire_path)
@@ -73,7 +73,7 @@ char	**split_the_path(char *entire_path)
 	}
 	if (i > 0 && entire_path[i - 1] == ':')
 		count_paths++;
-	return (malloc((count_paths + 1) * sizeof(char *)));
+	return (ft_calloc(count_paths + 2, sizeof(char *)));
 }
 
 char	**protection_and_initialisation(t_data *data, t_list *hash_arr)
