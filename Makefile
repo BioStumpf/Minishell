@@ -93,7 +93,6 @@ fclean: localclean
 	$(MAKE) --no-print-directory -sC $(LIBFT_DIR) fclean
 	@printf "\n"
 
-#re: fclean all
 re:
 	$(MAKE) fclean
 	$(MAKE) all

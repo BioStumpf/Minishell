@@ -6,7 +6,7 @@
 /*   By: knajmech <knajmech@student.42vienna.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/03 07:24:21 by knajmech          #+#    #+#             */
-/*   Updated: 2026/08/18 11:04:59 by knajmech         ###   ########.fr       */
+/*   Updated: 2026/08/24 08:05:17 by knajmech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ void	pathfinder(t_pipe_manager *pipe_info, char **path_parts)
 			return (set_error(pipe_info->data, ERR_SYS, NULL));
 		if (check_access(pipe_info, path_to_check,
 				get_av(pipe_info->cmd_node)[0]))
-			return (free(path_to_check));
+			return ;
 		free(path_to_check);
 		i++;
 	}
